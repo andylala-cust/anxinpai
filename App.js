@@ -8,6 +8,7 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Home from './Home';
 import About from './About';
@@ -25,9 +26,9 @@ const Tab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: '首页',
         tabBarIcon: ({tintColor, focused}) => (
-          <MaterialIcons
-            name={'home'}
-            size={25}
+          <MaterialCommunityIcons
+            name={focused ? 'home' : 'home-outline'}
+            size={23}
             style={{color: tintColor}}
           />
         )
@@ -38,8 +39,8 @@ const Tab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: '服务',
         tabBarIcon: ({tintColor, focused}) => (
-          <FontAwesome5
-            name={'user-friends'}
+          <MaterialIcons
+            name={focused ? 'people' : 'people-outline'}
             size={23}
             style={{color: tintColor}}
           />
@@ -52,7 +53,7 @@ const Tab = createBottomTabNavigator(
         tabBarLabel: '收藏',
         tabBarIcon: ({tintColor, focused}) => (
           <FontAwesome
-            name={'star'}
+            name={focused ? 'star' : 'star-o'}
             size={23}
             style={{color: tintColor}}
           />
@@ -65,7 +66,7 @@ const Tab = createBottomTabNavigator(
         tabBarLabel: '我的',
         tabBarIcon: ({tintColor, focused}) => (
           <FontAwesome
-            name={'user'}
+            name={focused ? 'user' : 'user-o'}
             size={23}
             style={{color: tintColor}}
           />
@@ -75,7 +76,20 @@ const Tab = createBottomTabNavigator(
   },
   {
     tabBarOptions: {
-      activeTintColor: '#5186ec'
+      activeTintColor: '#5186ec',
+      inactiveTintColor: '#9b9b9b',
+      style: {
+        backgroundColor: '#fff',
+        borderTopColor: 'transparent',
+        borderTopWidth: 0,
+        shadowColor: '#000',
+        shadowOffset:{
+          width: 0,
+          height: 1
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+      }
     }
   }
 );

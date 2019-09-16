@@ -49,9 +49,9 @@ function RenderItem (item) {
               <Text style={{height: 16, paddingLeft: 6, paddingRight: 6, backgroundColor: '#eef0f3', marginLeft: 10, fontSize: 12, lineHeight: 16, color: '#7a8fbd', borderRadius: 3}}>{item.asset_type}</Text>
             </View>
             <View
-              style={{flexDirection: 'row', marginTop: 4}}
+              style={{flexDirection: 'row', marginTop: 6}}
             >
-              <Text style={{height: 16, lineHeight: 16, color: '#f00', fontSize: 14}}>{Math.floor(item.initialPrice / 10000)}万</Text>
+              <Text style={{height: 14, lineHeight: 14, color: '#f00', fontSize: 13}}>{Math.floor(item.initialPrice / 10000)}万</Text>
             </View>
           </View>
         </View>
