@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Home from './Home';
 import About from './About';
@@ -21,9 +24,9 @@ const Tab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: '首页',
         tabBarIcon: ({tintColor, focused}) => (
-          <Entypo
+          <MaterialIcons
             name={'home'}
-            size={20}
+            size={25}
             style={{color: tintColor}}
           />
         )
@@ -34,9 +37,9 @@ const Tab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: '服务',
         tabBarIcon: ({tintColor, focused}) => (
-          <FontAwesome
-            name={'handshake-o'}
-            size={20}
+          <FontAwesome5
+            name={'user-friends'}
+            size={23}
             style={{color: tintColor}}
           />
         )
@@ -47,9 +50,9 @@ const Tab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: '收藏',
         tabBarIcon: ({tintColor, focused}) => (
-          <SimpleLineIcons
+          <FontAwesome
             name={'star'}
-            size={20}
+            size={23}
             style={{color: tintColor}}
           />
         )
@@ -60,9 +63,9 @@ const Tab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: '我的',
         tabBarIcon: ({tintColor, focused}) => (
-          <AntDesign
+          <FontAwesome
             name={'user'}
-            size={20}
+            size={23}
             style={{color: tintColor}}
           />
         )
@@ -71,7 +74,7 @@ const Tab = createBottomTabNavigator(
   },
   {
     tabBarOptions: {
-      activeTintColor: 'tomato'
+      activeTintColor: '#5186ec'
     }
   }
 );
