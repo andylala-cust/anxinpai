@@ -16,6 +16,7 @@ import Detail from './Detail'
 import More from './More'
 import User from './User'
 import Service from './Service';
+import HouseInfo from './HouseInfo'
 
 const Tab = createBottomTabNavigator(
   {
@@ -89,7 +90,8 @@ export default createAppContainer(createStackNavigator({
   },
   Info,
   Detail,
-  More
+  More,
+  HouseInfo
 },{
   headerMode: 'screen'
 }))

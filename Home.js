@@ -8,19 +8,53 @@ import {
   Image, StyleSheet,
 } from 'react-native';
 
+let self;
+
 function RenderItem (item) {
   return (
+    // View不支持onPress，所以套一层TouchableOpacity
     <TouchableOpacity
-      onPress={() => {
-        alert(1)
-      }}
+      onPress={() => self.props.navigation.navigate('HouseInfo')}
+      activeOpacity={1}
     >
-      <View>
-        <Text>{item.title}</Text>
-        <Image
-          style={{width: 200, height: 150}}
-          source={{uri: item.pic_url}}
-        />
+      <View
+        style={{paddingLeft: 20, paddingRight: 20}}
+      >
+        <View style={{flex: 1, flexDirection: 'row', paddingTop: 20, paddingBottom: 20, borderBottomWidth: 1, borderBottomColor: '#f1f1f1'}}>
+          <Image
+            style={{width: '30%', height: 80}}
+            source={{uri: item.pic_url}}
+          />
+          <View
+            style={{width: '70%', paddingLeft: 20}}
+          >
+            <View>
+              <Text
+                style={{height: 20, fontWeight: 'bold', fontSize: 15, lineHeight: 20}}
+                numberOfLines={1}
+              >{item.title}</Text>
+            </View>
+            <View
+              style={{flexDirection: 'row'}}
+            >
+              <Text style={{height: 20, fontSize: 12, lineHeight: 20, color: '#a6abb3'}}>{item.area}m²</Text>
+              <Text style={{height: 20, marginLeft: 10, fontSize: 12, lineHeight: 20, color: '#a6abb3'}}>{item.floor}楼</Text>
+              <Text style={{height: 20, marginLeft: 10, fontSize: 12, lineHeight: 20, color: '#a6abb3'}}>{item.community_name}</Text>
+            </View>
+            <View
+              style={{flexDirection: 'row', marginTop: 4}}
+            >
+              <Text style={{height: 16, paddingLeft: 6, paddingRight: 6, backgroundColor: '#eef0f3', fontSize: 12, lineHeight: 16, color: '#7a8fbd', borderRadius: 3}}>{item.cut || '- -'}折</Text>
+              <Text style={{height: 16, paddingLeft: 6, paddingRight: 6, backgroundColor: '#eef0f3', marginLeft: 10, fontSize: 12, lineHeight: 16, color: '#7a8fbd', borderRadius: 3}}>{item.circ}</Text>
+              <Text style={{height: 16, paddingLeft: 6, paddingRight: 6, backgroundColor: '#eef0f3', marginLeft: 10, fontSize: 12, lineHeight: 16, color: '#7a8fbd', borderRadius: 3}}>{item.asset_type}</Text>
+            </View>
+            <View
+              style={{flexDirection: 'row', marginTop: 4}}
+            >
+              <Text style={{height: 16, lineHeight: 16, color: '#f00', fontSize: 14}}>{Math.floor(item.initialPrice / 10000)}万</Text>
+            </View>
+          </View>
+        </View>
       </View>
     </TouchableOpacity>
   )
@@ -33,6 +67,7 @@ class Home extends Component {
       data: [],
       isLoading: false
     }
+    self = this
   }
   loadData () {
     // this.setState({
@@ -57,7 +92,7 @@ class Home extends Component {
           data={this.state.data}
           renderItem={({item}) => RenderItem(item)}
           keyExtractor={(item) => item.id.toString() }
-          showsVerticalScrollIndicator={false}
+          // showsVerticalScrollIndicator={false}
         />
       </View>
     )
