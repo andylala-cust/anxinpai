@@ -14,7 +14,10 @@ function RenderItem (item) {
   return (
     // View不支持onPress，所以套一层TouchableOpacity
     <TouchableOpacity
-      onPress={() => self.props.navigation.navigate('HouseInfo')}
+      onPress={() => self.props.navigation.navigate('HouseInfo', {
+        id: item.id,
+        datafrom: item.datafrom
+      })}
       activeOpacity={1}
     >
       <View
