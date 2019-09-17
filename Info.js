@@ -20,6 +20,11 @@ class Info extends Component {
   static navigationOptions = {
     title: '信息',
     headerBackTitle: null,
+    // 解决安卓标题不居中
+    headerTitleStyle:{
+      flex: 1,
+      textAlign:'center'
+    },
     headerLeft: (
       <HeaderButtons HeaderButtonComponent={IoniconsHeaderButton}>
         <Item title="back" iconName="md-arrow-back" onPress={() => self.btnPress()} />

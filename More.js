@@ -33,6 +33,11 @@ function RenderItem (item) {
 class More extends Component {
   static navigationOptions = {
     title: '更多',
+    // 解决安卓标题不居中
+    headerTitleStyle:{
+      flex: 1,
+      textAlign:'center'
+    },
     headerLeft: (
       <HeaderButtons HeaderButtonComponent={IoniconsHeaderButton}>
         <Item title="back" iconName="md-arrow-back" onPress={() => self.btnPress()}/>
