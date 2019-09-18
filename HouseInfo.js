@@ -70,6 +70,14 @@ class HouseInfo extends Component {
                 <Entypo name="share" size={22} color={this.state.iconColor} />
               </TouchableOpacity>
             </View>
+            {/*
+              绑定多个style
+              style={[styles1,styles2,styles3,...]}
+            */}
+            {/*
+              根据条件绑定style
+              style={[styles1, condition && styles2]}
+            */}
             <View style={[styles.fixedBot, this.state.toggleFixedShow && styles.fixedBotActive]}>
               <TouchableOpacity style={[styles.fixedBotTextWrapper, this.state.toggleFixedShow && styles.fixedBotTextWrapperActive]} onPress={() => {alert(1)}}>
                 <View>
