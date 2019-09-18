@@ -39,8 +39,8 @@ const Tab = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: '服务',
         tabBarIcon: ({tintColor, focused}) => (
-          <MaterialIcons
-            name={focused ? 'people' : 'people-outline'}
+          <MaterialCommunityIcons
+            name={focused ? 'account-group' : 'account-group-outline'}
             size={23}
             style={{color: tintColor}}
           />

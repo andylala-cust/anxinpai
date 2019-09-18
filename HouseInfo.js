@@ -1,6 +1,6 @@
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import React, {Component} from 'react'
-import {View,Text,Image,StyleSheet,Dimensions,TouchableOpacity} from 'react-native'
+import {View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, StatusBar, FlatList} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -10,28 +10,88 @@ const window = Dimensions.get('window');
 
 const AVATAR_SIZE = 120;
 const ROW_HEIGHT = 60;
-const PARALLAX_HEADER_HEIGHT = 350;
-const STICKY_HEADER_HEIGHT = 70;
+const PARALLAX_HEADER_HEIGHT = 270;
+const STICKY_HEADER_HEIGHT = 110;
 
 class HouseInfo extends Component {
   static navigationOptions = {
     header: null
   }
+  constructor (props) {
+    super(props)
+    this.state = {
+      img: 'http://static.yfbudong.com/defaulthouse.jpg',
+      barStyle: 'light-content',
+      iconColor: '#fff',
+      toggleFixedShow: false
+    }
+  }
+  componentDidMount () {
+    const {id,datafrom} = this.props.navigation.state.params
+    const url = `http://116.62.240.91:3000/house/pic?house_id=${id}&datafrom=${datafrom}`
+    fetch(url)
+      .then(res => (res.json()))
+      .then(resText => {
+        this.setState({
+          img: resText.content[0]
+        })
+      })
+  }
   render() {
     return (
       <ParallaxScrollView
-        backgroundColor="#f5f5f5"
+        showsVerticalScrollIndicator={false}
+        backgroundColor="#fff"
         contentBackgroundColor="#fff"
         parallaxHeaderHeight={270}
-        stickyHeaderHeight={70}
+        stickyHeaderHeight={110}
+        // 获取垂直滚动距离
+        onScroll={(e) => {if (e.nativeEvent.contentOffset.y > 0) {
+          this.setState({
+            barStyle: 'default',
+            iconColor: '#000',
+            toggleFixedShow: true
+          })
+        } else {
+          this.setState({
+            barStyle: 'light-content',
+            iconColor: '#fff',
+            toggleFixedShow: false
+          })
+        }}}
+        // onChangeHeaderVisibility={(bool) => {console.log(bool)}} // header的显示和隐藏返回bool值
         renderFixedHeader={() => (
-          <View key="fixed-header" style={styles.fixedSection}>
-            <TouchableOpacity onPress={() => {this.props.navigation.goBack()}} style={{bottom: 10, left: 20, position: 'absolute', paddingRight: 15}}>
-              <Ionicons name="ios-arrow-back" size={26} color="#333" />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => {alert('search')}} style={{bottom: 10, right: 20, position: 'absolute', paddingLeft: 15}}>
-              <Entypo name="share" size={22} color="#333" />
-            </TouchableOpacity>
+          <View style={styles.fixedWrapper}>
+            <View key="fixed-header" style={styles.fixedSection}>
+              <TouchableOpacity style={{paddingLeft: 20,paddingRight: 30}} onPress={() => {this.props.navigation.goBack()}}>
+                <Ionicons name="ios-arrow-back" size={26} color={this.state.iconColor} />
+              </TouchableOpacity>
+              <TouchableOpacity style={{paddingLeft: 20,paddingRight: 20}} onPress={() => {alert('search')}} >
+                <Entypo name="share" size={22} color={this.state.iconColor} />
+              </TouchableOpacity>
+            </View>
+            <View style={[styles.fixedBot, this.state.toggleFixedShow && styles.fixedBotActive]}>
+              <TouchableOpacity style={[styles.fixedBotTextWrapper, this.state.toggleFixedShow && styles.fixedBotTextWrapperActive]} onPress={() => {alert(1)}}>
+                <View>
+                  <Text style={[styles.fixedBotText, this.state.toggleFixedShow && styles.fixedBotTextActive]}>1</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.fixedBotTextWrapper, this.state.toggleFixedShow && styles.fixedBotTextWrapperActive]} onPress={() => {alert(1)}}>
+                <View>
+                  <Text style={[styles.fixedBotText, this.state.toggleFixedShow && styles.fixedBotTextActive]}>1</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.fixedBotTextWrapper, this.state.toggleFixedShow && styles.fixedBotTextWrapperActive]} onPress={() => {alert(1)}}>
+                <View>
+                  <Text style={[styles.fixedBotText, this.state.toggleFixedShow && styles.fixedBotTextActive]}>1</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.fixedBotTextWrapper, this.state.toggleFixedShow && styles.fixedBotTextWrapperActive]} onPress={() => {alert(1)}}>
+                <View>
+                  <Text style={[styles.fixedBotText, this.state.toggleFixedShow && styles.fixedBotTextActive]}>1</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
         renderStickyHeader={() => (
@@ -46,7 +106,7 @@ class HouseInfo extends Component {
         )}
         renderBackground={() => (
           <Image
-            source={require('./img/cat.png')}
+            source={{uri: this.state.img}}
             style={{width: '100%', height: '100%'}}
           />
         )}
@@ -55,6 +115,10 @@ class HouseInfo extends Component {
             <Text></Text>
           </View>
         )}>
+        <StatusBar
+          barStyle={this.state.barStyle}
+          androidtranslucent={true}
+        />
         <View style={{}}>
           <Text>Scroll me</Text>
         </View>
@@ -85,8 +149,42 @@ const styles = StyleSheet.create({
     margin: 10,
     textAlign: 'center'
   },
-  fixedSection: {
+  fixedWrapper: {
+    position: 'absolute',
+    bottom: 0,
     width: '100%',
+  },
+  fixedBot: {
+    opacity: 0,
+    flexDirection: 'row',
+    height: 40,
+    borderTopWidth: 1,
+    borderTopColor: '#f4f4f4'
+  },
+  fixedBotActive: {
+    opacity: 1
+  },
+  fixedBotTextWrapper: {
+    flex: 1,
+    height: 0
+  },
+  fixedBotTextWrapperActive: {
+    height: 40
+  },
+  fixedBotText: {
+    height: 0,
+    lineHeight: 0,
+    textAlign: 'center'
+  },
+  fixedBotTextActive: {
+    height: 40,
+    lineHeight: 40,
+  },
+  fixedSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    // paddingLeft: 20,
+    // paddingRight: 20,
   },
   fixedSectionText: {
     color: '#fff',

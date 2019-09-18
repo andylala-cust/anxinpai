@@ -11,7 +11,7 @@ const IoniconsHeaderButton = passMeFurther => (
   // the `passMeFurther` variable here contains props from <Item .../> as well as <HeaderButtons ... />
   // and it is important to pass those props to `HeaderButton`
   // then you may add some information like icon size or color (if you use icons)
-  <HeaderButton {...passMeFurther} IconComponent={Ionicons} iconSize={26} color="tomato" />
+  <HeaderButton {...passMeFurther} IconComponent={Ionicons} iconSize={26} color="#5186ec" />
 );
 
 let self;

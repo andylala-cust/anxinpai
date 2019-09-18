@@ -82,7 +82,6 @@ class Home extends Component {
     fetch(url)
       .then(res => (res.json()))
       .then(resText => {
-        console.log(resText.content)
         this.setState({
           data: resText.content
         })
@@ -95,7 +94,7 @@ class Home extends Component {
           data={this.state.data}
           renderItem={({item}) => RenderItem(item)}
           keyExtractor={(item) => item.id.toString() }
-          // showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     )
