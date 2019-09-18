@@ -5,7 +5,9 @@ import {
   Button,
   FlatList,
   TouchableOpacity,
-  Image, StyleSheet,
+  Image,
+  StyleSheet,
+  StatusBar
 } from 'react-native';
 
 let self;
@@ -90,6 +92,10 @@ class Home extends Component {
   render () {
     return (
       <View style={styles.container}>
+        <StatusBar
+          barStyle={'default'}
+          androidtranslucent={true}
+        />
         <FlatList
           data={this.state.data}
           renderItem={({item}) => RenderItem(item)}

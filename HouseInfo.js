@@ -4,8 +4,10 @@ import {View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, StatusBar, 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo'
+import Swiper from 'react-native-swiper'
 
 const img = require('./img/cat.png')
+const defaultFirstImg = 'http://static.yfbudong.com/defaulthouse.jpg'
 const window = Dimensions.get('window');
 
 const AVATAR_SIZE = 120;
@@ -20,11 +22,32 @@ class HouseInfo extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      img: 'http://static.yfbudong.com/defaulthouse.jpg',
+      img: defaultFirstImg,
       barStyle: 'light-content',
       iconColor: '#fff',
-      toggleFixedShow: false
+      toggleFixedShow: false,
+      houseImgList: [defaultFirstImg]
     }
+    this.renderHouseImgList = this.renderHouseImgList.bind(this)
+  }
+  renderHouseImgList () {
+    return (
+      // bug，分页器pagination不跟随swiper滑动而滚动
+      // swiper加上key=this.state.houseImgList.length
+      // 我也不知道有没有作用，不过加上之后bug消失了
+      <Swiper style={styles.wrapper} loop={false} key={this.state.houseImgList.length}>
+        {
+          this.state.houseImgList.map((item, index) => (
+            <TouchableOpacity style={{flex: 1}} activeOpacity={1} key={index} onLongPress={() => {alert(item)}}>
+              <Image
+                source={{uri: item}}
+                style={styles.houseImgItem}
+              />
+            </TouchableOpacity>
+          ))
+        }
+      </Swiper>
+    )
   }
   componentDidMount () {
     const {id,datafrom} = this.props.navigation.state.params
@@ -33,7 +56,8 @@ class HouseInfo extends Component {
       .then(res => (res.json()))
       .then(resText => {
         this.setState({
-          img: resText.content[0]
+          img: resText.content[0],
+          houseImgList: resText.content
         })
       })
   }
@@ -41,6 +65,7 @@ class HouseInfo extends Component {
     return (
       <ParallaxScrollView
         showsVerticalScrollIndicator={false}
+        fadeOutForeground={false} // 决定向上滚动时候renderForeground是否淡出
         backgroundColor="#fff"
         contentBackgroundColor="#fff"
         parallaxHeaderHeight={270}
@@ -49,7 +74,7 @@ class HouseInfo extends Component {
         onScroll={(e) => {if (e.nativeEvent.contentOffset.y > 0) {
           this.setState({
             barStyle: 'default',
-            iconColor: '#000',
+            iconColor: '#5186ec',
             toggleFixedShow: true
           })
         } else {
@@ -112,17 +137,13 @@ class HouseInfo extends Component {
             {/*</TouchableOpacity>*/}
           </View>
         )}
-        renderBackground={() => (
-          <Image
-            source={{uri: this.state.img}}
-            style={{width: '100%', height: '100%'}}
-          />
-        )}
-        renderForeground={() => (
-          <View style={{ height: 300, flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <Text></Text>
-          </View>
-        )}>
+        // renderBackground={() => (
+        //   <Image
+        //     source={{uri: this.state.img}}
+        //     style={{width: '100%', height: '100%'}}
+        //   />
+        // )}
+        renderForeground={() => this.renderHouseImgList()}>
         <StatusBar
           barStyle={this.state.barStyle}
           androidtranslucent={true}
@@ -217,6 +238,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     paddingVertical: 5
+  },
+  wrapper: {
+  },
+  houseImgItem: {
+    width: '100%',
+    height: '100%'
   }
 });
 
