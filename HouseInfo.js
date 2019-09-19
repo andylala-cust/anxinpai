@@ -10,11 +10,17 @@ import { MapView } from 'react-native-amap3d'
 const img = require('./img/cat.png')
 const defaultFirstImg = 'http://static.yfbudong.com/defaulthouse.jpg'
 const window = Dimensions.get('window');
+const SCREEN_HEIGHT = window.height
+const IPHONE_X_HEIGHT = 812
+const _IPHONE_X_HEIGHT = 896
+const IS_IPHONEX = Platform.OS === 'ios' && (SCREEN_HEIGHT === IPHONE_X_HEIGHT || SCREEN_HEIGHT === _IPHONE_X_HEIGHT)
+const TAB_TOP = IS_IPHONEX ? 44 : 20
+console.log(TAB_TOP)
 
 const AVATAR_SIZE = 120;
 const ROW_HEIGHT = 60;
 const PARALLAX_HEADER_HEIGHT = 270;
-const STICKY_HEADER_HEIGHT = 110;
+const STICKY_HEADER_HEIGHT = IS_IPHONEX? 110 : 86;
 
 class HouseInfo extends Component {
   static navigationOptions = {
@@ -70,7 +76,7 @@ class HouseInfo extends Component {
         backgroundColor="#fff"
         contentBackgroundColor="#fff"
         parallaxHeaderHeight={270}
-        stickyHeaderHeight={110}
+        stickyHeaderHeight={STICKY_HEADER_HEIGHT}
         // 获取垂直滚动距离
         onScroll={(e) => {if (e.nativeEvent.contentOffset.y > 0) {
           this.setState({
@@ -149,17 +155,14 @@ class HouseInfo extends Component {
           barStyle={this.state.barStyle}
           androidtranslucent={true}
         />
-        {/*<View style={{}}>*/}
-        {/*  <Text>Scroll me</Text>*/}
-        {/*</View>*/}
-        <MapView
-          showsCompass={false} // 是否显示指南针
-          style={{width: '100%',height: 400}}
-          coordinate={{
-            latitude: 39.91095,
-            longitude: 116.37296,
-          }}
-        />
+        {/*<MapView*/}
+        {/*  showsCompass={false} // 是否显示指南针*/}
+        {/*  style={{width: '100%',height: 400}}*/}
+        {/*  coordinate={{*/}
+        {/*    latitude: 39.91095,*/}
+        {/*    longitude: 116.37296,*/}
+        {/*  }}*/}
+        {/*/>*/}
       </ParallaxScrollView>
     );
   }
@@ -189,18 +192,19 @@ const styles = StyleSheet.create({
   },
   fixedWrapper: {
     position: 'absolute',
-    bottom: 0,
+    top: TAB_TOP,
     width: '100%',
   },
   fixedBot: {
     opacity: 0,
     flexDirection: 'row',
-    height: 40,
+    height: 0,
     borderTopWidth: 1,
     borderTopColor: '#f4f4f4'
   },
   fixedBotActive: {
-    opacity: 1
+    opacity: 1,
+    height: 40
   },
   fixedBotTextWrapper: {
     flex: 1,
