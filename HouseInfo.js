@@ -5,6 +5,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo'
 import Swiper from 'react-native-swiper'
+import { MapView } from 'react-native-amap3d'
 
 const img = require('./img/cat.png')
 const defaultFirstImg = 'http://static.yfbudong.com/defaulthouse.jpg'
@@ -74,7 +75,7 @@ class HouseInfo extends Component {
         onScroll={(e) => {if (e.nativeEvent.contentOffset.y > 0) {
           this.setState({
             barStyle: 'default',
-            iconColor: '#5186ec',
+            iconColor: '#000',
             toggleFixedShow: true
           })
         } else {
@@ -148,9 +149,17 @@ class HouseInfo extends Component {
           barStyle={this.state.barStyle}
           androidtranslucent={true}
         />
-        <View style={{}}>
-          <Text>Scroll me</Text>
-        </View>
+        {/*<View style={{}}>*/}
+        {/*  <Text>Scroll me</Text>*/}
+        {/*</View>*/}
+        <MapView
+          showsCompass={false} // 是否显示指南针
+          style={{width: '100%',height: 400}}
+          coordinate={{
+            latitude: 39.91095,
+            longitude: 116.37296,
+          }}
+        />
       </ParallaxScrollView>
     );
   }

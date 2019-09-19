@@ -101,6 +101,7 @@ class Home extends Component {
           renderItem={({item}) => RenderItem(item)}
           keyExtractor={(item) => item.id.toString() }
           showsVerticalScrollIndicator={false}
+          ListEmptyComponent={() => (<View style={{height: 300,backgroundColor: '#f00'}}></View>)}
         />
       </View>
     )
@@ -110,7 +111,6 @@ class Home extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 22
   },
   item: {
     padding: 10,
