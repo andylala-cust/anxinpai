@@ -107,5 +107,6 @@ export default createAppContainer(createStackNavigator({
   More,
   HouseInfo
 },{
-  headerMode: 'screen'
+  headerMode: 'float',
+  headerTransitionPreset: 'uikit'
 }))

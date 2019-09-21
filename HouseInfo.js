@@ -6,7 +6,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo'
 import Swiper from 'react-native-swiper'
-import { MapView } from 'react-native-amap3d'
+import { MapView,Marker,Circle } from 'react-native-amap3d'
 
 const img = require('./img/cat.png')
 const defaultFirstImg = 'http://static.yfbudong.com/defaulthouse.jpg'
@@ -41,7 +41,14 @@ class HouseInfo extends Component {
       houseSchool: {},
       notifyStatus: false,
       notifyIcon: NOTIFY_RESOLVE,
-      notifyText: NOTIFY_RESOLVE_TEXT
+      notifyText: NOTIFY_RESOLVE_TEXT,
+      longitude: '',
+      latitude: '',
+      mLatitude: '',
+      mLongitude: '',
+      curLongitude: '',
+      curLatitude: '',
+      aroundList: []
     }
     this.renderHouseImgList = this.renderHouseImgList.bind(this)
     this.getHouseImgList = this.getHouseImgList.bind(this)
@@ -82,6 +89,9 @@ class HouseInfo extends Component {
           houseImgList: resText.content
         })
       })
+      .catch(err => {
+        console.log(err)
+      })
   }
   changeNotify () {
     this.setState({
@@ -97,9 +107,10 @@ class HouseInfo extends Component {
       .then(res => (res.json()))
       .then(resText => {
         this.setState({
-          houseInfo: resText.content
+          houseInfo: resText.content,
+          longitude: resText.content.geo.x,
+          latitude: resText.content.geo.y
         })
-        console.log(this.state.houseInfo)
       })
   }
   getHouseSchool () {
@@ -111,17 +122,25 @@ class HouseInfo extends Component {
         this.setState({
           houseSchool: resText.content[0]
         })
-        console.log(this.state.houseSchool)
       })
   }
   componentDidMount () {
     this.getHouseImgList()
     this.getHouseRate()
     this.getHouseSchool()
+    // setTimeout(() => {
+    //   this.mapView.animateTo({
+    //     coordinate: {
+    //       longitude: this.state.curLongitude,
+    //       latitude: this.state.curLatitude
+    //     }
+    //   })
+    // },2000)
   }
   render() {
     return (
       <ParallaxScrollView
+        ref={(view) => {this.scrollView = view}}
         showsVerticalScrollIndicator={false}
         fadeOutForeground={false} // 决定向上滚动时候renderForeground是否淡出
         backgroundColor="#fff"
@@ -162,19 +181,19 @@ class HouseInfo extends Component {
               style={[styles1, condition && styles2]}
             */}
             <View style={[styles.fixedBot, this.state.toggleFixedShow && styles.fixedBotActive]}>
-              <TouchableOpacity style={[styles.fixedBotTextWrapper, this.state.toggleFixedShow && styles.fixedBotTextWrapperActive]} onPress={() => {alert(1)}}>
+              <TouchableOpacity style={[styles.fixedBotTextWrapper, this.state.toggleFixedShow && styles.fixedBotTextWrapperActive]} onPress={() => {this.scrollView.scrollTo({x: 0,y: 0,animated: true})}}>
                 <View>
-                  <Text style={[styles.fixedBotText, this.state.toggleFixedShow && styles.fixedBotTextActive]}>1</Text>
+                  <Text style={[styles.fixedBotText, this.state.toggleFixedShow && styles.fixedBotTextActive]}>房源</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.fixedBotTextWrapper, this.state.toggleFixedShow && styles.fixedBotTextWrapperActive]} onPress={() => {alert(1)}}>
+              <TouchableOpacity style={[styles.fixedBotTextWrapper, this.state.toggleFixedShow && styles.fixedBotTextWrapperActive]} onPress={() => {this.scrollView.scrollTo({x: 0,y: PARALLAX_HEADER_HEIGHT-STICKY_HEADER_HEIGHT+this.baseLayout.y,animated: true})}}>
                 <View>
-                  <Text style={[styles.fixedBotText, this.state.toggleFixedShow && styles.fixedBotTextActive]}>1</Text>
+                  <Text style={[styles.fixedBotText, this.state.toggleFixedShow && styles.fixedBotTextActive]}>详情</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.fixedBotTextWrapper, this.state.toggleFixedShow && styles.fixedBotTextWrapperActive]} onPress={() => {alert(1)}}>
+              <TouchableOpacity style={[styles.fixedBotTextWrapper, this.state.toggleFixedShow && styles.fixedBotTextWrapperActive]} onPress={() => {this.scrollView.scrollTo({x: 0,y: PARALLAX_HEADER_HEIGHT-STICKY_HEADER_HEIGHT+this.aroundLayout.y,animated: true})}}>
                 <View>
-                  <Text style={[styles.fixedBotText, this.state.toggleFixedShow && styles.fixedBotTextActive]}>1</Text>
+                  <Text style={[styles.fixedBotText, this.state.toggleFixedShow && styles.fixedBotTextActive]}>周边</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.fixedBotTextWrapper, this.state.toggleFixedShow && styles.fixedBotTextWrapperActive]} onPress={() => {alert(1)}}>
@@ -207,7 +226,7 @@ class HouseInfo extends Component {
           barStyle={this.state.barStyle}
           androidtranslucent={true}
         />
-        <View>
+        <View onLayout={event => {this.baseLayout = event.nativeEvent.layout}}>
           <View style={{padding: 20}}>
             <View style={{flexDirection: 'row',justifyContent: 'space-between',marginBottom: 15}}>
               <View style={{flexDirection: 'row'}}>
@@ -283,7 +302,7 @@ class HouseInfo extends Component {
               <View style={{flexDirection: 'row',marginBottom: 5}}>
                 <Text style={{flex: 1,lineHeight: 20}} numberOfLines={1}>
                   <Text style={{color: '#aaa'}}>小区：</Text>
-                  {this.state.houseInfo.community_name || '-'}㎡
+                  {this.state.houseInfo.community_name || '-'}
                 </Text>
               </View>
               <View style={{flexDirection: 'row',marginBottom: 5}}>
@@ -308,16 +327,104 @@ class HouseInfo extends Component {
           </View>
           <View style={{height: 14,backgroundColor: '#f8f8f8'}}></View>
         </View>
-        <MapView
-          showsCompass={false} // 是否显示指南针
-          style={{width: '100%',height: 400}}
-          coordinate={{
-            latitude: 39.91095,
-            longitude: 116.37296,
-          }}
-        />
-        <View style={{height: 14,backgroundColor: '#f8f8f8'}}></View>
-        <View style={{height: 300,backgroundColor: '#eee'}}></View>
+        <View onLayout={event => {this.aroundLayout = event.nativeEvent.layout}}>
+          <View style={{padding: 25}}>
+            <View>
+              <Text style={{fontSize: 17,fontWeight: 'bold'}}>周边配套</Text>
+            </View>
+          </View>
+          <MapView
+            ref={ref => (this.mapView = ref)}
+            showsCompass={false} // 是否显示指南针
+            style={{width: '100%',height: 500}}
+            coordinate={{
+              latitude: Number(this.state.latitude),
+              longitude: Number(this.state.longitude),
+            }}
+            zoomLevel={14}
+            // 不建议开启定位，他喵的会不停执行onLocation，作者在issue中也提到会在mapView中移除该功能，
+            // 链接： https://github.com/qiuxiang/react-native-amap3d/issues/480
+            // 建议使用 https://github.com/qiuxiang/react-native-amap-geolocation 进行定位
+            // locationEnabled // 是否开启定位
+            // locationInterval={2000} // 定位间隔默认2000毫秒
+            // locationEnabled={true}
+            // region={{
+            //   latitude: Number(this.state.mLatitude),
+            //   longitude: Number(this.state.mLongitude),
+            //   latitudeDelta: 0.1,
+            //   longitudeDelta: 0.1,
+            // }}
+            // locationEnabled为true执行onLocation
+            // onLocation={({ nativeEvent }) => {
+            //   if (!this.togglePos) {
+            //     console.log(nativeEvent)
+            //     this.setState({
+            //       curLongitude: nativeEvent.longitude,
+            //       curLatitude: nativeEvent.latitude
+            //     })
+            //     this.togglePos = true
+            //   }
+            // }}
+            // 获取地图中心坐标
+            onStatusChangeComplete={({nativeEvent}) => {
+              // console.log(nativeEvent.longitude,nativeEvent.latitude)
+              const {longitude,latitude} = nativeEvent
+              const sGeo = `${longitude},${latitude}`
+              const url = `http://116.62.240.91:3000/house/lists?type_id=0&city_id=1207&distance=3&noLimit=1&s_geo=${sGeo}`
+              fetch(url)
+                .then(res => (res.json()))
+                .then(resText => {
+                  this.setState({
+                    aroundList: resText.content
+                  })
+                  console.log(resText)
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }}
+          >
+            <View style={{flexDirection: 'row',position: 'absolute', left: 0, bottom: 0,width: '100%',backgroundColor: 'rgba(7,17,27,.4)'}}>
+              <Text style={{flex: 1,lineHeight: 30,color: '#fff',textAlign: 'center'}} onPress={() => {alert(1)}}>学校</Text>
+              <Text style={{flex: 1,lineHeight: 30,color: '#fff',textAlign: 'center'}} onPress={() => {alert(2)}}>交通</Text>
+              <Text style={{flex: 1,lineHeight: 30,color: '#fff',textAlign: 'center'}} onPress={() => {alert(3)}}>生活</Text>
+              <Text style={{flex: 1,lineHeight: 30,color: '#fff',textAlign: 'center'}} onPress={() => {alert(4)}}>医疗</Text>
+            </View>
+            {/*<Circle*/}
+            {/*  coordinate={{*/}
+            {/*    latitude: this.state.latitude,*/}
+            {/*    longitude: this.state.longitude,*/}
+            {/*  }}*/}
+            {/*  radius={60}*/}
+            {/*  strokeWidth={1}*/}
+            {/*  strokeColor={'#5186ec'}*/}
+            {/*  fillColor={'rgba(75,152,236,.4)'}*/}
+            {/*/>*/}
+            <Marker
+              title={this.state.houseInfo.title}
+              coordinate={{
+                latitude: Number(this.state.latitude),
+                longitude: Number(this.state.longitude)
+              }}
+              key={this.state.houseInfo.id}
+            />
+            {
+              this.state.aroundList.map(item => {
+                return (
+                  <Marker
+                    key={item.id}
+                    title={item.title}
+                    coordinate={{
+                      latitude: item.geo.y,
+                      longitude: item.geo.x
+                    }}
+                  />
+                )
+              })
+            }
+          </MapView>
+        </View>
+        <View style={{height: 800,backgroundColor: '#f8f8f8'}}></View>
       </ParallaxScrollView>
   );
   }

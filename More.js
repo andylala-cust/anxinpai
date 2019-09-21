@@ -65,7 +65,6 @@ class More extends Component {
     fetch(url)
       .then(res => (res.json()))
       .then(resText => {
-        console.log(resText.content)
         this.setState({
           data: resText.content
         })

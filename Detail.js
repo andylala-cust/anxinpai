@@ -10,10 +10,12 @@ class Detail extends Component {
     // 解决安卓标题不居中
     headerTitleStyle:{
       flex: 1,
-      textAlign:'center'
+      textAlign:'center',
+      color: '#5186ec'
     },
     // 解决左边有按钮，右边无按钮标题不居中
-    headerRight: <View />
+    headerRight: <View />,
+    headerTintColor: 'tomato',
   }
   render () {
     return (
