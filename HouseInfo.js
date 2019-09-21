@@ -24,6 +24,7 @@ const NOTIFY_RESOLVE = 'bell-o' // 没有提醒
 const NOTIFY_RESOLVE_TEXT = '结束前提醒'
 const NOFITY_REJECT = 'bell-slash-o' // 已提醒
 const NOFITY_REJECT_TEXT = '取消提醒'
+const BARDEFAULTSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content'
 
 class HouseInfo extends Component {
   static navigationOptions = {
@@ -150,7 +151,7 @@ class HouseInfo extends Component {
         // 获取垂直滚动距离
         onScroll={(e) => {if (e.nativeEvent.contentOffset.y > 0) {
           this.setState({
-            barStyle: 'default',
+            barStyle: BARDEFAULTSTYLE,
             iconColor: '#000',
             toggleFixedShow: true
           })
@@ -224,7 +225,7 @@ class HouseInfo extends Component {
       >
         <StatusBar
           barStyle={this.state.barStyle}
-          androidtranslucent={true}
+          backgroundColor={"transparent"}
         />
         <View onLayout={event => {this.baseLayout = event.nativeEvent.layout}}>
           <View style={{padding: 20}}>

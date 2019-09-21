@@ -7,8 +7,10 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
-  StatusBar
+  StatusBar,
 } from 'react-native';
+
+const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content'
 
 let self;
 
@@ -93,8 +95,9 @@ class Home extends Component {
     return (
       <View style={styles.container}>
         <StatusBar
-          barStyle={'default'}
-          androidtranslucent={true}
+          barStyle={BARSTYLE}
+          backgroundColor={"transparent"}
+          translucent={true}
         />
         <FlatList
           data={this.state.data}
