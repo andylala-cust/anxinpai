@@ -8,7 +8,9 @@ import {
   Image,
   StyleSheet,
   StatusBar,
+  TextInput
 } from 'react-native';
+import { Input } from 'react-native-elements';
 
 const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content'
 

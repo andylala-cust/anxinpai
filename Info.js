@@ -7,6 +7,7 @@ import {
   Button,
   StatusBar,
   Dimensions,
+  ScrollView
 } from 'react-native';
 
 // 让安卓和苹果状态栏同意，安卓default是白色，ios default是黑色
@@ -67,17 +68,20 @@ class Info extends Component {
   render () {
     console.log(STATUSBAR_HEIGHT)
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View>
         <StatusBar
           barStyle={BARSTYLE}
           backgroundColor={"transparent"}
           translucent={true}
         />
-        <Text>Info Page</Text>
-        <Button
-          title={'Go To More Page'}
-          onPress={() => this.props.navigation.navigate('More')}
-        />
+        <ScrollView>
+          <Text>Info Page</Text>
+          <Button
+            title={'Go To More Page'}
+            onPress={() => this.props.navigation.navigate('More')}
+          />
+          <View style={{height: 1000,backgroundColor: '#f00'}}></View>
+        </ScrollView>
       </View>
     )
   }

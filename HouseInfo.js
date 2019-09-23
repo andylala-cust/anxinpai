@@ -5,6 +5,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo'
+import Feather from 'react-native-vector-icons/Feather'
 import Swiper from 'react-native-swiper'
 import { MapView,Marker,Circle } from 'react-native-amap3d'
 
@@ -61,7 +62,16 @@ class HouseInfo extends Component {
       // bug，分页器pagination不跟随swiper滑动而滚动
       // swiper加上key=this.state.houseImgList.length
       // 我也不知道有没有作用，不过加上之后bug消失了
-      <Swiper style={styles.wrapper} loop={false} key={this.state.houseImgList.length}>
+      // loop为true有莫名其妙的bug
+      // loop为true的解决方案 https://github.com/leecade/react-native-swiper/issues/731
+      // You should find this in .../node_modules/react-native-swiper/src/index.js
+      // componentWillReceiveProps (nextProps) {
+      //   if (!nextProps.autoplay && this.autoplayTimer) clearTimeout(this.autoplayTimer)
+      //   this.setState(this.initState(nextProps, this.props.index !== nextProps.index))
+      // }
+      // plz remove this and try again, it will be run correctly.
+      // github issue open有500多个
+      <Swiper style={styles.wrapper} loop={true} key={this.state.houseImgList.length}>
         {
           this.state.houseImgList.map((item, index) => (
             <TouchableOpacity style={{flex: 1}} activeOpacity={1} key={index} onLongPress={() => {alert(item)}}>
@@ -170,7 +180,7 @@ class HouseInfo extends Component {
                 <Ionicons name="ios-arrow-back" size={26} color={this.state.iconColor} />
               </TouchableOpacity>
               <TouchableOpacity style={{paddingLeft: 20,paddingRight: 20}} onPress={() => {alert('search')}} >
-                <Entypo name="share" size={22} color={this.state.iconColor} />
+                <Feather name="share" size={20} color={this.state.iconColor} />
               </TouchableOpacity>
             </View>
             {/*

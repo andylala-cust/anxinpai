@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {View,Text} from 'react-native'
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -18,6 +19,7 @@ import More from './More'
 import User from './User'
 import Service from './Service';
 import HouseInfo from './HouseInfo'
+import {Badge} from 'react-native-elements';
 
 const Tab = createBottomTabNavigator(
   {
@@ -50,13 +52,20 @@ const Tab = createBottomTabNavigator(
     About: {
       screen: About,
       navigationOptions: {
-        tabBarLabel: '收藏',
+        tabBarLabel: '消息',
         tabBarIcon: ({tintColor, focused}) => (
-          <FontAwesome
-            name={focused ? 'star' : 'star-o'}
-            size={23}
-            style={{color: tintColor}}
-          />
+          <View>
+            <FontAwesome
+              name={focused ? 'commenting' : 'commenting-o'}
+              size={23}
+              style={{color: tintColor}}
+            />
+            <Badge
+              value={'9'}
+              status={'error'}
+              containerStyle={{ position: 'absolute', top: -4, right: -20 }}
+            />
+          </View>
         )
       }
     },
