@@ -71,7 +71,7 @@ class HouseInfo extends Component {
       // }
       // plz remove this and try again, it will be run correctly.
       // github issue open有500多个
-      <Swiper style={styles.wrapper} loop={true} key={this.state.houseImgList.length}>
+      <Swiper style={styles.wrapper} key={this.state.houseImgList.length}>
         {
           this.state.houseImgList.map((item, index) => (
             <TouchableOpacity style={{flex: 1}} activeOpacity={1} key={index} onLongPress={() => {alert(item)}}>
@@ -131,7 +131,7 @@ class HouseInfo extends Component {
       .then(res => (res.json()))
       .then(resText => {
         this.setState({
-          houseSchool: resText.content[0]
+          houseSchool: resText.content[0] || {}
         })
       })
   }
