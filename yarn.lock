@@ -2255,6 +2255,11 @@ escape-html@~1.0.3:
   resolved "https://registry.npm.taobao.org/escape-html/download/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
 
+escape-string-regexp@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/escape-string-regexp/download/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
+  integrity sha1-owME6Z2qMuI7L9IPUbq9B8/8o0Q=
+
 escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npm.taobao.org/escape-string-regexp/download/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
@@ -3197,7 +3202,7 @@ inquirer@^6.4.1:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
-invariant@^2.2.4:
+invariant@2.2.4, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.npm.taobao.org/invariant/download/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha1-YQ88ksk1nOHbYW5TgAjSP/NRWOY=
@@ -5491,6 +5496,14 @@ react-native-vector-icons@^6.6.0:
     prop-types "^15.6.2"
     yargs "^13.2.2"
 
+react-native-webview@^7.2.7:
+  version "7.2.7"
+  resolved "https://registry.npm.taobao.org/react-native-webview/download/react-native-webview-7.2.7.tgz#83ff19e0003f3a61b191c1017c32b6dce61af200"
+  integrity sha1-g/8Z4AA/OmGxkcEBfDK23OYa8gA=
+  dependencies:
+    escape-string-regexp "2.0.0"
+    invariant "2.2.4"
+
 react-native@0.60.5:
   version "0.60.5"
   resolved "https://registry.npm.taobao.org/react-native/download/react-native-0.60.5.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-native%2Fdownload%2Freact-native-0.60.5.tgz#3c1d9c06a0fbab9807220b6acac09488d39186ee"
@@ -5531,6 +5544,13 @@ react-navigation-header-buttons@^3.0.2:
   integrity sha1-+cp1ChW0qtD8961QE7eLLKDH0Uw=
   dependencies:
     react-native-platform-touchable "^1.1.1"
+
+react-navigation-redux-helpers@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.npm.taobao.org/react-navigation-redux-helpers/download/react-navigation-redux-helpers-3.0.6.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-navigation-redux-helpers%2Fdownload%2Freact-navigation-redux-helpers-3.0.6.tgz#522398037a63c81f9c493bd3e62c71ada669490e"
+  integrity sha1-UiOYA3pjyB+cSTvT5ixxraZpSQ4=
+  dependencies:
+    invariant "^2.2.2"
 
 react-navigation-stack@^1.5.1:
   version "1.5.1"
@@ -5857,6 +5877,11 @@ rimraf@~2.2.6:
   version "2.2.8"
   resolved "https://registry.npm.taobao.org/rimraf/download/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
   integrity sha1-5Dm+Kq7jJzIZUnMPmaiSnk/FBYI=
+
+rn-placeholder@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/rn-placeholder/download/rn-placeholder-3.0.0.tgz#d51063cfc20cf702547205b936d934e92c4941b0"
+  integrity sha1-1RBjz8IM9wJUcgW5Ntk06SxJQbA=
 
 rsvp@^4.8.4:
   version "4.8.5"

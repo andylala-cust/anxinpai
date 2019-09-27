@@ -30,6 +30,30 @@ componentWillReceiveProps (nextProps) {
 
 解决方案：swiper加上key=this.state.houseImgList.length（即轮播图数组的length）
 
+### 问题3
+
+快速切换 bottomTabNavigation,swiper出现白屏，
+
+解决方案：在 Swiper 加上 removeClippedSubviews={false}
+
 ### react-native-amap问题
 
 在ios中定位按钮和缩放按钮不显示，因为ios没提供sdk，需要自定义
+
+## react-native-webview
+
+### 问题1
+
+如果出现 
+
+requireNativeComponent RNCWebView was not found in the UIManager
+
+执行 
+
+react-native link
+
+cd  ios/
+
+pod install 
+
+即可解决

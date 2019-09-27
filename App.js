@@ -19,6 +19,7 @@ import More from './More'
 import User from './User'
 import Service from './Service';
 import HouseInfo from './HouseInfo'
+import Demo from './Demo'
 import {Badge} from 'react-native-elements';
 
 const Tab = createBottomTabNavigator(
@@ -114,7 +115,8 @@ export default createAppContainer(createStackNavigator({
   Info,
   Detail,
   More,
-  HouseInfo
+  HouseInfo,
+  Demo
 },{
   headerMode: 'float',
   headerTransitionPreset: 'uikit'

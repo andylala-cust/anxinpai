@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text
+  Text,
+  Button
 } from 'react-native'
 
 class Detail extends Component {
@@ -21,6 +22,10 @@ class Detail extends Component {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Text>Detail Page</Text>
+        <Button
+          title={'Go DemoPage'}
+          onPress={() => {this.props.navigation.navigate('Demo')}}
+        />
       </View>
     )
   }
