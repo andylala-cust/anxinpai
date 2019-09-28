@@ -1,43 +1,34 @@
-import ParallaxScrollView from 'react-native-parallax-scroll-view';
-import React, {Component} from 'react'
-import {View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, StatusBar, FlatList,ImageBackground,ScrollView} from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import React, {Component} from 'react';
+import {View, Text, Image, StyleSheet, TouchableOpacity, StatusBar,ScrollView} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Entypo from 'react-native-vector-icons/Entypo'
-import Feather from 'react-native-vector-icons/Feather'
-import Swiper from 'react-native-swiper'
-import { MapView,Marker,Circle } from 'react-native-amap3d'
+import Feather from 'react-native-vector-icons/Feather';
+import Swiper from 'react-native-swiper';
+import { MapView,Marker} from 'react-native-amap3d';
 import { WebView } from 'react-native-webview';
+import IS_IPHONEX from '../util/is_iphone_x';
+import STATUSBAR_HEIGHT from '../util/status_bar_height';
+import Split from '../components/common/Split'
 
-const defaultFirstImg = 'http://static.yfbudong.com/defaulthouse.jpg'
-const window = Dimensions.get('window');
-const SCREEN_HEIGHT = window.height
-const SWIPER_HEIGHT = 240
-const IPHONE_X_HEIGHT = 812
-const _IPHONE_X_HEIGHT = 896
-const IPHONE_STATUSBAR = 20
-const IPHONEX_STATUSBAR = 44
-const IPHONEX_TABBAR_DELTA = 34
-const IS_IPHONEX = Platform.OS === 'ios' && (SCREEN_HEIGHT === IPHONE_X_HEIGHT || SCREEN_HEIGHT === _IPHONE_X_HEIGHT)
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? (IS_IPHONEX ? IPHONEX_STATUSBAR : IPHONE_STATUSBAR) : StatusBar.currentHeight;
-const TAB_BAR_HEIGHT = IS_IPHONEX ? IPHONEX_TABBAR_DELTA : 0
-const TAB_TOP = IS_IPHONEX ? 44 : 20
+const defaultFirstImg = 'http://static.yfbudong.com/defaulthouse.jpg';
+const SWIPER_HEIGHT = 240;
+const IPHONEX_TABBAR_DELTA = 34;
+const TAB_BAR_HEIGHT = IS_IPHONEX ? IPHONEX_TABBAR_DELTA : 0;
+const TAB_TOP = IS_IPHONEX ? 44 : STATUSBAR_HEIGHT;
 const AVATAR_SIZE = 120;
-const ROW_HEIGHT = 60;
 const PARALLAX_HEADER_HEIGHT = 270;
 const STICKY_HEADER_HEIGHT = IS_IPHONEX? 110 : 86;
-const FIXED_ICON_HEIGHT = 40
-let OPACITY = 0
-const NOTIFY_RESOLVE = 'bell-o' // 没有提醒
-const NOTIFY_RESOLVE_TEXT = '结束前提醒'
-const NOFITY_REJECT = 'bell-slash-o' // 已提醒
-const NOFITY_REJECT_TEXT = '取消提醒'
-const BARDEFAULTSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content'
-const FIXED_TAB_HEIGHT = 40
-const FIXED_HEADER_HEIGHT = STATUSBAR_HEIGHT+FIXED_ICON_HEIGHT+FIXED_TAB_HEIGHT
-const TRAFFIC_RADIUS = 1000
-const GAODE_KEY = '29de9219429c6425c5cfd872e54e3838'
+const FIXED_ICON_HEIGHT = 40;
+let OPACITY = 0;
+const NOTIFY_RESOLVE = 'bell-o'; // 没有提醒
+const NOTIFY_RESOLVE_TEXT = '结束前提醒';
+const NOFITY_REJECT = 'bell-slash-o'; // 已提醒
+const NOFITY_REJECT_TEXT = '取消提醒';
+const BARDEFAULTSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
+const FIXED_TAB_HEIGHT = 40;
+const FIXED_HEADER_HEIGHT = STATUSBAR_HEIGHT+FIXED_ICON_HEIGHT+FIXED_TAB_HEIGHT;
+const TRAFFIC_RADIUS = 1000;
+const GAODE_KEY = '29de9219429c6425c5cfd872e54e3838';  // 高德地图KEY
 
 class HouseInfo extends Component {
   static navigationOptions = {
@@ -251,8 +242,9 @@ class HouseInfo extends Component {
           <Swiper style={styles.wrapper} key={this.state.houseImgList.length}>
             {
               this.state.houseImgList.map((item, index) => (
-                <TouchableOpacity style={{flex: 1}} activeOpacity={1} key={index} onLongPress={() => {alert(item)}}>
+                <TouchableOpacity style={{flex: 1,backgroundColor: '#efefef'}} activeOpacity={1} key={index} onLongPress={() => {alert(item)}}>
                   <Image
+                    resizeMode={'stretch'}
                     source={{uri: item}}
                     style={styles.houseImgItem}
                   />
@@ -268,9 +260,9 @@ class HouseInfo extends Component {
             <View style={{padding: 20}}>
               <View style={{flexDirection: 'row',justifyContent: 'space-between',marginBottom: 15}}>
                 <View style={{flexDirection: 'row'}}>
-                  <Text style={{marginRight: 10,paddingLeft: 3,paddingRight: 3,backgroundColor: '#eef0f3',fontSize: 11, color: '#7a8fbd',lineHeight: 15,borderRadius: 2}}>{this.state.houseInfo.cut}折</Text>
+                  <Text style={{marginRight: 10,paddingLeft: 3,paddingRight: 3,backgroundColor: '#3f59ff',fontSize: 11, color: '#fff',lineHeight: 15,borderRadius: 2}}>{this.state.houseInfo.cut}折</Text>
                   <Text style={{marginRight: 10,paddingLeft: 3,paddingRight: 3,backgroundColor: '#eef0f3',fontSize: 11, color: '#7a8fbd',lineHeight: 15,borderRadius: 2}}>{this.state.houseInfo.circ}</Text>
-                  <Text style={{marginRight: 10,paddingLeft: 3,paddingRight: 3,backgroundColor: '#eef0f3',fontSize: 11, color: '#7a8fbd',lineHeight: 15,borderRadius: 2}}>{this.state.houseInfo.asset_type}</Text>
+                  <Text numberOfLines={1} style={{maxWidth: 100,marginRight: 10,paddingLeft: 3,paddingRight: 3,backgroundColor: '#eef0f3',fontSize: 11, color: '#7a8fbd',lineHeight: 15,borderRadius: 2}}>{this.state.houseInfo.asset_type}</Text>
                 </View>
                 <TouchableOpacity onPress={() => this.changeNotify()}>
                   <View style={{flexDirection: 'row'}}>
@@ -354,7 +346,7 @@ class HouseInfo extends Component {
                 <View style={{flexDirection: 'row',marginBottom: 5}}>
                   <View style={{flex: 1,flexDirection: 'row'}}>
                     <Text style={{lineHeight: 20,color: '#aaa'}}>轨交：</Text>
-                    <Text style={{lineHeight: 20}}>
+                    <Text style={{lineHeight: 20,flex: 1}}>
                       {this.state.trafficName || '-'}
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       {this.state.trafficAddress || '-'}
@@ -371,8 +363,8 @@ class HouseInfo extends Component {
                 </View>
               </View>
             </View>
-            <View style={{height: 14,backgroundColor: '#f8f8f8'}}></View>
           </View>
+          <Split />
           <View>
             <View style={{padding: 25}}>
               <View>
@@ -383,8 +375,8 @@ class HouseInfo extends Component {
               style={{height: 300}}
               source={{html: `${this.state.courtDoc.desc}${this.state.courtDoc.announce}`}}
             />
-            <View style={{height: 14,backgroundColor: '#f8f8f8'}}></View>
           </View>
+          <Split />
           <View onLayout={event => {this.aroundLayout = event.nativeEvent.layout}}>
             <View style={{padding: 25}}>
               <View>
@@ -480,7 +472,6 @@ class HouseInfo extends Component {
                 })
               }
             </MapView>
-            <View style={{height: 600,backgroundColor: '#f8f8f8'}}></View>
           </View>
         </ScrollView>
         <View style={{position: 'absolute',bottom: 0,left: 0,right: 0,height: TAB_BAR_HEIGHT+80,paddingTop: 10,paddingBottom: TAB_BAR_HEIGHT+10,backgroundColor: '#fff',shadowColor: '#000',
@@ -670,9 +661,7 @@ const styles = StyleSheet.create({
   // 图片全屏
   houseImgItem: {
     flex: 1,
-    width: null,
-    height: null,
   }
 });
 
-export default HouseInfo
+export default HouseInfo;

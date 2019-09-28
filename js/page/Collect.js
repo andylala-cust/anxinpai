@@ -8,7 +8,7 @@ import {Rating, AirbnbRating} from 'react-native-elements'
 
 const DEFAULTRATE = 5
 
-class About extends Component {
+class Collect extends Component {
   static navigationOptions = {
     header: null
   }
@@ -46,4 +46,4 @@ class About extends Component {
   }
 }
 
-export default About;
+export default Collect;

@@ -6,21 +6,13 @@ import {
   Text,
   Button,
   StatusBar,
-  Dimensions,
   ScrollView
 } from 'react-native';
+import STATUSBAR_HEIGHT from '../util/status_bar_height';
 
 // 让安卓和苹果状态栏同意，安卓default是白色，ios default是黑色
-const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content'
-// 获取状态栏高度，只对安卓有效，ios是20, iosx是44
-const WINDOW = Dimensions.get('window');
-const SCREEN_HEIGHT = WINDOW.height
-const IPHONE_X_HEIGHT = 812
-const _IPHONE_X_HEIGHT = 896
-const IPHONE_STATUSBAR = 20
-const IPHONEX_STATUSBAR = 44
-const IS_IPHONEX = Platform.OS === 'ios' && (SCREEN_HEIGHT === IPHONE_X_HEIGHT || SCREEN_HEIGHT === _IPHONE_X_HEIGHT)
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? (IS_IPHONEX ? IPHONEX_STATUSBAR : IPHONE_STATUSBAR) : StatusBar.currentHeight;
+const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
+// 获取状态栏高度，只对安卓有效，iphone是20, iphonex是44
 const STATUSBAR_STYLE = Platform.OS === 'ios' ? {} : {
   height: 2*STATUSBAR_HEIGHT+15,
   paddingTop: STATUSBAR_HEIGHT

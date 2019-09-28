@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
   Text,
   View,
-  Button
 } from 'react-native';
 
 class User extends Component {
@@ -14,7 +13,7 @@ class User extends Component {
     this.init = this.init.bind(this)
   }
   init () {
-    alert(1)
+    // alert(1)
   }
   // bottomTabNavigation每次进入时都执行某个函数
   componentDidMount () {

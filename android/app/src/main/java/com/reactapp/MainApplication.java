@@ -19,6 +19,8 @@ import com.facebook.soloader.SoLoader;
 
 import java.util.List;
 
+import cn.jiguang.plugins.push.JPushModule;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -33,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
       List<ReactPackage> packages = new PackageList(this).getPackages();
       // Packages that cannot be autolinked yet can be added manually here, for example:
       // packages.add(new MyReactNativePackage());
+      // packages.add(new JPushPackage());
       return packages;
     }
 
@@ -51,5 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    // 调用此方法：点击通知让应用从后台切到前台
+    JPushModule.registerActivityLifecycle(this);
   }
 }

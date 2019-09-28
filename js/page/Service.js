@@ -1,17 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
   Text,
   View,
   Button,
-  FlatList,
-  StyleSheet,
-  RefreshControl,
-  Image,
-  TouchableOpacity,
   Animated,
   Easing
 } from 'react-native';
-import {Badge,Avatar} from 'react-native-elements'
+import {Badge,Avatar} from 'react-native-elements';
 
 class Service extends Component {
   static navigationOptions = {

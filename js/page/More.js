@@ -4,10 +4,20 @@ import {
   Text,
   FlatList,
   StyleSheet,
-  Image
+  Image,
+  StatusBar
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { HeaderButtons, HeaderButton, Item } from 'react-navigation-header-buttons';
+import STATUSBAR_HEIGHT from '../util/status_bar_height';
+
+// 让安卓和苹果状态栏同意，安卓default是白色，ios default是黑色
+const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
+// 获取状态栏高度，只对安卓有效，iphone是20, iphonex是44
+const STATUSBAR_STYLE = Platform.OS === 'ios' ? {} : {
+  height: 2*STATUSBAR_HEIGHT+15,
+  paddingTop: STATUSBAR_HEIGHT
+};
 
 const IoniconsHeaderButton = passMeFurther => (
   // the `passMeFurther` variable here contains props from <Item .../> as well as <HeaderButtons ... />
@@ -48,7 +58,9 @@ class More extends Component {
         <Item title="search" iconName="ios-search" onPress={() => alert('search')} />
         <Item title="select" iconName="ios-heart-empty" onPress={() => alert('heart')} />
       </HeaderButtons>
-    )
+    ),
+    // 安卓沉浸式状态栏适配
+    headerStyle: STATUSBAR_STYLE
   }
   constructor (props) {
     super(props)
@@ -87,6 +99,11 @@ class More extends Component {
   render () {
     return (
       <View style={styles.container}>
+        <StatusBar
+          barStyle={BARSTYLE}
+          backgroundColor={"transparent"}
+          translucent={true}
+        />
         <FlatList
           data={this.state.data}
           renderItem={({item}) => RenderItem(item)}
