@@ -28,6 +28,11 @@ class HomeSwiper extends Component {
           style={styles.wrapper}
           key={this.props.bannerList.length}
           removeClippedSubviews={false}
+          paginationStyle={{bottom: 3}}
+          dotStyle={{borderRadius: 1,width: 6,height: 2,}}
+          activeDotStyle={{borderRadius: 1,width: 12,height: 2}}
+          dotColor={'#aaa'}
+          activeDotColor={'#fff'}
         >
           {
             this.props.bannerList.map(item => (

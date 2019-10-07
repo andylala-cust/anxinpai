@@ -81,20 +81,20 @@ class Home extends Component {
     })
   }
   componentDidMount () {
-    // if (Platform.OS == "android") {
-    //   JPushModule.init()
-    // }else{
-    //   JPushModule.loadJS()
-    // }
-    // if (Platform.OS == "android") {
-    //   JPushModule.getRegistrationID((res) => {
-    //     console.log(res)
-    //   })
-    // } else {
-    //   JPushModule.getRegisterId((res) => {
-    //     console.log(res)
-    //   })
-    // }
+    if (Platform.OS == "android") {
+      JPushModule.init()
+    }else{
+      JPushModule.loadJS()
+    }
+    if (Platform.OS == "android") {
+      JPushModule.getRegistrationID((res) => {
+        console.log(res)
+      })
+    } else {
+      JPushModule.getRegisterId((res) => {
+        console.log(res)
+      })
+    }
     this.getInitHouseList()
     this.getBannerList()
   }
