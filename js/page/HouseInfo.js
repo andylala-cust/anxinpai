@@ -66,6 +66,7 @@ class HouseInfo extends Component {
     this.getHouseSchool = this.getHouseSchool.bind(this)
     this.getHouseTraffic = this.getHouseTraffic.bind(this)
     this.getCourtDoc = this.getCourtDoc.bind(this)
+    this.handleWebViewClick = this.handleWebViewClick.bind(this)
   }
   renderHouseImgList () {
     return (
@@ -184,6 +185,9 @@ class HouseInfo extends Component {
         })
         console.log(this.state.courtDoc)
       })
+  }
+  handleWebViewClick () {
+    this.props.navigation.navigate('Court')
   }
   componentDidMount () {
     this.getHouseImgList()
@@ -372,9 +376,19 @@ class HouseInfo extends Component {
               </View>
             </View>
             <WebView
+              showsVerticalScrollIndicator={false}
+              scrollEnabled={false} // 是否禁止webview 滑动，默认 true
               style={{height: 300}}
               source={{html: `${this.state.courtDoc.desc}${this.state.courtDoc.announce}`}}
             />
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={this.handleWebViewClick}
+            >
+              <View style={{justifyContent: 'center',alignItems: 'center',position: 'absolute',bottom: 0,width: '100%',height: 80,backgroundColor: '#f00'}}>
+                <Text>查看更多</Text>
+              </View>
+            </TouchableOpacity>
           </View>
           <Split />
           <View onLayout={event => {this.aroundLayout = event.nativeEvent.layout}}>

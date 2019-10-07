@@ -28,11 +28,12 @@ class HomeSwiper extends Component {
           style={styles.wrapper}
           key={this.props.bannerList.length}
           removeClippedSubviews={false}
-          paginationStyle={{bottom: 3}}
+          paginationStyle={{bottom: 3}} // 分页器位置
           dotStyle={{borderRadius: 1,width: 6,height: 2,}}
           activeDotStyle={{borderRadius: 1,width: 12,height: 2}}
-          dotColor={'#aaa'}
-          activeDotColor={'#fff'}
+          dotColor={'#aaa'}  // 分页器颜色
+          activeDotColor={'#fff'}  // 选中的分页器颜色
+          autoplayTimeout={3} // 间隔时间
         >
           {
             this.props.bannerList.map(item => (
