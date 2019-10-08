@@ -6,9 +6,10 @@ import Feather from 'react-native-vector-icons/Feather';
 import Swiper from 'react-native-swiper';
 import { MapView,Marker} from 'react-native-amap3d';
 import { WebView } from 'react-native-webview';
+import LinearGradient from 'react-native-linear-gradient';
 import {IS_IPHONEX} from '../util';
 import {STATUSBAR_HEIGHT} from '../util';
-import {Split} from '../components/common'
+import {Split} from '../components/common';
 
 const defaultFirstImg = 'http://static.yfbudong.com/defaulthouse.jpg';
 const SWIPER_HEIGHT = 240;
@@ -187,7 +188,10 @@ class HouseInfo extends Component {
       })
   }
   handleWebViewClick () {
-    this.props.navigation.navigate('Court')
+    const {id} = this.props.navigation.state.params
+    this.props.navigation.navigate('Court', {
+      id
+    })
   }
   componentDidMount () {
     this.getHouseImgList()
@@ -369,7 +373,7 @@ class HouseInfo extends Component {
             </View>
           </View>
           <Split />
-          <View>
+          <View onLayout={event => {this.courtLayout = event.nativeEvent.layout}}>
             <View style={{padding: 25}}>
               <View>
                 <Text style={{fontSize: 17,fontWeight: 'bold'}}>法院公告</Text>
@@ -381,14 +385,25 @@ class HouseInfo extends Component {
               style={{height: 300}}
               source={{html: `${this.state.courtDoc.desc}${this.state.courtDoc.announce}`}}
             />
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={this.handleWebViewClick}
+            <LinearGradient
+              colors={['hsla(0,0%,100%,.8)', 'hsla(0,0%,100%,1)']}
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                width: '100%',
+                height: 100,
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
             >
-              <View style={{justifyContent: 'center',alignItems: 'center',position: 'absolute',bottom: 0,width: '100%',height: 80,backgroundColor: '#f00'}}>
-                <Text>查看更多</Text>
-              </View>
-            </TouchableOpacity>
+              <Text
+                onPress={this.handleWebViewClick}
+                style={{fontWeight: 'bold'}}
+              >
+                查看更多
+              </Text>
+            </LinearGradient>
           </View>
           <Split />
           <View onLayout={event => {this.aroundLayout = event.nativeEvent.layout}}>
@@ -550,7 +565,7 @@ class HouseInfo extends Component {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                alert(1)
+                this.scrollView.scrollTo({x: 0,y: this.courtLayout.y-FIXED_HEADER_HEIGHT,animated: true})
               }}
               style={{flex: 1,justifyContent:'center',alignItems: 'center'}}
             >

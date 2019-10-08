@@ -15,6 +15,7 @@
     "react-native-amap3d": "^1.1.1",
     "react-native-elements": "^1.2.1",
     "react-native-gesture-handler": "^1.4.1",
+    "react-native-linear-gradient": "^2.5.6",
     "react-native-parallax-header": "latest",
     "react-native-parallax-scroll-view": "^0.21.3",
     "react-native-reanimated": "^1.2.0",
