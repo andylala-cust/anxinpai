@@ -6,11 +6,8 @@ import {
   NativeModules,
   ScrollView,
 } from 'react-native';
-import HouseList from '../components/common/HouseList';
-import HomeMainEntry from '../components/home/HomeMainEntry';
-import HomeSwiper from '../components/home/HomeSwiper';
-import HomeSearch from '../components/home/HomeSearch';
-import HouseListPlaceHolder from '../components/common/HouseListPlaceHolder';
+import {HouseList, HouseListPlaceHolder} from '../components/common';
+import {HomeMainEntry, HomeSwiper, HomeSearch} from '../components/home';
 import {ERR_OK} from '../errCode';
 
 const JPushModule = NativeModules.JPushModule;

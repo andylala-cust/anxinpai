@@ -8,7 +8,7 @@ import {
   StatusBar,
   ScrollView
 } from 'react-native';
-import STATUSBAR_HEIGHT from '../util/status_bar_height';
+import {STATUSBAR_HEIGHT} from '../util';
 
 // 让安卓和苹果状态栏同意，安卓default是白色，ios default是黑色
 const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';

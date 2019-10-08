@@ -1,4 +1,4 @@
-import IS_IPHONEX from './is_iphone_x';
+import {IS_IPHONEX} from './index';
 import {StatusBar} from 'react-native';
 
 const IPHONE_STATUSBAR = 20;

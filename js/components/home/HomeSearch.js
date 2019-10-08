@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import STATUSBAR_HEIGHT from '../../util/status_bar_height';
+import {STATUSBAR_HEIGHT} from '../../util';
 import {Text, View, StyleSheet} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { HeaderButtons, HeaderButton, Item } from 'react-navigation-header-buttons';
-import STATUSBAR_HEIGHT from '../util/status_bar_height';
+import {STATUSBAR_HEIGHT} from '../util';
 
 // 让安卓和苹果状态栏同意，安卓default是白色，ios default是黑色
 const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';

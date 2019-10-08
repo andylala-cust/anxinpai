@@ -6,9 +6,9 @@ import Feather from 'react-native-vector-icons/Feather';
 import Swiper from 'react-native-swiper';
 import { MapView,Marker} from 'react-native-amap3d';
 import { WebView } from 'react-native-webview';
-import IS_IPHONEX from '../util/is_iphone_x';
-import STATUSBAR_HEIGHT from '../util/status_bar_height';
-import Split from '../components/common/Split'
+import {IS_IPHONEX} from '../util';
+import {STATUSBAR_HEIGHT} from '../util';
+import {Split} from '../components/common'
 
 const defaultFirstImg = 'http://static.yfbudong.com/defaulthouse.jpg';
 const SWIPER_HEIGHT = 240;
@@ -642,8 +642,6 @@ const styles = StyleSheet.create({
   fixedSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // paddingLeft: 20,
-    // paddingRight: 20,
   },
   fixedSectionText: {
     color: '#fff',
