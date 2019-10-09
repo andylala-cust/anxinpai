@@ -2,8 +2,6 @@ import React,{Component} from 'react';
 import {Provider} from 'react-redux';
 import AppNavigator from './navigator/stackNavigator';
 import store from './store';
-import { createAppContainer } from 'react-navigation';
-import {StackNavigator} from './navigator/stackNavigator';
 
 type Props = {}
 

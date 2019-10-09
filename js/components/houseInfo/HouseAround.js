@@ -27,7 +27,6 @@ class HouseAround extends Component {
           </View>
         </View>
         <MapView
-          ref={ref => (this.mapView = ref)}
           showsCompass={false} // 是否显示指南针
           style={{width: '100%',height: 200}}
           coordinate={{

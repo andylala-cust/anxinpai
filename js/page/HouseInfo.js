@@ -20,6 +20,7 @@ import {
 } from '../components/houseInfo';
 import {connect} from 'react-redux';
 import {updateCourtUrl} from '../action/houseInfo/actionCreators';
+import _fetch from '../fetch';
 
 const defaultFirstImg = 'http://static.yfbudong.com/defaulthouse.jpg';
 const SWIPER_HEIGHT = 240;
@@ -62,31 +63,27 @@ class HouseInfo extends Component {
     this.getHouseTraffic = this.getHouseTraffic.bind(this)
     this.getCourtDoc = this.getCourtDoc.bind(this)
     this.handleWebViewClick = this.handleWebViewClick.bind(this)
+    this.handleScroll = this.handleScroll.bind(this)
   }
   getHouseImgList () {
     const {id,datafrom} = this.props.navigation.state.params
-    const url = `http://116.62.240.91:3000/house/pic?house_id=${id}&datafrom=${datafrom}`
-    fetch(url)
-      .then(res => (res.json()))
-      .then(resText => {
+    const url = `/house/pic?house_id=${id}&datafrom=${datafrom}`
+    _fetch.get(url)
+      .then(data => {
         this.setState({
-          img: resText.content[0],
-          houseImgList: resText.content
+          img: data.content[0],
+          houseImgList: data.content
         })
-      })
-      .catch(err => {
-        console.log(err)
       })
   }
   getHouseRate () {
     const {id} = this.props.navigation.state.params
-    const url =`http://116.62.240.91:3000/house/rate?house_id=${id}`
-    fetch(url)
-      .then(res => (res.json()))
-      .then(resText => {
-        const {x, y} = resText.content.geo
+    const url =`/house/rate?house_id=${id}`
+    _fetch.get(url)
+      .then(data => {
+        const {x, y} = data.content.geo
         this.setState({
-          houseInfo: resText.content,
+          houseInfo: data.content,
           longitude: x,
           latitude: y
         })
@@ -95,12 +92,11 @@ class HouseInfo extends Component {
   }
   getHouseSchool () {
     const {id} = this.props.navigation.state.params
-    const url = `http://116.62.240.91:3000/house/schools?house_id=${id}&type_id=1002&page_id=1&page_size=1`
-    fetch(url)
-      .then(res => (res.json()))
-      .then(resText => {
+    const url = `/house/schools?house_id=${id}&type_id=1002&page_id=1&page_size=1`
+    _fetch.get(url)
+      .then(data => {
         this.setState({
-          houseSchool: resText.content[0] || {}
+          houseSchool: data.content[0] || {}
         })
       })
   }
@@ -108,23 +104,21 @@ class HouseInfo extends Component {
     const location = `${lng},${lat}`
     const subwayUrl = `http://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&keywords=地铁&location=${location}&radius=${TRAFFIC_RADIUS}&offset=1`
     const busUrl = `http://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&keywords=公交&location=${location}&radius=${TRAFFIC_RADIUS}&offset=1`
-    fetch(subwayUrl)
-      .then(res => (res.json()))
-      .then(resText => {
-        if (Number(resText.count)) {
+    _fetch.get(subwayUrl, true)
+      .then(data => {
+        if (Number(data.count)) {
           this.setState({
-            trafficName: resText.pois[0].name,
-            trafficAddress: resText.pois[0].address,
-            trafficDistance: resText.pois[0].distance
+            trafficName: data.pois[0].name,
+            trafficAddress: data.pois[0].address,
+            trafficDistance: data.pois[0].distance
           })
         } else {
-          fetch(busUrl)
-            .then(res => (res.json()))
-            .then(resText => {
+          _fetch.get(busUrl, true)
+            .then(data => {
               this.setState({
-                trafficName: resText.pois[0].name,
-                trafficAddress: resText.pois[0].address,
-                trafficDistance: resText.pois[0].distance
+                trafficName: data.pois[0].name,
+                trafficAddress: data.pois[0].address,
+                trafficDistance: data.pois[0].distance
               })
             })
         }
@@ -132,14 +126,12 @@ class HouseInfo extends Component {
   }
   getCourtDoc () {
     const {id} = this.props.navigation.state.params
-    const url = `http://116.62.240.91:3000/house/court/doc?house_id=${id}`
-    fetch(url)
-      .then(res => (res.json()))
-      .then(resText => {
+    const url = `/house/court/doc?house_id=${id}`
+    _fetch.get(url)
+      .then(data => {
         this.setState({
-          courtDoc: resText.content
+          courtDoc: data.content
         })
-        console.log(this.state.courtDoc)
       })
   }
   handleWebViewClick () {

@@ -5,10 +5,11 @@ import {
   StatusBar,
   NativeModules,
   ScrollView,
+  RefreshControl
 } from 'react-native';
 import {HouseList, HouseListPlaceHolder} from '../components/common';
 import {HomeMainEntry, HomeSwiper, HomeSearch} from '../components/home';
-import {ERR_OK} from '../errCode';
+import _fetch from '../fetch';
 
 const JPushModule = NativeModules.JPushModule;
 const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
@@ -25,47 +26,31 @@ class Home extends Component {
       data: [],
       isLoading: false,
       bannerList: [],
+      isRefreshing: false
     }
-    this.getInitHouseList = this.getInitHouseList.bind(this)
+    this.getHouseList = this.getHouseList.bind(this)
+    this.getBannerList = this.getBannerList.bind(this)
     this.handleSwiperItemClick = this.handleSwiperItemClick.bind(this)
     this.houseListItemClick = this.houseListItemClick.bind(this)
+    this.initJPush = this.initJPush.bind(this)
+    this._onRefresh = this._onRefresh.bind(this)
   }
-  getInitHouseList () {
-    const url = 'http://116.62.240.91:3000/house/lists?city_id=1207&page_id=1&type_id=0&page_size=10'
-    fetch(url)
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-      })
-      .then(resText => {
-        if (resText.errCode === ERR_OK) {
-          this.setState({
-            data: resText.content
-          })
-        }
-      })
-      .catch(err => {
-        console.log(err)
+  getHouseList () {
+    const url = '/house/lists?city_id=1207&page_id=1&type_id=0&page_size=10'
+    _fetch.get(url)
+      .then(data => {
+        this.setState({
+          data: data.content
+        })
       })
   }
   getBannerList () {
-    const url = `http://116.62.240.91:3000/share/activity/getAd?city_id=1207`
-    fetch(url)
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-      })
-      .then(resText => {
-        if (resText.errCode === ERR_OK) {
-          this.setState({
-            bannerList: resText.content
-          })
-        }
-      })
-      .catch(err => {
-        console.log(err)
+    const url = `/share/activity/getAd?city_id=1207`
+    _fetch.get(url)
+      .then(data => {
+        this.setState({
+          bannerList: data.content
+        })
       })
   }
   handleSwiperItemClick (item) {
@@ -77,7 +62,7 @@ class Home extends Component {
       datafrom: item.datafrom
     })
   }
-  componentDidMount () {
+  initJPush () {
     if (Platform.OS == "android") {
       JPushModule.init()
     }else{
@@ -92,7 +77,20 @@ class Home extends Component {
         console.log(res)
       })
     }
-    this.getInitHouseList()
+  }
+  _onRefresh () {
+    this.setState({
+      isRefreshing: true
+    })
+    setTimeout(() => {
+      this.setState({
+        isRefreshing: false
+      })
+    }, 2000)
+  }
+  componentDidMount () {
+    this.initJPush()
+    this.getHouseList()
     this.getBannerList()
   }
   render () {
@@ -104,7 +102,15 @@ class Home extends Component {
           translucent={true}
         />
         <HomeSearch />
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefreshing}
+              onRefresh={this._onRefresh}
+              title={'加载中'}
+            />
+          }
+        >
           <HomeMainEntry />
           <HomeSwiper
             bannerList={this.state.bannerList}
