@@ -3,13 +3,13 @@ import {View, Text, Image, StyleSheet, TouchableOpacity, StatusBar,ScrollView} f
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
-import Swiper from 'react-native-swiper';
 import { MapView,Marker} from 'react-native-amap3d';
 import { WebView } from 'react-native-webview';
 import LinearGradient from 'react-native-linear-gradient';
 import {IS_IPHONEX} from '../util';
 import {STATUSBAR_HEIGHT} from '../util';
 import {Split} from '../components/common';
+import {HouseInfoSwiper} from '../components/houseInfo';
 
 const defaultFirstImg = 'http://static.yfbudong.com/defaulthouse.jpg';
 const SWIPER_HEIGHT = 240;
@@ -60,7 +60,6 @@ class HouseInfo extends Component {
       aroundList: [],
       courtDoc: {}
     }
-    this.renderHouseImgList = this.renderHouseImgList.bind(this)
     this.getHouseImgList = this.getHouseImgList.bind(this)
     this.changeNotify = this.changeNotify.bind(this)
     this.getHouseRate = this.getHouseRate.bind(this)
@@ -68,38 +67,6 @@ class HouseInfo extends Component {
     this.getHouseTraffic = this.getHouseTraffic.bind(this)
     this.getCourtDoc = this.getCourtDoc.bind(this)
     this.handleWebViewClick = this.handleWebViewClick.bind(this)
-  }
-  renderHouseImgList () {
-    return (
-      // bug，分页器pagination不跟随swiper滑动而滚动
-      // swiper加上key=this.state.houseImgList.length
-      // 我也不知道有没有作用，不过加上之后bug消失了
-      // loop为true有莫名其妙的bug
-      // loop为true的解决方案 https://github.com/leecade/react-native-swiper/issues/731
-      // You should find this in .../node_modules/react-native-swiper/src/index.js
-      // componentWillReceiveProps (nextProps) {
-      //   if (!nextProps.autoplay && this.autoplayTimer) clearTimeout(this.autoplayTimer)
-      //   this.setState(this.initState(nextProps, this.props.index !== nextProps.index))
-      // }
-      // plz remove this and try again, it will be run correctly.
-      // github issue open有500多个
-      <Swiper style={styles.wrapper} key={this.state.houseImgList.length}>
-        {
-          this.state.houseImgList.map((item, index) => (
-            <TouchableOpacity style={{flex: 1}} activeOpacity={1} key={index} onLongPress={() => {alert(item)}}>
-              <Image
-                source={{uri: item}}
-                style={styles.houseImgItem}
-              />
-              {/*<ImageBackground*/}
-              {/*  source={{uri: item}}*/}
-              {/*  style={{width: '100%',height: '100%'}}*/}
-              {/*/>*/}
-            </TouchableOpacity>
-          ))
-        }
-      </Swiper>
-    )
   }
   getHouseImgList () {
     const {id,datafrom} = this.props.navigation.state.params
@@ -198,14 +165,6 @@ class HouseInfo extends Component {
     this.getHouseRate()
     this.getHouseSchool()
     this.getCourtDoc()
-    // setTimeout(() => {
-    //   this.mapView.animateTo({
-    //     coordinate: {
-    //       longitude: this.state.curLongitude,
-    //       latitude: this.state.curLatitude
-    //     }
-    //   })
-    // },2000)
   }
   componentWillMount () {
     OPACITY = 0
@@ -247,23 +206,7 @@ class HouseInfo extends Component {
             barStyle={this.state.barStyle}
             backgroundColor={"transparent"}
           />
-          <Swiper style={styles.wrapper} key={this.state.houseImgList.length}>
-            {
-              this.state.houseImgList.map((item, index) => (
-                <TouchableOpacity style={{flex: 1,backgroundColor: '#efefef'}} activeOpacity={1} key={index} onLongPress={() => {alert(item)}}>
-                  <Image
-                    resizeMode={'stretch'}
-                    source={{uri: item}}
-                    style={styles.houseImgItem}
-                  />
-                  {/*<ImageBackground*/}
-                  {/*  source={{uri: item}}*/}
-                  {/*  style={{width: '100%',height: '100%'}}*/}
-                  {/*/>*/}
-                </TouchableOpacity>
-              ))
-            }
-          </Swiper>
+          <HouseInfoSwiper houseImgList={this.state.houseImgList} />
           <View onLayout={event => {this.baseLayout = event.nativeEvent.layout}}>
             <View style={{padding: 20}}>
               <View style={{flexDirection: 'row',justifyContent: 'space-between',marginBottom: 15}}>
@@ -682,13 +625,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingVertical: 5
   },
-  wrapper: {
-    height: SWIPER_HEIGHT
-  },
-  // 图片全屏
-  houseImgItem: {
-    flex: 1,
-  }
 });
 
 export default HouseInfo;
