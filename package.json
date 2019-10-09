@@ -30,6 +30,7 @@
     "react-navigation-tabs": "^2.4.0",
     "react-redux": "^7.1.1",
     "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
     "rn-placeholder": "^3.0.0"
   },
   "devDependencies": {

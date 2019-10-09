@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {WebView} from 'react-native-webview';
 import {HeaderButton, HeaderButtons, Item} from 'react-navigation-header-buttons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {connect} from 'react-redux';
 import {STATUSBAR_HEIGHT} from '../util';
 import {View} from 'react-native';
 
@@ -49,10 +50,14 @@ class Court extends Component {
       <WebView
         startInLoadingState={true}
         style={{flex: 1}}
-        source={{uri: `http://www.yfbudong.com/m_index.html#/court/${this.props.navigation.getParam('id')}`}}
+        source={{uri: this.props.courtUrl}}
       />
-  )
+    )
   }
 }
 
-export default Court;
+const mapStateToProps = state => ({
+  courtUrl: state.houseInfo.courtUrl
+})
+
+export default connect(mapStateToProps)(Court);

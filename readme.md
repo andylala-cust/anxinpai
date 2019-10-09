@@ -57,3 +57,9 @@ cd  ios/
 pod install 
 
 即可解决
+
+## Vue 动态路由不刷新的问题
+
+请参见 
+
+https://router.vuejs.org/zh/guide/essentials/dynamic-matching.html#%E5%93%8D%E5%BA%94%E8%B7%AF%E7%94%B1%E5%8F%82%E6%95%B0%E7%9A%84%E5%8F%98%E5%8C%96

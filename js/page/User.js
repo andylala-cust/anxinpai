@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import {
   Text,
   View,
 } from 'react-native';
+import {userTipChange} from '../action/user/actionCreators';
 
 class User extends Component {
   static navigationOptions = {
@@ -28,9 +30,21 @@ class User extends Component {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>User Page</Text>
+        <Text onPress={() => this.props.tipChange()}>{this.props.tip || 'hello world'}</Text>
       </View>
     )
   }
 }
 
-export default User;
+const mapStateToProps = state => ({
+  tip: state.user.tip
+})
+
+const mapDispatchToProps = dispatch => ({
+  tipChange () {
+    const action = userTipChange('tip changed')
+    dispatch(action)
+  }
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(User);

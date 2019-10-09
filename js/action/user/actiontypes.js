@@ -1,0 +1,1 @@
+export const USER_TIP_CHANGE = 'USER_TIP_CHANGE';
