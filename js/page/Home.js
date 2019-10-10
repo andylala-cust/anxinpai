@@ -4,12 +4,14 @@ import {
   StyleSheet,
   StatusBar,
   NativeModules,
-  ScrollView,
+  FlatList,
   RefreshControl
 } from 'react-native';
 import {HouseList, HouseListPlaceHolder} from '../components/common';
-import {HomeMainEntry, HomeSwiper, HomeSearch} from '../components/home';
+import {HomeMainEntry, HomeSwiper, HomeSearch, LoadMore} from '../components/home';
 import _fetch from '../fetch';
+import {queryString} from '../util';
+import {PAGE_SIZE,TYPE_ID} from '../constants'
 
 const JPushModule = NativeModules.JPushModule;
 const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
@@ -24,28 +26,87 @@ class Home extends Component {
     super(props)
     this.state = {
       data: [],
-      isLoading: false,
+      refreshing: false,
+      toggleLoadMore: true,
+      toggleMore: true,
       bannerList: [],
-      isRefreshing: false
+      listParams: {
+        city_id: '',
+        page_id: 1,
+        page_size: PAGE_SIZE,
+        type_id: TYPE_ID
+      }
     }
-    this.getHouseList = this.getHouseList.bind(this)
+    this._onRefresh = this._onRefresh.bind(this)
+    this.getCurrentCity = this.getCurrentCity.bind(this)
+    this.getInitHouseList = this.getInitHouseList.bind(this)
+    this.getMoreHouseList = this.getMoreHouseList.bind(this)
     this.getBannerList = this.getBannerList.bind(this)
     this.handleSwiperItemClick = this.handleSwiperItemClick.bind(this)
     this.houseListItemClick = this.houseListItemClick.bind(this)
     this.initJPush = this.initJPush.bind(this)
-    this._onRefresh = this._onRefresh.bind(this)
   }
-  getHouseList () {
-    const url = '/house/lists?city_id=1207&page_id=1&type_id=0&page_size=10'
+  _onRefresh () {
+    this.setState({
+      refreshing: true,
+      listParams: {
+        ...this.state.listParams,
+        page_id: 1
+      }
+    })
+    setTimeout( () => {
+      this.getInitHouseList(this.state.listParams)
+      this.setState({
+        refreshing: false
+      })
+    }, 1500)
+  }
+  getCurrentCity () {
+    _fetch.get(`/user/getLocation`)
+      .then(data => {
+        const cityId = data.content.city_id
+        this.setState({
+          listParams: {
+            ...this.state.listParams,
+            city_id: data.content.city_id
+          }
+        })
+        this.getBannerList(cityId)
+        this.getInitHouseList(this.state.listParams)
+      })
+  }
+  getInitHouseList (param) {
+    const query = queryString.stringify(param)
+    const url = `/house/lists?${query}`
     _fetch.get(url)
       .then(data => {
         this.setState({
-          data: data.content
+          data: data.content,
+          toggleMore:  data.content.length < PAGE_SIZE ? false : true
         })
       })
   }
-  getBannerList () {
-    const url = `/share/activity/getAd?city_id=1207`
+  getMoreHouseList () {
+    this.setState({
+      listParams: {
+        ...this.state.listParams,
+        page_id: ++this.state.listParams.page_id
+      }
+    })
+    const query = queryString.stringify(this.state.listParams)
+    const url = `/house/lists?${query}`
+    _fetch.get(url)
+      .then(data => {
+        const arr = [...this.state.data]
+        arr.push(...data.content)
+        this.setState({
+          data: arr,
+          toggleMore:  data.content.length < PAGE_SIZE ? false : true
+        })
+      })
+  }
+  getBannerList (cityId) {
+    const url = `/share/activity/getAd?city_id=${cityId}`
     _fetch.get(url)
       .then(data => {
         this.setState({
@@ -78,20 +139,9 @@ class Home extends Component {
       })
     }
   }
-  _onRefresh () {
-    this.setState({
-      isRefreshing: true
-    })
-    setTimeout(() => {
-      this.setState({
-        isRefreshing: false
-      })
-    }, 2000)
-  }
   componentDidMount () {
+    this.getCurrentCity()
     this.initJPush()
-    this.getHouseList()
-    this.getBannerList()
   }
   render () {
     return (
@@ -102,31 +152,47 @@ class Home extends Component {
           translucent={true}
         />
         <HomeSearch />
-        <ScrollView
+        <FlatList
+          data={this.state.data}
+          renderItem={({item}) => (<HouseList
+            item={item}
+            navigation={this.props.navigation}
+            callBack={this.houseListItemClick}
+          />)}
+          keyExtractor={(item) => item.id.toString()}
+          ListEmptyComponent={<HouseListPlaceHolder />}
+          ListHeaderComponent={
+            <View>
+              <HomeMainEntry />
+              <HomeSwiper
+                bannerList={this.state.bannerList}
+                callBack={this.handleSwiperItemClick}
+              />
+            </View>
+          }
+          ListFooterComponent={this.state.toggleMore ? <LoadMore /> : null}
           refreshControl={
             <RefreshControl
-              refreshing={this.state.isRefreshing}
+              refreshing={this.state.refreshing}
               onRefresh={this._onRefresh}
-              title={'加载中'}
             />
           }
-        >
-          <HomeMainEntry />
-          <HomeSwiper
-            bannerList={this.state.bannerList}
-            callBack={this.handleSwiperItemClick}
-          />
-          {
-            !this.state.data.length ? <HouseListPlaceHolder/> : this.state.data.map(item => (
-              <HouseList
-                key={item.id}
-                item={item}
-                navigation={this.props.navigation}
-                callBack={this.houseListItemClick}
-              />
-            ))
-          }
-        </ScrollView>
+          onEndReached={() => {
+            if (this.state.toggleLoadMore) {
+              this.setState({
+                toggleLoadMore: false
+              })
+              this.getMoreHouseList()
+            }
+          }}
+          onEndReachedThreshold={0.5}
+          // 解决下拉刷新触发多次问题
+          onContentSizeChange={()=>{
+            this.setState({
+              toggleLoadMore: true
+            })
+          }}
+        />
       </View>
     )
   }

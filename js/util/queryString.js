@@ -1,5 +1,5 @@
 const queryString = {
-  parse (params) {
+  stringify (params) {
     try {
       const arr = []
       for (let key in params) {

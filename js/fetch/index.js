@@ -34,7 +34,7 @@ const _fetch = {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: queryString.parse(params)
+        body: queryString.stringify(params)
       })
         .then(res => {
           if (res.ok) {

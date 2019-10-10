@@ -7,7 +7,7 @@ import Detail from '../page/Detail';
 import More from '../page/More';
 import HouseInfo from '../page/HouseInfo';
 import Demo from '../page/Demo';
-import Court from  '../page/Court'
+import Court from  '../page/Court';
 
 export const rootCom = 'Tab';
 
