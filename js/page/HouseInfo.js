@@ -16,10 +16,11 @@ import {
   HouseDetail,
   HouseCourt,
   HouseAround,
-  HouseBottomCard
+  HouseBottomCard,
+  HousePreview
 } from '../components/houseInfo';
 import {connect} from 'react-redux';
-import {updateCourtUrl} from '../action/houseInfo/actionCreators';
+import {updateCourtUrl,updatePreviewList} from '../action/houseInfo/actionCreators';
 import _fetch from '../fetch';
 
 const defaultFirstImg = 'http://static.yfbudong.com/defaulthouse.jpg';
@@ -55,7 +56,7 @@ class HouseInfo extends Component {
       trafficDistance: '',
       longitude: '',
       latitude: '',
-      courtDoc: {}
+      courtDoc: {},
     }
     this.getHouseImgList = this.getHouseImgList.bind(this)
     this.getHouseRate = this.getHouseRate.bind(this)
@@ -74,6 +75,13 @@ class HouseInfo extends Component {
           img: data.content[0],
           houseImgList: data.content
         })
+        const arr = []
+        this.state.houseImgList.map(item => {
+          arr.push({
+            url: item
+          })
+        })
+        this.props._updatePreviewList(arr)
       })
   }
   getHouseRate () {
@@ -186,6 +194,7 @@ class HouseInfo extends Component {
             barStyle={this.state.barStyle}
             backgroundColor={"transparent"}
           />
+          <HousePreview />
           <HouseInfoSwiper houseImgList={this.state.houseImgList} />
           <HouseDetail
             {...this.state.houseInfo}
@@ -265,13 +274,17 @@ const mapStateToProps = state => ({
   courtUrl: state.houseInfo.courtUrl,
   baseLayout: state.houseInfo.baseLayout,
   courtLayout: state.houseInfo.courtLayout,
-  aroundLayout: state.houseInfo.aroundLayout,
+  aroundLayout: state.houseInfo.aroundLayout
 })
 
 const mapDispatchToProps = dispatch => ({
   _updateCourtUrl () {
     const {id} = self.props.navigation.state.params
     const action = updateCourtUrl(`http://www.yfbudong.com/m_index.html#/court/${id}`)
+    dispatch(action)
+  },
+  _updatePreviewList (value) {
+    const action = updatePreviewList(value)
     dispatch(action)
   }
 })

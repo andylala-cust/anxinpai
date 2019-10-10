@@ -1,6 +1,8 @@
 import React,{Component} from 'react';
 import {Image, TouchableOpacity, StyleSheet} from 'react-native';
 import Swiper from "react-native-swiper";
+import {connect} from 'react-redux';
+import {showPreview,updatePreviewIndex} from '../../action/houseInfo/actionCreators';
 
 const SWIPER_HEIGHT = 240;
 
@@ -20,7 +22,7 @@ class HouseInfoSwiper extends Component {
       <Swiper style={styles.wrapper} key={this.props.houseImgList.length}>
         {
           this.props.houseImgList.map((item, index) => (
-            <TouchableOpacity style={{flex: 1,backgroundColor: '#efefef'}} activeOpacity={1} key={index} onLongPress={() => {alert(item)}}>
+            <TouchableOpacity style={{flex: 1,backgroundColor: '#efefef'}} activeOpacity={1} key={index} onPress={() => this.props._showPreview(index)}>
               <Image
                 resizeMode={'stretch'}
                 source={{uri: item}}
@@ -34,4 +36,17 @@ class HouseInfoSwiper extends Component {
   }
 }
 
-export default HouseInfoSwiper;
+const mapStateToProps = state => ({
+
+})
+
+const mapDispatchToProps = dispatch => ({
+  _showPreview (index) {
+    const action = showPreview(true)
+    dispatch(action)
+    const _action = updatePreviewIndex(index)
+    dispatch(_action)
+  }
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(HouseInfoSwiper);
