@@ -8,10 +8,10 @@ import {
   RefreshControl
 } from 'react-native';
 import {HouseList, HouseListPlaceHolder} from '../components/common';
-import {HomeMainEntry, HomeSwiper, HomeSearch, LoadMore} from '../components/home';
+import {HomeMainEntry, HomeSwiper, HomeSearch, LoadMore, HomeSummary} from '../components/home';
 import _fetch from '../fetch';
 import {queryString} from '../util';
-import {PAGE_SIZE,TYPE_ID} from '../constants'
+import {PAGE_SIZE,TYPE_ID} from '../constants';
 
 const JPushModule = NativeModules.JPushModule;
 const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
@@ -35,13 +35,15 @@ class Home extends Component {
         page_id: 1,
         page_size: PAGE_SIZE,
         type_id: TYPE_ID
-      }
+      },
+      summary: {}
     }
     this._onRefresh = this._onRefresh.bind(this)
     this.getCurrentCity = this.getCurrentCity.bind(this)
     this.getInitHouseList = this.getInitHouseList.bind(this)
     this.getMoreHouseList = this.getMoreHouseList.bind(this)
     this.getBannerList = this.getBannerList.bind(this)
+    this.getSummary = this.getSummary.bind(this)
     this.handleSwiperItemClick = this.handleSwiperItemClick.bind(this)
     this.houseListItemClick = this.houseListItemClick.bind(this)
     this.initJPush = this.initJPush.bind(this)
@@ -73,6 +75,7 @@ class Home extends Component {
         })
         this.getBannerList(cityId)
         this.getInitHouseList(this.state.listParams)
+        this.getSummary(cityId)
       })
   }
   getInitHouseList (param) {
@@ -111,6 +114,15 @@ class Home extends Component {
       .then(data => {
         this.setState({
           bannerList: data.content
+        })
+      })
+  }
+  getSummary (cityId) {
+    const url = `/house/get_house_summary?city_id=${cityId}`
+    _fetch.get(url)
+      .then(data => {
+        this.setState({
+          summary: data.content
         })
       })
   }
@@ -168,6 +180,7 @@ class Home extends Component {
                 bannerList={this.state.bannerList}
                 callBack={this.handleSwiperItemClick}
               />
+              <HomeSummary {...this.state.summary} />
             </View>
           }
           ListFooterComponent={this.state.toggleMore ? <LoadMore /> : null}

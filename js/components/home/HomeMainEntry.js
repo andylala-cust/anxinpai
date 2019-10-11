@@ -63,10 +63,7 @@ class HomeMainEntry extends Component {
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: '#fff',
-    paddingTop: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingBottom: 20,
+    padding: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
