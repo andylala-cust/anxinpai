@@ -5,13 +5,15 @@ import {
   StatusBar,
   NativeModules,
   FlatList,
-  RefreshControl
+  RefreshControl,
+  Text
 } from 'react-native';
-import {HouseList, HouseListPlaceHolder} from '../components/common';
-import {HomeMainEntry, HomeSwiper, HomeSearch, LoadMore, HomeSummary} from '../components/home';
+import {HouseList, HouseListPlaceHolder,LoadMore,BottomTip} from '../components/common';
+import {HomeMainEntry, HomeSwiper, HomeSearch, HomeSummary} from '../components/home';
 import _fetch from '../fetch';
 import {queryString} from '../util';
-import {PAGE_SIZE,TYPE_ID} from '../constants';
+import {PAGE_SIZE,TYPE_ID,PULL_DOWN_REFRESH_DURATION} from '../constants';
+import Toast from 'react-native-root-toast';
 
 const JPushModule = NativeModules.JPushModule;
 const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
@@ -36,7 +38,9 @@ class Home extends Component {
         page_size: PAGE_SIZE,
         type_id: TYPE_ID
       },
-      summary: {}
+      summary: {},
+      toastVisible: false,
+      toastText: ''
     }
     this._onRefresh = this._onRefresh.bind(this)
     this.getCurrentCity = this.getCurrentCity.bind(this)
@@ -58,10 +62,26 @@ class Home extends Component {
     })
     setTimeout( () => {
       this.getInitHouseList(this.state.listParams)
-      this.setState({
-        refreshing: false
-      })
-    }, 1500)
+        .then(() => {
+          return new Promise(resolve => {
+            this.timer && clearTimeout(this.timer)
+            this.setState({
+              refreshing: false,
+              toastText: '刷新成功^_^',
+              toastVisible: true
+            })
+            resolve()
+          })
+        })
+        .then(() => {
+          this.timer = setTimeout(() => {
+            this.setState({
+              toastVisible: false,
+              toastText: ''
+            })
+          }, 1000)
+        })
+    }, PULL_DOWN_REFRESH_DURATION)
   }
   getCurrentCity () {
     _fetch.get(`/user/getLocation`)
@@ -79,15 +99,18 @@ class Home extends Component {
       })
   }
   getInitHouseList (param) {
-    const query = queryString.stringify(param)
-    const url = `/house/lists?${query}`
-    _fetch.get(url)
-      .then(data => {
-        this.setState({
-          data: data.content,
-          toggleMore:  data.content.length < PAGE_SIZE ? false : true
+    return new Promise(resolve => {
+      const query = queryString.stringify(param)
+      const url = `/house/lists?${query}`
+      _fetch.get(url)
+        .then(data => {
+          this.setState({
+            data: data.content,
+            toggleMore:  data.content.length < PAGE_SIZE ? false : true
+          })
+          resolve()
         })
-      })
+    })
   }
   getMoreHouseList () {
     this.setState({
@@ -164,6 +187,15 @@ class Home extends Component {
           translucent={true}
         />
         <HomeSearch />
+        <Toast
+          visible={this.state.toastVisible}
+          position={0}
+          shadow={true}
+          animation={true}
+          hideOnPress={false}
+        >
+          {this.state.toastText}
+        </Toast>
         <FlatList
           data={this.state.data}
           renderItem={({item}) => (<HouseList
@@ -183,7 +215,7 @@ class Home extends Component {
               <HomeSummary {...this.state.summary} />
             </View>
           }
-          ListFooterComponent={this.state.toggleMore ? <LoadMore /> : null}
+          ListFooterComponent={this.state.toggleMore ? <LoadMore /> : <BottomTip />}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
