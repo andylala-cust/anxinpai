@@ -4,6 +4,8 @@ import HouseCourt from './HouseCourt';
 import HouseAround from './HouseAround';
 import HouseBottomCard from './HouseBottomCard';
 import HousePreview from './HousePreview';
+import HouseValue  from './HouseValue';
+import HouseDeal  from './HouseDeal';
 
 export {
   HouseInfoSwiper,
@@ -11,5 +13,7 @@ export {
   HouseCourt,
   HouseAround,
   HouseBottomCard,
-  HousePreview
+  HousePreview,
+  HouseValue,
+  HouseDeal
 }

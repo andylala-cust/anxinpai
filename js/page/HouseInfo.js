@@ -17,18 +17,20 @@ import {
   HouseCourt,
   HouseAround,
   HouseBottomCard,
-  HousePreview
+  HousePreview,
+  HouseValue,
+  HouseDeal
 } from '../components/houseInfo';
 import {connect} from 'react-redux';
 import {updateCourtUrl,updatePreviewList} from '../action/houseInfo/actionCreators';
 import _fetch from '../fetch';
+import {queryString} from '../util';
 
 const defaultFirstImg = 'http://static.yfbudong.com/defaulthouse.jpg';
 const SWIPER_HEIGHT = 240;
 const IPHONEX_TABBAR_DELTA = 34;
 const TAB_BAR_HEIGHT = IS_IPHONEX ? IPHONEX_TABBAR_DELTA : 0;
 const FIXED_ICON_HEIGHT = 40;
-let OPACITY = 0;
 let self;
 const BARDEFAULTSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
 const FIXED_TAB_HEIGHT = 40;
@@ -57,6 +59,9 @@ class HouseInfo extends Component {
       longitude: '',
       latitude: '',
       courtDoc: {},
+      houseStatusArr: [],
+      houseDealArr: [],
+      opacity: 0
     }
     this.getHouseImgList = this.getHouseImgList.bind(this)
     this.getHouseRate = this.getHouseRate.bind(this)
@@ -90,12 +95,37 @@ class HouseInfo extends Component {
     _fetch.get(url)
       .then(data => {
         const {x, y} = data.content.geo
+        const {title,zone_id,typeId} = data.content
         this.setState({
           houseInfo: data.content,
           longitude: x,
           latitude: y
         })
         this.getHouseTraffic(x, y)
+        this.getHouseStatus(zone_id, title)
+        this.getDealList({
+          zone_id,
+          geo_x: x,
+          geo_y: y,
+          typeId
+        })
+      })
+  }
+  getHouseStatus (zoneId, title) {
+    _fetch.get(`/house/actionstatus?zone_id=${zoneId}&title=${title}`)
+      .then(data => {
+        this.setState({
+          houseStatusArr: data.content
+        })
+      })
+  }
+  getDealList (params) {
+    const str = queryString.stringify(params)
+    _fetch.get(`/house/similarhouses?${str}`)
+      .then(data => {
+        this.setState({
+          houseDealArr: data.content
+        })
       })
   }
   getHouseSchool () {
@@ -146,13 +176,9 @@ class HouseInfo extends Component {
     this.props.navigation.navigate('Court')
   }
   handleScroll (e) {
-    OPACITY = e.nativeEvent.contentOffset.y/(SWIPER_HEIGHT - FIXED_ICON_HEIGHT - STATUSBAR_HEIGHT-FIXED_TAB_HEIGHT)
-    if (OPACITY <= 0) {
-      OPACITY = 0
-    }
-    if (OPACITY >= 1) {
-      OPACITY = 1
-    }
+    this.setState({
+      opacity: e.nativeEvent.contentOffset.y/(SWIPER_HEIGHT - FIXED_ICON_HEIGHT - STATUSBAR_HEIGHT-FIXED_TAB_HEIGHT)
+    })
     if (e.nativeEvent.contentOffset.y > 0) {
       this.setState({
         barStyle: BARDEFAULTSTYLE,
@@ -175,9 +201,9 @@ class HouseInfo extends Component {
     this.props._updateCourtUrl()
   }
   componentWillMount () {
-    OPACITY = 0
     this.setState({
-      toggleFixedShow: false
+      toggleFixedShow: false,
+      opacity: 0
     })
   }
   render() {
@@ -206,6 +232,9 @@ class HouseInfo extends Component {
           <Split />
           <HouseCourt {...this.state.courtDoc} handleWebViewClick={this.handleWebViewClick} />
           <Split />
+          <HouseValue houseStatusArr={this.state.houseStatusArr} />
+          <HouseDeal houseDealArr={this.state.houseDealArr} navigation={this.props.navigation} />
+          <Split />
           <HouseAround
             {...this.state.houseInfo}
             latitude={this.state.latitude}
@@ -213,7 +242,7 @@ class HouseInfo extends Component {
           />
         </ScrollView>
         <HouseBottomCard />
-        <View style={{position: 'absolute',left: 0,right: 0,flexDirection: 'row',justifyContent: 'space-between',paddingTop: STATUSBAR_HEIGHT,backgroundColor: `rgba(255,255,255,${OPACITY})`}}>
+        <View style={{position: 'absolute',left: 0,right: 0,flexDirection: 'row',justifyContent: 'space-between',paddingTop: STATUSBAR_HEIGHT,backgroundColor: `rgba(255,255,255,${this.state.opacity})`}}>
           <TouchableOpacity style={{paddingLeft: 20,paddingRight: 30,}} onPress={() => {this.props.navigation.goBack()}}>
             <Ionicons name="ios-arrow-back" size={26} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />
           </TouchableOpacity>
@@ -222,7 +251,7 @@ class HouseInfo extends Component {
           </TouchableOpacity>
         </View>
         {
-          this.state.toggleFixedShow && <View style={{position: 'absolute',top: STATUSBAR_HEIGHT+FIXED_ICON_HEIGHT,left: 0,right: 0,backgroundColor: `rgba(255,255,255,${OPACITY})`,flexDirection: 'row',borderTopWidth: 1,borderTopColor: '#f4f4f4',}}>
+          this.state.toggleFixedShow && <View style={{position: 'absolute',top: STATUSBAR_HEIGHT+FIXED_ICON_HEIGHT,left: 0,right: 0,backgroundColor: `rgba(255,255,255,${this.state.opacity})`,flexDirection: 'row',borderTopWidth: 1,borderTopColor: '#f4f4f4',}}>
             <TouchableOpacity
               onPress={() => {
                 this.scrollView.scrollTo({x: 0,y: this.props.baseLayout-FIXED_HEADER_HEIGHT,animated: true})
