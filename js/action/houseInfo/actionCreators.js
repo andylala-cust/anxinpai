@@ -6,7 +6,8 @@ import {
   HOUSE_PREVIEW_LIST,
   HOUSE_PREVIEW_SHOW,
   HOUSE_PREVIEW_HIDE,
-  HOUSE_PREVIEW_INDEX
+  HOUSE_PREVIEW_INDEX,
+  HOUSE_PROPERTY
 } from './actionTypes';
 
 export const updateCourtUrl = (value) => ({
@@ -46,5 +47,10 @@ export const hidePreview = (value) => ({
 
 export const updatePreviewIndex = (value) => ({
   type: HOUSE_PREVIEW_INDEX,
+  value
+})
+
+export const updateHouseProperty = (value) => ({
+  type: HOUSE_PROPERTY,
   value
 })

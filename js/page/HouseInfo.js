@@ -19,10 +19,11 @@ import {
   HouseBottomCard,
   HousePreview,
   HouseValue,
-  HouseDeal
+  HouseDeal,
+  HouseProperty
 } from '../components/houseInfo';
 import {connect} from 'react-redux';
-import {updateCourtUrl,updatePreviewList} from '../action/houseInfo/actionCreators';
+import {updateCourtUrl,updatePreviewList,updateHouseProperty} from '../action/houseInfo/actionCreators';
 import _fetch from '../fetch';
 import {queryString} from '../util';
 
@@ -109,6 +110,7 @@ class HouseInfo extends Component {
           geo_y: y,
           typeId
         })
+        this.props._updateHouseProperty(data.content)
       })
   }
   getHouseStatus (zoneId, title) {
@@ -234,6 +236,7 @@ class HouseInfo extends Component {
           <Split />
           <HouseValue houseStatusArr={this.state.houseStatusArr} />
           <HouseDeal houseDealArr={this.state.houseDealArr} navigation={this.props.navigation} />
+          <HouseProperty />
           <Split />
           <HouseAround
             {...this.state.houseInfo}
@@ -246,9 +249,17 @@ class HouseInfo extends Component {
           <TouchableOpacity style={{paddingLeft: 20,paddingRight: 30,}} onPress={() => {this.props.navigation.goBack()}}>
             <Ionicons name="ios-arrow-back" size={26} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />
           </TouchableOpacity>
-          <TouchableOpacity style={{paddingLeft: 20,paddingRight: 20,}} onPress={() => {alert('search')}} >
-            <Feather name="share" size={20} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />
-          </TouchableOpacity>
+          <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
+            <TouchableOpacity style={{paddingLeft: 5,paddingRight: 5,marginRight: 15}} onPress={() => {alert(1)}}>
+              <Ionicons name="ios-heart-empty" size={22} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />
+            </TouchableOpacity>
+            <TouchableOpacity style={{paddingLeft: 5,paddingRight: 5,marginRight: 15}} onPress={() => {alert(1)}}>
+              <Ionicons name="ios-git-compare" size={22} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />
+            </TouchableOpacity>
+            <TouchableOpacity style={{paddingRight: 20}} onPress={() => {alert('search')}} >
+              <Feather name="share" size={20} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />
+            </TouchableOpacity>
+          </View>
         </View>
         {
           this.state.toggleFixedShow && <View style={{position: 'absolute',top: STATUSBAR_HEIGHT+FIXED_ICON_HEIGHT,left: 0,right: 0,backgroundColor: `rgba(255,255,255,${this.state.opacity})`,flexDirection: 'row',borderTopWidth: 1,borderTopColor: '#f4f4f4',}}>
@@ -314,6 +325,10 @@ const mapDispatchToProps = dispatch => ({
   },
   _updatePreviewList (value) {
     const action = updatePreviewList(value)
+    dispatch(action)
+  },
+  _updateHouseProperty (value) {
+    const action = updateHouseProperty(value)
     dispatch(action)
   }
 })

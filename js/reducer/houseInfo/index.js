@@ -6,7 +6,8 @@ import {
   HOUSE_PREVIEW_LIST,
   HOUSE_PREVIEW_SHOW,
   HOUSE_PREVIEW_HIDE,
-  HOUSE_PREVIEW_INDEX
+  HOUSE_PREVIEW_INDEX,
+  HOUSE_PROPERTY
 } from '../../action/houseInfo/actionTypes'
 
 const defaultState = {
@@ -16,7 +17,8 @@ const defaultState = {
   aroundLayout: 0,
   previewList: [],
   previewVisible: false,
-  previewIndex: 0
+  previewIndex: 0,
+  houseProperty: {}
 }
 
 export default (state = defaultState, action) => {
@@ -67,6 +69,13 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         previewIndex: action.value
+      }
+    }
+    case HOUSE_PROPERTY: {
+      console.log(action)
+      return {
+        ...state,
+        houseProperty: action.value
       }
     }
     default: {

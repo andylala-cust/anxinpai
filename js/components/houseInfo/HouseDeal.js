@@ -1,14 +1,33 @@
 import React,{Component} from 'react';
 import {View,Text,StyleSheet,TouchableOpacity} from 'react-native';
-
-let INIT_INDEX = 3;
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 class HouseDeal extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      index: 3,
+      toggleFold: true
+    }
+  }
   render () {
     return (
       <View style={{position: 'relative',paddingLeft: 25,paddingRight: 25}}>
-        <View>
-          <Text style={{marginBottom: 10,fontWeight: 'bold'}}>同区域成交</Text>
+        <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',marginBottom: 10}}>
+          <Text style={{fontWeight: 'bold'}}>同区域成交</Text>
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({
+                toggleFold: !this.state.toggleFold,
+                index: this.state.toggleFold ? 10 : 3
+              })
+            }}
+          >
+            <Ionicons
+              name={this.state.toggleFold ? 'ios-arrow-down': 'ios-arrow-up'}
+              size={14}
+            />
+          </TouchableOpacity>
         </View>
         {
           this.props.houseDealArr.map((item, index) => (
@@ -23,7 +42,7 @@ class HouseDeal extends Component {
               }}
             >
               <View
-                style={[styles.itemWrapper,{display: INIT_INDEX>index ? 'flex' : 'none'}]}
+                style={[styles.itemWrapper,{display: this.state.index>index ? 'flex' : 'none'}]}
               >
                 <View style={{width: '10%'}}>
                   <View style={styles.circle}></View>
