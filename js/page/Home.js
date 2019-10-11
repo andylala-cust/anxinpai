@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   StyleSheet,
   StatusBar,
   NativeModules,
   FlatList,
-  RefreshControl,
-  Text
+  RefreshControl
 } from 'react-native';
 import {HouseList, HouseListPlaceHolder,LoadMore,BottomTip} from '../components/common';
 import {HomeMainEntry, HomeSwiper, HomeSearch, HomeSummary} from '../components/home';
