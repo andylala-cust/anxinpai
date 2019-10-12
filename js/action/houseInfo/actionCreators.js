@@ -2,6 +2,7 @@ import {
   HOUSEINFO_COURT_URl,
   HOUSEINFO_GET_BASE_LAYOUT,
   HOUSEINFO_GET_COURT_LAYOUT,
+  HOUSEINFO_GET_VALUE_LAYOUT,
   HOUSEINFO_GET_AROUND_LAYOUT,
   HOUSE_PREVIEW_LIST,
   HOUSE_PREVIEW_SHOW,
@@ -52,5 +53,10 @@ export const updatePreviewIndex = (value) => ({
 
 export const updateHouseProperty = (value) => ({
   type: HOUSE_PROPERTY,
+  value
+})
+
+export const getValueLayout = (value) => ({
+  type: HOUSEINFO_GET_VALUE_LAYOUT,
   value
 })

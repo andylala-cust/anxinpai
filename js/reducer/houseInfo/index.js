@@ -2,6 +2,7 @@ import {
   HOUSEINFO_COURT_URl,
   HOUSEINFO_GET_BASE_LAYOUT,
   HOUSEINFO_GET_COURT_LAYOUT,
+  HOUSEINFO_GET_VALUE_LAYOUT,
   HOUSEINFO_GET_AROUND_LAYOUT,
   HOUSE_PREVIEW_LIST,
   HOUSE_PREVIEW_SHOW,
@@ -14,6 +15,7 @@ const defaultState = {
   courtUrl: '',
   baseLayout: 0,
   courtLayout: 0,
+  valueLayout: 0,
   aroundLayout: 0,
   previewList: [],
   previewVisible: false,
@@ -39,6 +41,12 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         courtLayout: action.value
+      }
+    }
+    case HOUSEINFO_GET_VALUE_LAYOUT: {
+      return {
+        ...state,
+        valueLayout: action.value
       }
     }
     case HOUSEINFO_GET_AROUND_LAYOUT: {
@@ -72,7 +80,6 @@ export default (state = defaultState, action) => {
       }
     }
     case HOUSE_PROPERTY: {
-      console.log(action)
       return {
         ...state,
         houseProperty: action.value

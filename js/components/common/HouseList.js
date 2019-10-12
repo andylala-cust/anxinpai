@@ -28,6 +28,24 @@ class HouseList extends Component {
                 >{this.props.item.title}</Text>
               </View>
               <View
+                style={{flexDirection: 'row', marginTop: 6,alignItems: 'center'}}
+              >
+                <View style={{flexDirection: 'row',justifyContent: 'center',alignItems: 'center',marginRight: 10}}>
+                  <Text style={styles.listItemInfoPrice}>
+                    <Text style={{color: '#000',fontSize: 12}}>起拍价</Text>
+                    &nbsp;&nbsp;
+                    {Math.floor(this.props.item.initialPrice / 10000) || '-'}万
+                  </Text>
+                </View>
+                <View style={{flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
+                  <Text style={[styles.listItemInfoPrice,{fontSize: 13}]}>
+                    <Text style={{color: '#000',fontSize: 12}}>评估价</Text>
+                    &nbsp;&nbsp;
+                    {Math.floor(this.props.item.consultPrice / 10000) || '-'}万
+                  </Text>
+                </View>
+              </View>
+              <View
                 style={{flexDirection: 'row'}}
               >
                 <Text style={styles.listItemInfoDetail}>{this.props.item.area || '-'}m²</Text>
@@ -37,14 +55,12 @@ class HouseList extends Component {
               <View
                 style={{flexDirection: 'row', marginTop: 4}}
               >
-                <Text style={[styles.listItemInfoTag]}>{this.props.item.cut || '- -'}折</Text>
+                <Text style={[styles.listItemInfoTag,{backgroundColor: '#3f59ff',color: '#fff'}]}>{this.props.item.cut || '- -'}折</Text>
                 <Text style={[styles.listItemInfoTag,{marginLeft: 10}]}>{this.props.item.circ || '-'}</Text>
                 <Text numberOfLines={1} style={[styles.listItemInfoTag,{marginLeft: 10,maxWidth: '50%'}]}>{this.props.item.asset_type || '-'}</Text>
               </View>
-              <View
-                style={{flexDirection: 'row', marginTop: 6}}
-              >
-                <Text style={styles.listItemInfoPrice}>{Math.floor(this.props.item.initialPrice / 10000) || '-'}万</Text>
+              <View>
+                <Text style={{height: 20,lineHeight: 20,fontSize: 12}}>起拍时间：{this.props.item.start_time || '-'}</Text>
               </View>
             </View>
           </View>
@@ -106,7 +122,7 @@ const styles = StyleSheet.create({
     height: 14,
     lineHeight: 14,
     color: '#f00',
-    fontSize: 13,
+    fontSize: 14,
   }
 });
 

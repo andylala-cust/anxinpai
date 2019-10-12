@@ -1,10 +1,16 @@
 import React,{Component} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
+import {getValueLayout} from '../../action/houseInfo/actionCreators';
+
+let self;
 
 class HouseValue extends Component {
   constructor (props) {
     super(props)
+    self = this
     this.formatTime = this.formatTime.bind(this)
+    this.handleLayout = this.handleLayout.bind(this)
   }
   formatTime (str) {
     if (!str) return
@@ -14,9 +20,13 @@ class HouseValue extends Component {
     const resDate = `${arr_[0]}年${arr_[1]}月${arr_[2]}日`
     return resDate
   }
+  handleLayout (event) {
+    this.valueLayout = event.nativeEvent.layout
+    this.props._getValueLayout()
+  }
   render () {
     return (
-      <View>
+      <View onLayout={event => this.handleLayout(event)}>
         <View style={{padding: 25}}>
           <View>
             <Text style={{fontSize: 17,fontWeight: 'bold'}}>房产价值</Text>
@@ -83,4 +93,15 @@ const styles = StyleSheet.create({
   }
 })
 
-export default HouseValue;
+const mapStateToProps = state => ({
+
+})
+
+const mapDispatchToProps = dispatch => ({
+  _getValueLayout () {
+    const action = getValueLayout(self.valueLayout.y)
+    dispatch(action)
+  }
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(HouseValue);

@@ -13,6 +13,16 @@ class HouseAround extends Component {
     this.state = {
       aroundList: []
     }
+    this.showAround = this.showAround.bind(this)
+    this.handleLayout = this.handleLayout.bind(this)
+  }
+  showAround (index) {
+    this.props.navigation.navigate('Around', {
+      latitude: this.props.latitude,
+      longitude: this.props.longitude,
+      title: this.props.title,
+      index
+    })
   }
   handleLayout (event) {
     this.aroundLayout = event.nativeEvent.layout
@@ -77,10 +87,10 @@ class HouseAround extends Component {
           // }}
         >
           <View style={styles.bottomWrapper}>
-            <Text style={styles.bottomTitle} onPress={() => {alert(1)}}>学校</Text>
-            <Text style={styles.bottomTitle} onPress={() => {alert(2)}}>交通</Text>
-            <Text style={styles.bottomTitle} onPress={() => {alert(3)}}>生活</Text>
-            <Text style={styles.bottomTitle} onPress={() => {alert(4)}}>医疗</Text>
+            <Text style={styles.bottomTitle} onPress={() => this.showAround(0)}>学校</Text>
+            <Text style={styles.bottomTitle} onPress={() => this.showAround(1)}>交通</Text>
+            <Text style={styles.bottomTitle} onPress={() => this.showAround(2)}>生活</Text>
+            <Text style={styles.bottomTitle} onPress={() => this.showAround(3)}>医疗</Text>
           </View>
           <View
             style={styles.mask}

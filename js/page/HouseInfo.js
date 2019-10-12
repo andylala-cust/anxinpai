@@ -20,7 +20,8 @@ import {
   HousePreview,
   HouseValue,
   HouseDeal,
-  HouseProperty
+  HouseProperty,
+  HouseInfoFooter
 } from '../components/houseInfo';
 import {connect} from 'react-redux';
 import {updateCourtUrl,updatePreviewList,updateHouseProperty} from '../action/houseInfo/actionCreators';
@@ -62,7 +63,8 @@ class HouseInfo extends Component {
       courtDoc: {},
       houseStatusArr: [],
       houseDealArr: [],
-      opacity: 0
+      opacity: 0,
+      highlightIndex: 0
     }
     this.getHouseImgList = this.getHouseImgList.bind(this)
     this.getHouseRate = this.getHouseRate.bind(this)
@@ -178,6 +180,26 @@ class HouseInfo extends Component {
     this.props.navigation.navigate('Court')
   }
   handleScroll (e) {
+    if (e.nativeEvent.contentOffset.y < this.props.courtLayout-FIXED_HEADER_HEIGHT) {
+      this.setState({
+        highlightIndex: 0
+      })
+    }
+    if (e.nativeEvent.contentOffset.y >= this.props.courtLayout-FIXED_HEADER_HEIGHT-1 && e.nativeEvent.contentOffset.y < this.props.valueLayout-FIXED_HEADER_HEIGHT) {
+      this.setState({
+        highlightIndex: 1
+      })
+    }
+    if (e.nativeEvent.contentOffset.y >= this.props.valueLayout-FIXED_HEADER_HEIGHT-1 && e.nativeEvent.contentOffset.y < this.props.aroundLayout-FIXED_HEADER_HEIGHT) {
+      this.setState({
+        highlightIndex: 2
+      })
+    }
+    if (e.nativeEvent.contentOffset.y >= this.props.aroundLayout-FIXED_HEADER_HEIGHT-1) {
+      this.setState({
+        highlightIndex: 3
+      })
+    }
     this.setState({
       opacity: e.nativeEvent.contentOffset.y/(SWIPER_HEIGHT - FIXED_ICON_HEIGHT - STATUSBAR_HEIGHT-FIXED_TAB_HEIGHT)
     })
@@ -242,7 +264,9 @@ class HouseInfo extends Component {
             {...this.state.houseInfo}
             latitude={this.state.latitude}
             longitude={this.state.longitude}
+            navigation={this.props.navigation}
           />
+          <HouseInfoFooter id={this.props.navigation.state.params.id} />
         </ScrollView>
         <HouseBottomCard />
         <View style={{position: 'absolute',left: 0,right: 0,flexDirection: 'row',justifyContent: 'space-between',paddingTop: STATUSBAR_HEIGHT,backgroundColor: `rgba(255,255,255,${this.state.opacity})`}}>
@@ -270,7 +294,7 @@ class HouseInfo extends Component {
               style={{flex: 1,justifyContent:'center',alignItems: 'center'}}
             >
               <View>
-                <Text style={{height: FIXED_TAB_HEIGHT,lineHeight: FIXED_TAB_HEIGHT}}>详情</Text>
+                <Text style={[{height: FIXED_TAB_HEIGHT,lineHeight: FIXED_TAB_HEIGHT},{color: this.state.highlightIndex == 0 ? '#006aff' : '#000'}]}>详情</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity
@@ -280,17 +304,17 @@ class HouseInfo extends Component {
               style={{flex: 1,justifyContent:'center',alignItems: 'center'}}
             >
               <View>
-                <Text style={{height: FIXED_TAB_HEIGHT,lineHeight: FIXED_TAB_HEIGHT}}>公告</Text>
+                <Text style={[{height: FIXED_TAB_HEIGHT,lineHeight: FIXED_TAB_HEIGHT},{color: this.state.highlightIndex == 1 ? '#006aff' : '#000'}]}>公告</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                alert(1)
+                this.scrollView.scrollTo({x: 0,y: this.props.valueLayout-FIXED_HEADER_HEIGHT,animated: true})
               }}
               style={{flex: 1,justifyContent:'center',alignItems: 'center'}}
             >
               <View>
-                <Text style={{height: FIXED_TAB_HEIGHT,lineHeight: FIXED_TAB_HEIGHT}}>价值</Text>
+                <Text style={[{height: FIXED_TAB_HEIGHT,lineHeight: FIXED_TAB_HEIGHT},{color: this.state.highlightIndex == 2 ? '#006aff' : '#000'}]}>价值</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity
@@ -300,7 +324,7 @@ class HouseInfo extends Component {
               style={{flex: 1,justifyContent:'center',alignItems: 'center'}}
             >
               <View>
-                <Text style={{height: FIXED_TAB_HEIGHT,lineHeight: FIXED_TAB_HEIGHT}}>周边</Text>
+                <Text style={[{height: FIXED_TAB_HEIGHT,lineHeight: FIXED_TAB_HEIGHT},{color: this.state.highlightIndex == 3 ? '#006aff' : '#000'}]}>周边</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -314,6 +338,7 @@ const mapStateToProps = state => ({
   courtUrl: state.houseInfo.courtUrl,
   baseLayout: state.houseInfo.baseLayout,
   courtLayout: state.houseInfo.courtLayout,
+  valueLayout: state.houseInfo.valueLayout,
   aroundLayout: state.houseInfo.aroundLayout
 })
 

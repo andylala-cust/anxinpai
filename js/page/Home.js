@@ -207,11 +207,11 @@ class Home extends Component {
           ListHeaderComponent={
             <View>
               <HomeMainEntry />
+              <HomeSummary {...this.state.summary} />
               <HomeSwiper
                 bannerList={this.state.bannerList}
                 callBack={this.handleSwiperItemClick}
               />
-              <HomeSummary {...this.state.summary} />
             </View>
           }
           ListFooterComponent={this.state.toggleMore ? <LoadMore /> : <BottomTip />}

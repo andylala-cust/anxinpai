@@ -34,7 +34,7 @@ class HomeSummary extends Component {
 const styles = StyleSheet.create({
   wrapper: {
     padding: 20,
-    paddingBottom: 0
+    paddingTop: 0
   },
   container: {
     padding: 5,

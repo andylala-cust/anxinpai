@@ -3,7 +3,7 @@ import {Image, TouchableOpacity, View, StyleSheet} from 'react-native';
 import {Placeholder, PlaceholderMedia, ShineOverlay} from 'rn-placeholder';
 import Swiper from "react-native-swiper";
 
-const SWIPER_HEIGHT = 100;
+const SWIPER_HEIGHT = 140;
 
 class HomeSwiper extends Component {
   render () {

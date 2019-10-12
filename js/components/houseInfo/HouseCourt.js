@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View,TouchableOpacity} from 'react-native';
 import {WebView} from 'react-native-webview';
 import LinearGradient from "react-native-linear-gradient";
 import {connect} from 'react-redux';
@@ -30,25 +30,31 @@ class HouseCourt extends Component {
           style={{height: 300}}
           source={{html: `${this.props.desc}${this.props.announce}`}}
         />
-        <LinearGradient
-          colors={['hsla(0,0%,100%,.8)', 'hsla(0,0%,100%,1)']}
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            width: '100%',
-            height: 100,
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={this.props.handleWebViewClick}
         >
-          <Text
-            onPress={this.props.handleWebViewClick}
-            style={{fontWeight: 'bold'}}
-          >
-            查看更多
-          </Text>
-        </LinearGradient>
+          <View>
+            <LinearGradient
+              colors={['hsla(0,0%,100%,.8)', 'hsla(0,0%,100%,1)']}
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                width: '100%',
+                height: 100,
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Text
+                style={{fontWeight: 'bold'}}
+              >
+                查看更多
+              </Text>
+            </LinearGradient>
+          </View>
+        </TouchableOpacity>
       </View>
     )
   }

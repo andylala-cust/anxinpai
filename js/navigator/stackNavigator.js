@@ -8,6 +8,7 @@ import More from '../page/More';
 import HouseInfo from '../page/HouseInfo';
 import Demo from '../page/Demo';
 import Court from  '../page/Court';
+import Around from '../page/Around';
 
 export const rootCom = 'Tab';
 
@@ -24,7 +25,8 @@ export const StackNavigator = createStackNavigator({
   More,
   HouseInfo,
   Demo,
-  Court
+  Court,
+  Around
 }, {
   headerMode: 'float',
   headerTransitionPreset: 'uikit',
