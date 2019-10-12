@@ -9,7 +9,8 @@ import {
   HouseMarketPrice,
   HouseLocationPrice,
   HouseMaterialPrice,
-  HouseProfitPrice
+  HouseProfitPrice,
+  HouseRecommendPrice
 } from './index';
 
 const dataArray = [
@@ -77,12 +78,12 @@ class HouseProperty extends Component {
         return (
           <HouseProfitPrice />
         )
-      default:
+      case 4:
         return (
-          <View>
-            <Text>3</Text>
-          </View>
+          <HouseRecommendPrice />
         )
+      default:
+        return null
     }
   }
   render() {

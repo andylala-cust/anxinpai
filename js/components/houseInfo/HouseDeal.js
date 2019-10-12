@@ -26,6 +26,7 @@ class HouseDeal extends Component {
             <Ionicons
               name={this.state.toggleFold ? 'ios-arrow-down': 'ios-arrow-up'}
               size={14}
+              style={{padding: 10}}
             />
           </TouchableOpacity>
         </View>

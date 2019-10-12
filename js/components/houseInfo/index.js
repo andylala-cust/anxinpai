@@ -11,6 +11,7 @@ import HouseMarketPrice from './HouseMarketPrice';
 import HouseLocationPrice from './HouseLocationPrice';
 import HouseMaterialPrice from './HouseMaterialPrice';
 import HouseProfitPrice from './HouseProfitPrice';
+import HouseRecommendPrice from './HouseRecommendPrice';
 
 export {
   HouseInfoSwiper,
@@ -25,5 +26,6 @@ export {
   HouseMarketPrice,
   HouseLocationPrice,
   HouseMaterialPrice,
-  HouseProfitPrice
+  HouseProfitPrice,
+  HouseRecommendPrice
 }

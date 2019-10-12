@@ -28,6 +28,7 @@ class HouseAround extends Component {
         </View>
         <MapView
           showsCompass={false} // 是否显示指南针
+          showsZoomControls={false} // 是否显示放大缩小按钮
           style={{width: '100%',height: 200}}
           coordinate={{
             latitude: Number(this.props.latitude),
@@ -58,22 +59,22 @@ class HouseAround extends Component {
           //   }
           // }}
           // 获取地图中心坐标
-          onStatusChangeComplete={({nativeEvent}) => {
-            // console.log(nativeEvent.longitude,nativeEvent.latitude)
-            const {longitude,latitude} = nativeEvent
-            const sGeo = `${longitude},${latitude}`
-            const url = `http://116.62.240.91:3000/house/lists?type_id=0&city_id=1207&distance=3&noLimit=1&s_geo=${sGeo}`
-            fetch(url)
-              .then(res => (res.json()))
-              .then(resText => {
-                this.setState({
-                  aroundList: resText.content
-                })
-              })
-              .catch(err => {
-                console.log(err)
-              })
-          }}
+          // onStatusChangeComplete={({nativeEvent}) => {
+          //   // console.log(nativeEvent.longitude,nativeEvent.latitude)
+          //   const {longitude,latitude} = nativeEvent
+          //   const sGeo = `${longitude},${latitude}`
+          //   const url = `http://116.62.240.91:3000/house/lists?type_id=0&city_id=1207&distance=3&noLimit=1&s_geo=${sGeo}`
+          //   fetch(url)
+          //     .then(res => (res.json()))
+          //     .then(resText => {
+          //       this.setState({
+          //         aroundList: resText.content
+          //       })
+          //     })
+          //     .catch(err => {
+          //       console.log(err)
+          //     })
+          // }}
         >
           <View style={styles.bottomWrapper}>
             <Text style={styles.bottomTitle} onPress={() => {alert(1)}}>学校</Text>
@@ -81,6 +82,9 @@ class HouseAround extends Component {
             <Text style={styles.bottomTitle} onPress={() => {alert(3)}}>生活</Text>
             <Text style={styles.bottomTitle} onPress={() => {alert(4)}}>医疗</Text>
           </View>
+          <View
+            style={styles.mask}
+          ></View>
           {/*<Circle*/}
           {/*  coordinate={{*/}
           {/*    latitude: this.state.latitude,*/}
@@ -93,26 +97,86 @@ class HouseAround extends Component {
           {/*/>*/}
           <Marker
             title={this.props.title}
+            infoWindowDisabled  // 是否禁用弹出窗口，默认不禁用
             coordinate={{
               latitude: Number(this.props.latitude),
               longitude: Number(this.props.longitude)
             }}
-            key={this.props.id}
+            // 自定义覆盖物
+            icon={() => (
+              <View
+                style={{
+                  width: 20,
+                  height: 20,
+                  backgroundColor: '#5184f9',
+                  borderRadius: 10,
+                  borderWidth: 3,
+                  borderColor: '#fff'
+                }}
+              ></View>
+            )}
           />
-          {
-            this.state.aroundList.map(item => {
-              return (
-                <Marker
-                  key={item.id}
-                  title={item.title}
-                  coordinate={{
-                    latitude: item.geo.y,
-                    longitude: item.geo.x
+          <Marker
+            title={this.props.title}
+            infoWindowDisabled  // 是否禁用弹出窗口，默认不禁用
+            coordinate={{
+              latitude: Number(this.props.latitude),
+              longitude: Number(this.props.longitude)
+            }}
+            centerOffset={{
+              x: 0,
+              y: -35
+            }}
+            // 自定义覆盖物
+            icon={() => (
+              <View
+                style={{
+                  width: 120,
+                  backgroundColor: '#fff',
+                  position: 'relative'
+                }}
+              >
+                <Text
+                  numberOfLines={1}
+                  style={{
+                    height: 40,
+                    lineHeight: 20,
+                    padding: 10,
+                    textAlign: 'center'
                   }}
-                />
-              )
-            })
-          }
+                >
+                  {this.props.community_name || '-'}
+                </Text>
+                <View
+                  style={{
+                    position: 'absolute',
+                    left: '50%',
+                    bottom: -10,
+                    width: 0,
+                    height: 0,
+                    marginLeft: -5,
+                    borderWidth: 5,
+                    borderColor: 'transparent',
+                    borderTopColor: '#fff'
+                  }}
+                ></View>
+              </View>
+            )}
+          />
+          {/*{*/}
+          {/*  this.state.aroundList.map(item => {*/}
+          {/*    return (*/}
+          {/*      <Marker*/}
+          {/*        key={item.id}*/}
+          {/*        title={item.title}*/}
+          {/*        coordinate={{*/}
+          {/*          latitude: item.geo.y,*/}
+          {/*          longitude: item.geo.x*/}
+          {/*        }}*/}
+          {/*      />*/}
+          {/*    )*/}
+          {/*  })*/}
+          {/*}*/}
         </MapView>
       </View>
     )
@@ -133,6 +197,14 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     color: '#fff',
     textAlign: 'center'
+  },
+  mask: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 30,
+    backgroundColor: 'transparent'
   }
 })
 

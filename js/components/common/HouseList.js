@@ -30,21 +30,21 @@ class HouseList extends Component {
               <View
                 style={{flexDirection: 'row'}}
               >
-                <Text style={styles.listItemInfoDetail}>{this.props.item.area}m²</Text>
-                <Text style={[styles.listItemInfoDetail,{marginLeft: 10}]}>{this.props.item.floor}楼</Text>
-                <Text style={[styles.listItemInfoDetail,{marginLeft: 10}]}>{this.props.item.community_name}</Text>
+                <Text style={styles.listItemInfoDetail}>{this.props.item.area || '-'}m²</Text>
+                <Text style={[styles.listItemInfoDetail,{marginLeft: 10}]}>{this.props.item.floor || '-'}楼</Text>
+                <Text style={[styles.listItemInfoDetail,{marginLeft: 10}]}>{this.props.item.community_name || '-'}</Text>
               </View>
               <View
                 style={{flexDirection: 'row', marginTop: 4}}
               >
                 <Text style={[styles.listItemInfoTag]}>{this.props.item.cut || '- -'}折</Text>
-                <Text style={[styles.listItemInfoTag,{marginLeft: 10}]}>{this.props.item.circ}</Text>
-                <Text numberOfLines={1} style={[styles.listItemInfoTag,{marginLeft: 10,maxWidth: '50%'}]}>{this.props.item.asset_type}</Text>
+                <Text style={[styles.listItemInfoTag,{marginLeft: 10}]}>{this.props.item.circ || '-'}</Text>
+                <Text numberOfLines={1} style={[styles.listItemInfoTag,{marginLeft: 10,maxWidth: '50%'}]}>{this.props.item.asset_type || '-'}</Text>
               </View>
               <View
                 style={{flexDirection: 'row', marginTop: 6}}
               >
-                <Text style={styles.listItemInfoPrice}>{Math.floor(this.props.item.initialPrice / 10000)}万</Text>
+                <Text style={styles.listItemInfoPrice}>{Math.floor(this.props.item.initialPrice / 10000) || '-'}万</Text>
               </View>
             </View>
           </View>

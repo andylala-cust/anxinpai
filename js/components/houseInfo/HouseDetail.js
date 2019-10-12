@@ -38,9 +38,9 @@ class HouseDetail extends Component {
         <View style={styles.detailContainer}>
           <View style={styles.detailTagWrapper}>
             <View style={{flexDirection: 'row'}}>
-              <Text style={[styles.detailTag,{backgroundColor: '#3f59ff',color: '#fff',}]}>{this.props.cut}折</Text>
-              <Text style={[styles.detailTag,{backgroundColor: '#eef0f3',color: '#7a8fbd',}]}>{this.props.circ}</Text>
-              <Text numberOfLines={1} style={styles.detailAssetType}>{this.props.asset_type}</Text>
+              <Text style={[styles.detailTag,{backgroundColor: '#3f59ff',color: '#fff',}]}>{this.props.cut || '-'}折</Text>
+              <Text style={[styles.detailTag,{backgroundColor: '#eef0f3',color: '#7a8fbd',}]}>{this.props.circ || '-'}</Text>
+              <Text numberOfLines={1} style={styles.detailAssetType}>{this.props.asset_type || '-'}</Text>
             </View>
             <TouchableOpacity onPress={() => this.changeNotify()}>
               <View style={{flexDirection: 'row'}}>
