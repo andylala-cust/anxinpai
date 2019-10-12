@@ -148,7 +148,8 @@ class HouseDetail extends Component {
 
 const styles = StyleSheet.create({
   detailContainer: {
-    padding: 20
+    padding: 20,
+    backgroundColor: '#fff'
   },
   detailTagWrapper: {
     flexDirection: 'row',

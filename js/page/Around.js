@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   StatusBar,
-  TouchableOpacity
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import {MapView, Marker} from 'react-native-amap3d/lib/js';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -33,6 +34,13 @@ const IoniconsHeaderButton = passMeFurther => (
   <HeaderButton {...passMeFurther} IconComponent={Ionicons} iconSize={26} color="#000" />
 );
 
+const mapIcon = [
+  'http://static.yfbudong.com/edu_mapIcon.png',
+  'http://static.yfbudong.com/bus_mapIcon.png',
+  'http://static.yfbudong.com/life_mapIcon.png',
+  'http://static.yfbudong.com/medical_mapIcon.png'
+]
+
 let self;
 
 class Around extends Component {
@@ -59,8 +67,9 @@ class Around extends Component {
       latitude : '',
       longitude: '',
       title: '',
-      index: 0,
-      aroundArr: []
+      aroundArr: [],
+      toggleLoad: true, // 防止拖动地图后触发 onStatusChangeComplete,
+      sGeo: ''
     }
     this.btnPress = this.btnPress.bind(this)
     this.getMarkerData = this.getMarkerData.bind(this)
@@ -68,29 +77,109 @@ class Around extends Component {
   btnPress () {
     this.props.navigation.goBack()
   }
-  getMarkerData (params) {
-    switch (params.index) {
+  changeTabIndex (index) {
+    this.setState((state, props) => ({
+      toggleLoad: true,
+      aroundArr: [],
+      index
+    }), () => {
+      this.setState({
+        toggleLoad: false,
+      })
+      this.getMarkerData(index, this.state.sGeo)
+    })
+  }
+  getMarkerData (index, geo) {
+    switch (index) {
       case 0: {
-        _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${params.latitude},${params.longitude}&types=141202&radius=1000&offset=10&page=1&extensions=all`,true)
+        // 141202 获取高德地图附近一公里中学
+        _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=141202&radius=1000&offset=10&page=1&extensions=all`,true)
           .then(data => {
             this.setState({
               aroundArr: data.pois
             })
-            console.log(this.state.aroundArr)
+            // 141202 获取高德地图附近一公里小学
+            _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=141203&radius=1000&offset=10&page=1&extensions=all`,true)
+              .then(data => {
+                const arr = [...this.state.aroundArr]
+                arr.push(...data.pois)
+                this.setState({
+                  aroundArr: arr
+                })
+                // 141202 获取高德地图附近一公里幼儿园
+                _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=141204&radius=1000&offset=10&page=1&extensions=all`,true)
+                  .then(data => {
+                    const arr = [...this.state.aroundArr]
+                    arr.push(...data.pois)
+                    this.setState({
+                      aroundArr: arr
+                    })
+                  })
+              })
           })
+        break
+      }
+      case 1: {
+        _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=150500&radius=1000&offset=10&page=1&extensions=all`,true)
+          .then(data => {
+            this.setState({
+              aroundArr: data.pois
+            })
+            _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=150700&radius=1000&offset=10&page=1&extensions=all`,true)
+              .then(data => {
+                const arr = [...this.state.aroundArr]
+                arr.push(...data.pois)
+                this.setState({
+                  aroundArr: arr
+                })
+              })
+          })
+        break
+      }
+      case 2: {
+        _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=060100&radius=1000&offset=10&page=1&extensions=all`,true)
+          .then(data => {
+            this.setState({
+              aroundArr: data.pois
+            })
+            _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=060400&radius=1000&offset=10&page=1&extensions=all`,true)
+              .then(data => {
+                const arr = [...this.state.aroundArr]
+                arr.push(...data.pois)
+                this.setState({
+                  aroundArr: arr
+                })
+              })
+          })
+        break
+      }
+      case 3: {
+        _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=090100&radius=1000&offset=10&page=1&extensions=all`,true)
+          .then(data => {
+            this.setState({
+              aroundArr: data.pois
+            })
+            _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=090101&radius=1000&offset=10&page=1&extensions=all`,true)
+              .then(data => {
+                const arr = [...this.state.aroundArr]
+                arr.push(...data.pois)
+                this.setState({
+                  aroundArr: arr
+                })
+              })
+          })
+        break
       }
       default:
         break
     }
   }
   componentDidMount () {
-    this.setState((state, props) => ({
+    this.setState({
       latitude : this.props.navigation.getParam('latitude'),
       longitude: this.props.navigation.getParam('longitude'),
       title: this.props.navigation.getParam('title'),
       index: this.props.navigation.getParam('index')
-    }), () => {
-      this.getMarkerData(this.state)
     })
   }
   render () {
@@ -112,6 +201,19 @@ class Around extends Component {
             latitude: Number(this.state.latitude),
             longitude: Number(this.state.longitude)
           }}
+          获取地图中心坐标
+          onStatusChangeComplete={({nativeEvent}) => {
+            if (this.state.toggleLoad) {
+              const {longitude,latitude} = nativeEvent
+              this.setState((state, props) => ({
+                toggleLoad: false,
+                sGeo: `${longitude},${latitude}`
+              }), () => {
+                const index = this.props.navigation.getParam('index')
+                this.getMarkerData(index, this.state.sGeo)
+              })
+            }
+          }}
         >
           <Marker
             title={this.state.title}
@@ -120,9 +222,35 @@ class Around extends Component {
               longitude: Number(this.state.longitude)
             }}
           />
+          {
+            this.state.aroundArr.map(item => (
+              <Marker
+                title={item.name}
+                key={item.id}
+                coordinate={{
+                  latitude: Number(item.location.split(',')[1]),
+                  longitude: Number(item.location.split(',')[0])
+                }}
+                icon={() => (
+                  <View
+                    style={{
+                      position: 'relative',
+                      width: 24,
+                      height: 24,
+                    }}
+                  >
+                    <Image
+                      style={{flex: 1}}
+                      source={{uri: mapIcon[this.state.index]}}
+                    />
+                  </View>
+                )}
+              />
+            ))
+          }
         </MapView>
         <View style={styles.footerWrapper}>
-          <TouchableOpacity style={{flex: 1,justifyContent: 'center',alignItems: 'center'}}>
+          <TouchableOpacity style={{flex: 1,justifyContent: 'center',alignItems: 'center'}} onPress={() => this.changeTabIndex(0)}>
             <View style={{justifyContent: 'center',alignItems: 'center'}}>
               <Text style={[styles.text,{color: this.state.index === 0 ? '#006aff' : '#333'}]}>学校</Text>
               <Ionicons
@@ -132,7 +260,7 @@ class Around extends Component {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={{flex: 1}}>
+          <TouchableOpacity style={{flex: 1,justifyContent: 'center',alignItems: 'center'}} onPress={() => this.changeTabIndex(1)}>
             <View style={{justifyContent: 'center',alignItems: 'center'}}>
               <Text style={[styles.text,{color: this.state.index === 1 ? '#006aff' : '#333'}]}>交通</Text>
               <Ionicons
@@ -142,7 +270,7 @@ class Around extends Component {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={{flex: 1}}>
+          <TouchableOpacity style={{flex: 1,justifyContent: 'center',alignItems: 'center'}} onPress={() => this.changeTabIndex(2)}>
             <View style={{justifyContent: 'center',alignItems: 'center'}}>
               <Text style={[styles.text,{color: this.state.index === 2 ? '#006aff' : '#333'}]}>生活</Text>
               <Feather
@@ -152,7 +280,7 @@ class Around extends Component {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={{flex: 1}}>
+          <TouchableOpacity style={{flex: 1,justifyContent: 'center',alignItems: 'center'}} onPress={() => this.changeTabIndex(3)}>
             <View style={{justifyContent: 'center',alignItems: 'center'}}>
               <Text style={[styles.text,{color: this.state.index === 3 ? '#006aff' : '#333'}]}>医疗</Text>
               <MaterialCommunityIcons

@@ -89,7 +89,7 @@ class HouseProperty extends Component {
   render() {
     return (
       <View
-        style={{paddingTop: 10,paddingBottom: 10}}
+        style={{paddingTop: 10,paddingBottom: 10,backgroundColor: '#fff'}}
       >
         <Accordion
           style={{borderWidth: 0}}

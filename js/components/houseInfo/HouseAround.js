@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet,TouchableOpacity} from 'react-native';
 import {MapView, Marker} from 'react-native-amap3d/lib/js';
 import {connect} from 'react-redux';
 import {getAroundLayout} from '../../action/houseInfo/actionCreators';
@@ -31,7 +31,7 @@ class HouseAround extends Component {
   render () {
     return (
       <View onLayout={event => this.handleLayout(event)}>
-        <View style={{padding: 25}}>
+        <View style={{padding: 25,backgroundColor: '#fff'}}>
           <View>
             <Text style={{fontSize: 17,fontWeight: 'bold'}}>周边配套</Text>
           </View>
@@ -87,10 +87,26 @@ class HouseAround extends Component {
           // }}
         >
           <View style={styles.bottomWrapper}>
-            <Text style={styles.bottomTitle} onPress={() => this.showAround(0)}>学校</Text>
-            <Text style={styles.bottomTitle} onPress={() => this.showAround(1)}>交通</Text>
-            <Text style={styles.bottomTitle} onPress={() => this.showAround(2)}>生活</Text>
-            <Text style={styles.bottomTitle} onPress={() => this.showAround(3)}>医疗</Text>
+            <TouchableOpacity style={{flex: 1}} onPress={() => this.showAround(0)}>
+              <View>
+                <Text style={styles.bottomTitle}>学校</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={{flex: 1}} onPress={() => this.showAround(1)}>
+              <View>
+                <Text style={styles.bottomTitle}>交通</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={{flex: 1}} onPress={() => this.showAround(2)}>
+              <View>
+                <Text style={styles.bottomTitle}>生活</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={{flex: 1}} onPress={() => this.showAround(3)}>
+              <View>
+                <Text style={styles.bottomTitle}>医疗</Text>
+              </View>
+            </TouchableOpacity>
           </View>
           <View
             style={styles.mask}

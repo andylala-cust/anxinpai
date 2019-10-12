@@ -237,7 +237,7 @@ class HouseInfo extends Component {
           showsVerticalScrollIndicator={false}
           ref={(view) => {this.scrollView = view}}
           scrollEventThrottle={1}
-          style={{marginBottom: TAB_BAR_HEIGHT+80}}
+          style={{marginBottom: TAB_BAR_HEIGHT+80,backgroundColor: '#f8f8f9'}}
           onScroll={(e) => this.handleScroll(e)}
         >
           <StatusBar

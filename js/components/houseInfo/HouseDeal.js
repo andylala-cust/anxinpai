@@ -12,7 +12,7 @@ class HouseDeal extends Component {
   }
   render () {
     return (
-      <View style={{position: 'relative',paddingLeft: 25,paddingRight: 25}}>
+      <View style={{position: 'relative',paddingLeft: 25,paddingRight: 25,backgroundColor: '#fff'}}>
         <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',marginBottom: 10}}>
           <Text style={{fontWeight: 'bold'}}>同区域成交</Text>
           <TouchableOpacity

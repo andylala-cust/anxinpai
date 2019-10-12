@@ -40,6 +40,7 @@ class HouseInfoFooter extends Component {
             <MaterialIcons
               name={'info-outline'}
               size={14}
+              style={{color: '#807e7e'}}
             />
             <Text style={{color: '#807e7e',marginLeft: 5}}>房源号  {this.props.id}</Text>
           </View>
@@ -50,6 +51,9 @@ class HouseInfoFooter extends Component {
               <Text style={{fontWeight: 'bold',color: '#006aff'}}>复制房源号</Text>
             </View>
           </TouchableOpacity>
+        </View>
+        <View style={styles.tipWrapper}>
+          <Text style={styles.text}>周边配套中学校、交通、生活、医疗相关的数据均来源于高德地图。</Text>
         </View>
       </View>
     )
@@ -65,6 +69,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  tipWrapper: {
+    marginTop: 20
+  },
+  text: {
+    fontSize: 12,
+    lineHeight: 20,
+    color: '#cbcbcb'
   }
 })
 

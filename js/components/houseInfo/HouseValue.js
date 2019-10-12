@@ -27,12 +27,12 @@ class HouseValue extends Component {
   render () {
     return (
       <View onLayout={event => this.handleLayout(event)}>
-        <View style={{padding: 25}}>
+        <View style={{padding: 25,backgroundColor: '#fff'}}>
           <View>
             <Text style={{fontSize: 17,fontWeight: 'bold'}}>房产价值</Text>
           </View>
         </View>
-        <View style={{position: 'relative',paddingLeft: 25,paddingRight: 25}}>
+        <View style={{position: 'relative',paddingLeft: 25,paddingRight: 25,backgroundColor: '#fff'}}>
           <View>
             <Text style={{marginBottom: 10,fontWeight: 'bold'}}>交易记录</Text>
           </View>
