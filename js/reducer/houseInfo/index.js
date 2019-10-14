@@ -1,5 +1,6 @@
 import {
   HOUSEINFO_COURT_URl,
+  HOUSEINFO_VALUE_URL,
   HOUSEINFO_GET_BASE_LAYOUT,
   HOUSEINFO_GET_COURT_LAYOUT,
   HOUSEINFO_GET_VALUE_LAYOUT,
@@ -13,6 +14,7 @@ import {
 
 const defaultState = {
   courtUrl: '',
+  houseValueUrl: '',
   baseLayout: 0,
   courtLayout: 0,
   valueLayout: 0,
@@ -29,6 +31,12 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         courtUrl: action.value
+      }
+    }
+    case HOUSEINFO_VALUE_URL: {
+      return {
+        ...state,
+        houseValueUrl: action.value
       }
     }
     case HOUSEINFO_GET_BASE_LAYOUT: {

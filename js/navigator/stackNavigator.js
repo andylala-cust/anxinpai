@@ -2,13 +2,16 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {connect} from 'react-redux';
 import {createReactNavigationReduxMiddleware,createReduxContainer} from 'react-navigation-redux-helpers';
 import {Tab} from './bottomTabNavigator';
-import Info from '../page/Info';
-import Detail from '../page/Detail';
-import More from '../page/More';
-import HouseInfo from '../page/HouseInfo';
-import Demo from '../page/Demo';
-import Court from  '../page/Court';
-import Around from '../page/Around';
+import {
+  Info,
+  Detail,
+  More,
+  HouseInfo,
+  Demo,
+  Court,
+  Around,
+  HouseValue
+} from '../page';
 
 export const rootCom = 'Tab';
 
@@ -26,7 +29,8 @@ export const StackNavigator = createStackNavigator({
   HouseInfo,
   Demo,
   Court,
-  Around
+  Around,
+  HouseValue
 }, {
   headerMode: 'float',
   headerTransitionPreset: 'uikit',

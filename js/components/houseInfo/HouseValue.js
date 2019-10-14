@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {getValueLayout} from '../../action/houseInfo/actionCreators';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 let self;
 
@@ -27,12 +28,24 @@ class HouseValue extends Component {
   render () {
     return (
       <View onLayout={event => this.handleLayout(event)}>
-        <View style={{padding: 25,backgroundColor: '#fff'}}>
+        <View style={{padding: 20,backgroundColor: '#fff',flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center'}}>
           <View>
             <Text style={{fontSize: 17,fontWeight: 'bold'}}>房产价值</Text>
           </View>
+          <TouchableOpacity onPress={() => {
+            this.props.navigation.navigate('HouseValue')
+          }}>
+            <View style={{flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
+              <Text style={{marginRight: 5,color: '#807e7e', fontSize: 12}}>查看更多</Text>
+              <Ionicons
+                name={'ios-arrow-forward'}
+                size={14}
+                color={'#807e7e'}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
-        <View style={{position: 'relative',paddingLeft: 25,paddingRight: 25,backgroundColor: '#fff'}}>
+        <View style={{position: 'relative',paddingLeft: 20,paddingRight: 20,backgroundColor: '#fff'}}>
           <View>
             <Text style={{marginBottom: 10,fontWeight: 'bold'}}>交易记录</Text>
           </View>

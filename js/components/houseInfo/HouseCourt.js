@@ -19,7 +19,7 @@ class HouseCourt extends Component {
   render () {
     return (
       <View onLayout={event => this.handleLayout(event)}>
-        <View style={{padding: 25,backgroundColor: '#fff'}}>
+        <View style={{padding: 20,backgroundColor: '#fff'}}>
           <View>
             <Text style={{fontSize: 17,fontWeight: 'bold'}}>法院公告</Text>
           </View>

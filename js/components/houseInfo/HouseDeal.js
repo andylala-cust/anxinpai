@@ -12,7 +12,7 @@ class HouseDeal extends Component {
   }
   render () {
     return (
-      <View style={{position: 'relative',paddingLeft: 25,paddingRight: 25,backgroundColor: '#fff'}}>
+      <View style={{position: 'relative',paddingLeft: 20,paddingRight: 20,backgroundColor: '#fff'}}>
         <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',marginBottom: 10}}>
           <Text style={{fontWeight: 'bold'}}>同区域成交</Text>
           <TouchableOpacity
@@ -31,7 +31,7 @@ class HouseDeal extends Component {
           </TouchableOpacity>
         </View>
         {
-          this.props.houseDealArr.map((item, index) => (
+          this.props.houseDealArr ? this.props.houseDealArr.map((item, index) => (
             <TouchableOpacity
               key={item.id}
               activeOpacity={1}
@@ -64,7 +64,9 @@ class HouseDeal extends Component {
                 </View>
               </View>
             </TouchableOpacity>
-          ))
+          )) : <View style={{paddingTop: 10,paddingBottom: 10}}>
+            <Text style={{color: '#ccc'}}>暂无交易记录</Text>
+          </View>
         }
       </View>
     )

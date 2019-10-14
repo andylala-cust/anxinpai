@@ -3,6 +3,12 @@ import {Text, View, StyleSheet,TouchableOpacity} from 'react-native';
 import {MapView, Marker} from 'react-native-amap3d/lib/js';
 import {connect} from 'react-redux';
 import {getAroundLayout} from '../../action/houseInfo/actionCreators';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import _fetch from '../../fetch';
+
+const GAODE_KEY = '29de9219429c6425c5cfd872e54e3838';  // 高德地图KEY
 
 let self;
 
@@ -11,10 +17,112 @@ class HouseAround extends Component {
     super(props)
     self = this
     this.state = {
-      aroundList: []
+      aroundList: [],
+      kidSchoolArr: [{}],
+      schoolArr: [{}],
+      middleSchoolArr: [{}],
+      subwayArr: [{}],
+      busArr: [{}],
+      marketArr: [{}],
+      medicalArr: [{}]
     }
+    this.getKidSchollData = this.getKidSchollData.bind(this)
+    this.getSchoolData = this.getSchoolData.bind(this)
+    this.getMiddleSchoolData = this.getMiddleSchoolData.bind(this)
+    this.getSubwayData = this.getSubwayData.bind(this)
+    this.getBusData = this.getBusData.bind(this)
+    this.getMarketData = this.getMarketData.bind(this)
+    this.getMedicalData = this.getMedicalData.bind(this)
     this.showAround = this.showAround.bind(this)
     this.handleLayout = this.handleLayout.bind(this)
+  }
+  getKidSchollData (nextProps) {
+    const geo = `${nextProps.latitude},${nextProps.longitude}`
+    // 141204 按距离排序，获取高德地图附近一公里幼儿园
+    _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=141204&radius=1000&offset=10&page=1&sortrule=distance&extensions=all`,true)
+      .then(data => {
+        this.setState({
+          kidSchoolArr: data.pois.length ? data.pois : [{}]
+        })
+      })
+  }
+  getSchoolData (nextProps) {
+    const geo = `${nextProps.latitude},${nextProps.longitude}`
+    // 141203 按距离排序，获取高德地图附近一公里小学
+    _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=141203&radius=1000&offset=10&page=1&sortrule=distance&extensions=all`,true)
+      .then(data => {
+        this.setState({
+          schoolArr: data.pois.length ? data.pois : [{}]
+        })
+      })
+  }
+  getMiddleSchoolData (nextProps) {
+    const geo = `${nextProps.latitude},${nextProps.longitude}`
+    // 141202 按距离排序，获取高德地图附近一公里中学
+    _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=141202&radius=1000&offset=10&page=1&sortrule=distance&extensions=all`,true)
+      .then(data => {
+        this.setState({
+          middleSchoolArr: data.pois.length ? data.pois : [{}]
+        })
+      })
+  }
+  // 按距离排序
+  getSubwayData (nextProps) {
+    const geo = `${nextProps.latitude},${nextProps.longitude}`
+    _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=150500&radius=1000&offset=10&page=1&sortrule=distance&extensions=all`,true)
+      .then(data => {
+        this.setState({
+          subwayArr: data.pois.length ? data.pois : [{}]
+        })
+      })
+  }
+  // 按距离排序
+  getBusData (nextProps) {
+    const geo = `${nextProps.latitude},${nextProps.longitude}`
+    _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=150700&radius=1000&offset=10&page=1&sortrule=distance&extensions=all`,true)
+      .then(data => {
+        this.setState({
+          busArr: data.pois.length ? data.pois : [{}]
+        })
+      })
+  }
+  // 按距离排序
+  getMarketData (nextProps) {
+    const geo = `${nextProps.latitude},${nextProps.longitude}`
+    _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=060100&radius=1000&offset=10&page=1&sortrule=distance&extensions=all`,true)
+      .then(data => {
+        if (data.pois.length) {
+          this.setState({
+            marketArr: data.pois
+          })
+        } else {
+          _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=060400&radius=1000&offset=10&page=1&sortrule=distance&extensions=all`,true)
+            .then(data => {
+              this.setState({
+                marketArr: data.pois.length ? data.pois : [{}]
+              })
+            })
+        }
+      })
+  }
+  // 按距离排序
+  getMedicalData (nextProps) {
+    const geo = `${nextProps.latitude},${nextProps.longitude}`
+    _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=090100&radius=1000&offset=10&page=1&sortrule=distance&extensions=all`,true)
+      .then(data => {
+        if (data.pois.length) {
+          this.setState({
+            medicalArr: data.pois
+          })
+        } else {
+          _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=090101&radius=1000&offset=10&page=1&sortrule=distance&extensions=all`,true)
+            .then(data => {
+              this.setState({
+                medicalArr: data.pois.length ? data.pois : [{}]
+              })
+            })
+        }
+      })
   }
   showAround (index) {
     this.props.navigation.navigate('Around', {
@@ -28,10 +136,19 @@ class HouseAround extends Component {
     this.aroundLayout = event.nativeEvent.layout
     this.props._getAroundLayout()
   }
+  componentWillReceiveProps (nextProps) {
+    this.getKidSchollData(nextProps)
+    this.getSchoolData(nextProps)
+    this.getMiddleSchoolData(nextProps)
+    this.getSubwayData(nextProps)
+    this.getBusData(nextProps)
+    this.getMarketData(nextProps)
+    this.getMedicalData(nextProps)
+  }
   render () {
     return (
       <View onLayout={event => this.handleLayout(event)}>
-        <View style={{padding: 25,backgroundColor: '#fff'}}>
+        <View style={{padding: 20,backgroundColor: '#fff'}}>
           <View>
             <Text style={{fontSize: 17,fontWeight: 'bold'}}>周边配套</Text>
           </View>
@@ -204,6 +321,104 @@ class HouseAround extends Component {
           {/*  })*/}
           {/*}*/}
         </MapView>
+        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,flexDirection: 'row',borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
+          <View style={{justifyContent: 'space-between',alignItems: 'center',width: 60}}>
+            <MaterialCommunityIcons
+              name={'human-child'}
+              size={26}
+              color={'#ea7e7d'}
+            />
+            <Text>幼儿园</Text>
+          </View>
+          <View style={{flex: 1,marginLeft: 20,justifyContent: 'space-between'}}>
+            <Text style={{fontWeight: 'bold'}}>{this.state.kidSchoolArr[0].name || '暂无数据'}</Text>
+            <Text style={{color: '#959595'}}>{this.state.kidSchoolArr[0].distance || '-'}米</Text>
+          </View>
+        </View>
+        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,flexDirection: 'row',borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
+          <View style={{justifyContent: 'space-between',alignItems: 'center',width: 60}}>
+            <Ionicons
+              name={'md-school'}
+              size={26}
+              color={'#ea7e7d'}
+            />
+            <Text>小学</Text>
+          </View>
+          <View style={{flex: 1,marginLeft: 20,justifyContent: 'space-between'}}>
+            <Text style={{fontWeight: 'bold'}}>{this.state.schoolArr[0].name || '暂无数据'}</Text>
+            <Text style={{color: '#959595'}}>{this.state.schoolArr[0].distance || '-'}米</Text>
+          </View>
+        </View>
+        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,flexDirection: 'row',borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
+          <View style={{justifyContent: 'space-between',alignItems: 'center',width: 60}}>
+            <Ionicons
+              name={'ios-school'}
+              size={26}
+              color={'#ea7e7d'}
+            />
+            <Text>中学</Text>
+          </View>
+          <View style={{flex: 1,marginLeft: 20,justifyContent: 'space-between'}}>
+            <Text style={{fontWeight: 'bold'}}>{this.state.middleSchoolArr[0].name || '暂无数据'}</Text>
+            <Text style={{color: '#959595'}}>{this.state.middleSchoolArr[0].distance || '-'}米</Text>
+          </View>
+        </View>
+        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,flexDirection: 'row',borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
+          <View style={{justifyContent: 'space-between',alignItems: 'center',width: 60}}>
+            <Ionicons
+              name={'ios-subway'}
+              size={26}
+              color={'#ea7e7d'}
+            />
+            <Text>地铁站</Text>
+          </View>
+          <View style={{flex: 1,marginLeft: 20,justifyContent: 'space-between'}}>
+            <Text style={{fontWeight: 'bold'}}>{this.state.subwayArr[0].name || '暂无数据'}</Text>
+            <Text style={{color: '#959595'}}>{this.state.subwayArr[0].distance || '-'}米</Text>
+          </View>
+        </View>
+        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,flexDirection: 'row',borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
+          <View style={{justifyContent: 'space-between',alignItems: 'center',width: 60}}>
+            <Ionicons
+              name={'ios-bus'}
+              size={26}
+              color={'#ea7e7d'}
+            />
+            <Text>公交站</Text>
+          </View>
+          <View style={{flex: 1,marginLeft: 20,justifyContent: 'space-between'}}>
+            <Text style={{fontWeight: 'bold'}}>{this.state.busArr[0].name || '暂无数据'}</Text>
+            <Text style={{color: '#959595'}}>{this.state.busArr[0].distance || '-'}米</Text>
+          </View>
+        </View>
+        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,flexDirection: 'row',borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
+          <View style={{justifyContent: 'space-between',alignItems: 'center',width: 60}}>
+            <FontAwesome
+              name={'shopping-cart'}
+              size={22}
+              color={'#ea7e7d'}
+            />
+            <Text>商场</Text>
+          </View>
+          <View style={{flex: 1,marginLeft: 20,justifyContent: 'space-between'}}>
+            <Text style={{fontWeight: 'bold'}}>{this.state.marketArr[0].name || '暂无数据'}</Text>
+            <Text style={{color: '#959595'}}>{this.state.marketArr[0].distance || '-'}米</Text>
+          </View>
+        </View>
+        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,flexDirection: 'row',borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
+          <View style={{justifyContent: 'space-between',alignItems: 'center',width: 60}}>
+            <MaterialCommunityIcons
+              name={'medical-bag'}
+              size={24}
+              color={'#ea7e7d'}
+            />
+            <Text>医院</Text>
+          </View>
+          <View style={{flex: 1,marginLeft: 20,justifyContent: 'space-between'}}>
+            <Text style={{fontWeight: 'bold'}}>{this.state.medicalArr[0].name || '暂无数据'}</Text>
+            <Text style={{color: '#959595'}}>{this.state.medicalArr[0].distance || '-'}米</Text>
+          </View>
+        </View>
       </View>
     )
   }

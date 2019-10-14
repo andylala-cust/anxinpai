@@ -56,7 +56,7 @@ class Around extends Component {
         <Item title="back" iconName="ios-arrow-back" onPress={() => self.btnPress()}/>
       </HeaderButtons>
     ),
-    headerRight: null,
+    headerRight: <View />,
     // 安卓沉浸式状态栏适配
     headerStyle: STATUSBAR_STYLE
   }
@@ -98,7 +98,7 @@ class Around extends Component {
             this.setState({
               aroundArr: data.pois
             })
-            // 141202 获取高德地图附近一公里小学
+            // 141203 获取高德地图附近一公里小学
             _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=141203&radius=1000&offset=10&page=1&extensions=all`,true)
               .then(data => {
                 const arr = [...this.state.aroundArr]
@@ -106,7 +106,7 @@ class Around extends Component {
                 this.setState({
                   aroundArr: arr
                 })
-                // 141202 获取高德地图附近一公里幼儿园
+                // 141204 获取高德地图附近一公里幼儿园
                 _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=141204&radius=1000&offset=10&page=1&extensions=all`,true)
                   .then(data => {
                     const arr = [...this.state.aroundArr]

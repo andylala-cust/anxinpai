@@ -1,5 +1,6 @@
 import {
   HOUSEINFO_COURT_URl,
+  HOUSEINFO_VALUE_URL,
   HOUSEINFO_GET_BASE_LAYOUT,
   HOUSEINFO_GET_COURT_LAYOUT,
   HOUSEINFO_GET_VALUE_LAYOUT,
@@ -15,6 +16,11 @@ export const updateCourtUrl = (value) => ({
   type: HOUSEINFO_COURT_URl,
   value
 });
+
+export const updateValueUrl = (value) => ({
+  type: HOUSEINFO_VALUE_URL,
+  value
+})
 
 export const getBaseLayout = (value) => ({
   type: HOUSEINFO_GET_BASE_LAYOUT,

@@ -24,7 +24,7 @@ import {
   HouseInfoFooter
 } from '../components/houseInfo';
 import {connect} from 'react-redux';
-import {updateCourtUrl,updatePreviewList,updateHouseProperty} from '../action/houseInfo/actionCreators';
+import {updateCourtUrl,updateValueUrl,updatePreviewList,updateHouseProperty} from '../action/houseInfo/actionCreators';
 import _fetch from '../fetch';
 import {queryString} from '../util';
 
@@ -223,6 +223,7 @@ class HouseInfo extends Component {
     this.getHouseSchool()
     this.getCourtDoc()
     this.props._updateCourtUrl()
+    this.props._updateValueUrl()
   }
   componentWillMount () {
     this.setState({
@@ -256,7 +257,7 @@ class HouseInfo extends Component {
           <Split />
           <HouseCourt {...this.state.courtDoc} handleWebViewClick={this.handleWebViewClick} />
           <Split />
-          <HouseValue houseStatusArr={this.state.houseStatusArr} />
+          <HouseValue houseStatusArr={this.state.houseStatusArr} navigation={this.props.navigation} />
           <HouseDeal houseDealArr={this.state.houseDealArr} navigation={this.props.navigation} />
           <HouseProperty />
           <Split />
@@ -346,6 +347,11 @@ const mapDispatchToProps = dispatch => ({
   _updateCourtUrl () {
     const {id} = self.props.navigation.state.params
     const action = updateCourtUrl(`http://www.yfbudong.com/m_index.html#/court/${id}`)
+    dispatch(action)
+  },
+  _updateValueUrl () {
+    const {id} = self.props.navigation.state.params
+    const action = updateValueUrl(`http://www.yfbudong.com/m_index.html#/houseValue/${id}`)
     dispatch(action)
   },
   _updatePreviewList (value) {

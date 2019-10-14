@@ -53,7 +53,8 @@ class HouseInfoFooter extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.tipWrapper}>
-          <Text style={styles.text}>周边配套中学校、交通、生活、医疗相关的数据均来源于高德地图。</Text>
+          <Text style={styles.text}>1.房源所示“税费，小区，年代，风险价，收益空间”仅供参考，购房时请以实际交易情况为准。</Text>
+          <Text style={styles.text}>2.周边配套中学校、交通、生活、医疗相关的数据均来源于高德地图。</Text>
         </View>
       </View>
     )
