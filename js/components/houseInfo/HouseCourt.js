@@ -30,31 +30,25 @@ class HouseCourt extends Component {
           style={{height: 300}}
           source={{html: `${this.props.desc}${this.props.announce}`}}
         />
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={this.props.handleWebViewClick}
+        <LinearGradient
+          colors={['hsla(0,0%,100%,.8)', 'hsla(0,0%,100%,1)']}
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            width: '100%',
+            height: 100,
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
         >
-          <View>
-            <LinearGradient
-              colors={['hsla(0,0%,100%,.8)', 'hsla(0,0%,100%,1)']}
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                width: '100%',
-                height: 100,
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}
-            >
-              <Text
-                style={{fontWeight: 'bold'}}
-              >
-                查看更多
-              </Text>
-            </LinearGradient>
-          </View>
-        </TouchableOpacity>
+          <Text
+            style={{flex: 1,width: '100%',fontWeight: 'bold',lineHeight: 100,textAlign: 'center'}}
+            onPress={this.props.handleWebViewClick}
+          >
+            查看更多
+          </Text>
+        </LinearGradient>
       </View>
     )
   }

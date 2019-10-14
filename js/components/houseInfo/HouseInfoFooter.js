@@ -13,7 +13,8 @@ class HouseInfoFooter extends Component {
   }
   handleCopy () {
     this.timer && clearTimeout(this.timer)
-    Clipboard.setString(this.props.id)
+    // 切记toString()，否则安卓会报错
+    Clipboard.setString(this.props.id.toString())
     this.setState({
       toastVisible: true
     })

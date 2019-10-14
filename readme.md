@@ -36,9 +36,23 @@ componentWillReceiveProps (nextProps) {
 
 解决方案：在 Swiper 加上 removeClippedSubviews={false}
 
-### react-native-amap问题
+## react-native-amap问题
+
+### 问题1、
 
 在ios中定位按钮和缩放按钮不显示，因为ios没提供sdk，需要自定义
+
+### 问题2、
+
+在设置地图中Marker的偏移量，在ios中使用centerOffset,在安卓中使用anchor，
+
+centerOffset的用法请参见
+
+https://github.com/qiuxiang/react-native-amap3d/blob/v0.7.0/components/maps/Marker.js#L92
+
+anchor的用法请参见 
+
+https://github.com/qiuxiang/react-native-amap3d/issues/65
 
 ## react-native-webview
 
