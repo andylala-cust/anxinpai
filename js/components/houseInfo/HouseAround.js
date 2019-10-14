@@ -321,102 +321,158 @@ class HouseAround extends Component {
           {/*  })*/}
           {/*}*/}
         </MapView>
-        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,flexDirection: 'row',borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
-          <View style={{justifyContent: 'space-between',alignItems: 'center',width: 60}}>
-            <MaterialCommunityIcons
-              name={'human-child'}
-              size={26}
-              color={'#ea7e7d'}
-            />
-            <Text>幼儿园</Text>
+        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
+          <View style={{flexDirection: 'row',alignItems: 'center'}}>
+            <View style={{justifyContent: 'center',alignItems: 'center',width: 60}}>
+              <MaterialCommunityIcons
+                name={'human-child'}
+                size={26}
+                color={'#ea7e7d'}
+              />
+            </View>
+            <View style={{flex: 1,marginLeft: 20}}>
+              <Text style={{fontWeight: 'bold'}}>{this.state.kidSchoolArr[0].name || '暂无数据'}</Text>
+            </View>
           </View>
-          <View style={{flex: 1,marginLeft: 20,justifyContent: 'space-between'}}>
-            <Text style={{fontWeight: 'bold'}}>{this.state.kidSchoolArr[0].name || '暂无数据'}</Text>
-            <Text style={{color: '#959595'}}>{this.state.kidSchoolArr[0].distance || '-'}米</Text>
-          </View>
-        </View>
-        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,flexDirection: 'row',borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
-          <View style={{justifyContent: 'space-between',alignItems: 'center',width: 60}}>
-            <Ionicons
-              name={'md-school'}
-              size={26}
-              color={'#ea7e7d'}
-            />
-            <Text>小学</Text>
-          </View>
-          <View style={{flex: 1,marginLeft: 20,justifyContent: 'space-between'}}>
-            <Text style={{fontWeight: 'bold'}}>{this.state.schoolArr[0].name || '暂无数据'}</Text>
-            <Text style={{color: '#959595'}}>{this.state.schoolArr[0].distance || '-'}米</Text>
+          <View style={{flexDirection: 'row',alignItems: 'center'}}>
+            <View style={{justifyContent: 'center',alignItems: 'center',width: 60}}>
+              <Text style={{textAlign: 'center'}}>幼儿园</Text>
+            </View>
+            <View style={{flex: 1,marginLeft: 20}}>
+              <Text style={{flex: 1,color: '#959595'}}>{this.state.kidSchoolArr[0].distance || '-'}米</Text>
+            </View>
           </View>
         </View>
-        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,flexDirection: 'row',borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
-          <View style={{justifyContent: 'space-between',alignItems: 'center',width: 60}}>
-            <Ionicons
-              name={'ios-school'}
-              size={26}
-              color={'#ea7e7d'}
-            />
-            <Text>中学</Text>
+        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
+          <View style={{flexDirection: 'row',alignItems: 'center'}}>
+            <View style={{justifyContent: 'center',alignItems: 'center',width: 60}}>
+              <Ionicons
+                name={'md-school'}
+                size={26}
+                color={'#ea7e7d'}
+              />
+            </View>
+            <View style={{flex: 1,marginLeft: 20}}>
+              <Text style={{fontWeight: 'bold'}}>{this.state.schoolArr[0].name || '暂无数据'}</Text>
+            </View>
           </View>
-          <View style={{flex: 1,marginLeft: 20,justifyContent: 'space-between'}}>
-            <Text style={{fontWeight: 'bold'}}>{this.state.middleSchoolArr[0].name || '暂无数据'}</Text>
-            <Text style={{color: '#959595'}}>{this.state.middleSchoolArr[0].distance || '-'}米</Text>
-          </View>
-        </View>
-        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,flexDirection: 'row',borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
-          <View style={{justifyContent: 'space-between',alignItems: 'center',width: 60}}>
-            <Ionicons
-              name={'ios-subway'}
-              size={26}
-              color={'#ea7e7d'}
-            />
-            <Text>地铁站</Text>
-          </View>
-          <View style={{flex: 1,marginLeft: 20,justifyContent: 'space-between'}}>
-            <Text style={{fontWeight: 'bold'}}>{this.state.subwayArr[0].name || '暂无数据'}</Text>
-            <Text style={{color: '#959595'}}>{this.state.subwayArr[0].distance || '-'}米</Text>
+          <View style={{flexDirection: 'row',alignItems: 'center'}}>
+            <View style={{justifyContent: 'center',alignItems: 'center',width: 60}}>
+              <Text style={{textAlign: 'center'}}>小学</Text>
+            </View>
+            <View style={{flex: 1,marginLeft: 20}}>
+              <Text style={{flex: 1,color: '#959595'}}>{this.state.schoolArr[0].distance || '-'}米</Text>
+            </View>
           </View>
         </View>
-        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,flexDirection: 'row',borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
-          <View style={{justifyContent: 'space-between',alignItems: 'center',width: 60}}>
-            <Ionicons
-              name={'ios-bus'}
-              size={26}
-              color={'#ea7e7d'}
-            />
-            <Text>公交站</Text>
+        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
+          <View style={{flexDirection: 'row',alignItems: 'center'}}>
+            <View style={{justifyContent: 'center',alignItems: 'center',width: 60}}>
+              <Ionicons
+                name={'ios-school'}
+                size={26}
+                color={'#ea7e7d'}
+              />
+            </View>
+            <View style={{flex: 1,marginLeft: 20}}>
+              <Text style={{fontWeight: 'bold'}}>{this.state.middleSchoolArr[0].name || '暂无数据'}</Text>
+            </View>
           </View>
-          <View style={{flex: 1,marginLeft: 20,justifyContent: 'space-between'}}>
-            <Text style={{fontWeight: 'bold'}}>{this.state.busArr[0].name || '暂无数据'}</Text>
-            <Text style={{color: '#959595'}}>{this.state.busArr[0].distance || '-'}米</Text>
-          </View>
-        </View>
-        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,flexDirection: 'row',borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
-          <View style={{justifyContent: 'space-between',alignItems: 'center',width: 60}}>
-            <FontAwesome
-              name={'shopping-cart'}
-              size={22}
-              color={'#ea7e7d'}
-            />
-            <Text>商场</Text>
-          </View>
-          <View style={{flex: 1,marginLeft: 20,justifyContent: 'space-between'}}>
-            <Text style={{fontWeight: 'bold'}}>{this.state.marketArr[0].name || '暂无数据'}</Text>
-            <Text style={{color: '#959595'}}>{this.state.marketArr[0].distance || '-'}米</Text>
+          <View style={{flexDirection: 'row',alignItems: 'center'}}>
+            <View style={{justifyContent: 'center',alignItems: 'center',width: 60}}>
+              <Text style={{textAlign: 'center'}}>中学</Text>
+            </View>
+            <View style={{flex: 1,marginLeft: 20}}>
+              <Text style={{flex: 1,color: '#959595'}}>{this.state.middleSchoolArr[0].distance || '-'}米</Text>
+            </View>
           </View>
         </View>
-        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,flexDirection: 'row',borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
-          <View style={{justifyContent: 'space-between',alignItems: 'center',width: 60}}>
-            <MaterialCommunityIcons
-              name={'medical-bag'}
-              size={24}
-              color={'#ea7e7d'}
-            />
-            <Text>医院</Text>
+        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
+          <View style={{flexDirection: 'row',alignItems: 'center'}}>
+            <View style={{justifyContent: 'center',alignItems: 'center',width: 60}}>
+              <Ionicons
+                name={'ios-subway'}
+                size={26}
+                color={'#ea7e7d'}
+              />
+            </View>
+            <View style={{flex: 1,marginLeft: 20}}>
+              <Text style={{fontWeight: 'bold'}}>{this.state.subwayArr[0].name || '暂无数据'}</Text>
+            </View>
           </View>
-          <View style={{flex: 1,marginLeft: 20,justifyContent: 'space-between'}}>
-            <Text style={{fontWeight: 'bold'}}>{this.state.medicalArr[0].name || '暂无数据'}</Text>
-            <Text style={{color: '#959595'}}>{this.state.medicalArr[0].distance || '-'}米</Text>
+          <View style={{flexDirection: 'row',alignItems: 'center'}}>
+            <View style={{justifyContent: 'center',alignItems: 'center',width: 60}}>
+              <Text style={{textAlign: 'center'}}>地铁站</Text>
+            </View>
+            <View style={{flex: 1,marginLeft: 20}}>
+              <Text style={{flex: 1,color: '#959595'}}>{this.state.subwayArr[0].distance || '-'}米</Text>
+            </View>
+          </View>
+        </View>
+        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
+          <View style={{flexDirection: 'row',alignItems: 'center'}}>
+            <View style={{justifyContent: 'center',alignItems: 'center',width: 60}}>
+              <Ionicons
+                name={'ios-bus'}
+                size={26}
+                color={'#ea7e7d'}
+              />
+            </View>
+            <View style={{flex: 1,marginLeft: 20}}>
+              <Text style={{fontWeight: 'bold'}}>{this.state.busArr[0].name || '暂无数据'}</Text>
+            </View>
+          </View>
+          <View style={{flexDirection: 'row',alignItems: 'center'}}>
+            <View style={{justifyContent: 'center',alignItems: 'center',width: 60}}>
+              <Text style={{textAlign: 'center'}}>公交站</Text>
+            </View>
+            <View style={{flex: 1,marginLeft: 20}}>
+              <Text style={{flex: 1,color: '#959595'}}>{this.state.busArr[0].distance || '-'}米</Text>
+            </View>
+          </View>
+        </View>
+        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
+          <View style={{flexDirection: 'row',alignItems: 'center'}}>
+            <View style={{justifyContent: 'center',alignItems: 'center',width: 60}}>
+              <FontAwesome
+                name={'shopping-cart'}
+                size={22}
+                color={'#ea7e7d'}
+              />
+            </View>
+            <View style={{flex: 1,marginLeft: 20}}>
+              <Text style={{fontWeight: 'bold'}}>{this.state.marketArr[0].name || '暂无数据'}</Text>
+            </View>
+          </View>
+          <View style={{flexDirection: 'row',alignItems: 'center'}}>
+            <View style={{justifyContent: 'center',alignItems: 'center',width: 60}}>
+              <Text style={{textAlign: 'center'}}>商场</Text>
+            </View>
+            <View style={{flex: 1,marginLeft: 20}}>
+              <Text style={{flex: 1,color: '#959595'}}>{this.state.marketArr[0].distance || '-'}米</Text>
+            </View>
+          </View>
+        </View>
+        <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
+          <View style={{flexDirection: 'row',alignItems: 'center'}}>
+            <View style={{justifyContent: 'center',alignItems: 'center',width: 60}}>
+              <MaterialCommunityIcons
+                name={'medical-bag'}
+                size={24}
+                color={'#ea7e7d'}
+              />
+            </View>
+            <View style={{flex: 1,marginLeft: 20}}>
+              <Text style={{fontWeight: 'bold'}}>{this.state.medicalArr[0].name || '暂无数据'}</Text>
+            </View>
+          </View>
+          <View style={{flexDirection: 'row',alignItems: 'center'}}>
+            <View style={{justifyContent: 'center',alignItems: 'center',width: 60}}>
+              <Text style={{textAlign: 'center'}}>医院</Text>
+            </View>
+            <View style={{flex: 1,marginLeft: 20}}>
+              <Text style={{flex: 1,color: '#959595'}}>{this.state.medicalArr[0].distance || '-'}米</Text>
+            </View>
           </View>
         </View>
       </View>
