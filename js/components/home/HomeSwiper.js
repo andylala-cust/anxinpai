@@ -25,7 +25,6 @@ class HomeSwiper extends Component {
         }
         <Swiper
           autoplay={true}
-          style={styles.wrapper}
           key={this.props.bannerList.length}
           removeClippedSubviews={false}
           paginationStyle={{bottom: 3}} // 分页器位置
@@ -69,6 +68,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 5,
+    marginBottom: 20
   }
 })
 

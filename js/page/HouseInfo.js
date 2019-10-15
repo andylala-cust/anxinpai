@@ -4,7 +4,8 @@ import {
   Text,
   TouchableOpacity,
   StatusBar,
-  ScrollView
+  ScrollView,
+  ART
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -28,6 +29,7 @@ import {updateCourtUrl,updateValueUrl,updatePreviewList,updateHouseProperty} fro
 import _fetch from '../fetch';
 import {queryString} from '../util';
 
+const {Surface,Shape,Group} = ART;
 const defaultFirstImg = 'http://static.yfbudong.com/defaulthouse.jpg';
 const SWIPER_HEIGHT = 240;
 const IPHONEX_TABBAR_DELTA = 34;
@@ -279,7 +281,21 @@ class HouseInfo extends Component {
               <Ionicons name="ios-heart-empty" size={22} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />
             </TouchableOpacity>
             <TouchableOpacity style={{paddingLeft: 5,paddingRight: 5,marginRight: 15}} onPress={() => {alert(1)}}>
-              <Ionicons name="ios-git-compare" size={22} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />
+              <View
+                style={{height: FIXED_ICON_HEIGHT,alignItems: 'center',justifyContent: 'center'}}
+              >
+                <Surface
+                  width={30}
+                  height={30}
+                >
+                  <Group scale={0.03}>
+                    <Shape
+                      fill={this.state.iconColor}
+                      d={`M323.778121 696.937879V288.262264h58.382231v111.291127h100.344459v40.137784h-100.344459V623.96009c29.191115-7.297779 62.03112-19.460744 98.520014-36.488894v43.786673c-48.651859 26.758522-100.952607 48.651859-156.902245 65.68001z m253.597814-5.473335c-45.002969 1.216296-66.896306-21.285188-65.680009-67.504454V282.78893h58.382231V408.675615c40.137784-4.865186 69.937047-26.150374 89.39779-63.855565h58.382231c-24.325929 60.814824-73.585937 94.262977-147.780021 100.344459v176.971137c0 21.893337 10.946668 32.840005 32.840004 32.840004h34.66445c21.893337 0 32.840005-10.33852 32.840005-31.01556v-23.717781h45.611117V631.257869c0 40.137784-21.893337 60.206675-65.680009 60.206675h-72.977789zM476.301699 844.474641c-96.57394 0-187.431286-37.583561-255.665519-105.939423S114.696757 579.443639 114.696757 482.869699c0-96.57394 37.583561-187.431286 105.939423-255.665518 68.355862-68.355862 159.091579-105.939423 255.665519-105.939423v24.32593C290.329968 145.590688 139.022687 296.897969 139.022687 482.869699s151.307281 337.279012 337.279012 337.279012v24.32593zM547.698301 844.474641v-24.32593c185.971731 0 337.279012-151.307281 337.279012-337.279012S733.670032 145.590688 547.698301 145.590688v-24.32593c96.57394 0 187.431286 37.583561 255.665519 105.939423 68.355862 68.355862 105.939423 159.091579 105.939423 255.665518 0 96.57394-37.583561 187.431286-105.939423 255.665519-68.355862 68.355862-159.091579 105.939423-255.665519 105.939423z`}
+                    />
+                  </Group>
+                </Surface>
+              </View>
             </TouchableOpacity>
             <TouchableOpacity style={{paddingRight: 20}} onPress={() => {alert('search')}} >
               <Feather name="share" size={20} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />

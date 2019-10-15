@@ -4,11 +4,13 @@ import HouseListPlaceHolder from './HouseListPlaceHolder';
 import Split from './Split';
 import LoadMore from './LoadMore';
 import BottomTip from './BottomTip';
+import FilterBar from './FilterBar';
 
 export {
   HouseList,
   HouseListPlaceHolder,
   Split,
   LoadMore,
-  BottomTip
+  BottomTip,
+  FilterBar
 }

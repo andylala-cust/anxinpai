@@ -4,10 +4,10 @@ import {
   StyleSheet,
   StatusBar,
   NativeModules,
-  FlatList,
-  RefreshControl
+  RefreshControl,
+  SectionList
 } from 'react-native';
-import {HouseList, HouseListPlaceHolder,LoadMore,BottomTip} from '../components/common';
+import {HouseList, HouseListPlaceHolder,LoadMore,BottomTip,FilterBar} from '../components/common';
 import {HomeMainEntry, HomeSwiper, HomeSearch, HomeSummary} from '../components/home';
 import _fetch from '../fetch';
 import {queryString} from '../util';
@@ -185,7 +185,6 @@ class Home extends Component {
           backgroundColor={"transparent"}
           translucent={true}
         />
-        <HomeSearch />
         <Toast
           visible={this.state.toastVisible}
           position={0}
@@ -195,8 +194,12 @@ class Home extends Component {
         >
           {this.state.toastText}
         </Toast>
-        <FlatList
-          data={this.state.data}
+        <HomeSearch />
+        <SectionList
+          renderSectionHeader={() => <FilterBar />}
+          sections={[{
+            data: this.state.data
+          }]}
           renderItem={({item}) => (<HouseList
             item={item}
             navigation={this.props.navigation}

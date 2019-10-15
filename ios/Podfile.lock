@@ -33,6 +33,8 @@ PODS:
     - React-RCTText (= 0.60.5)
     - React-RCTVibration (= 0.60.5)
     - React-RCTWebSocket (= 0.60.5)
+  - React-ART (0.60.5):
+    - React-Core (= 0.60.5)
   - React-Core (0.60.5):
     - Folly (= 2018.10.22.00)
     - React-cxxreact (= 0.60.5)
@@ -111,6 +113,7 @@ DEPENDENCIES:
   - JCoreRN (from `../node_modules/jcore-react-native`)
   - JPushRN (from `../node_modules/jpush-react-native`)
   - React (from `../node_modules/react-native/`)
+  - React-ART (from `../node_modules/react-native/Libraries/ART`)
   - React-Core (from `../node_modules/react-native/React`)
   - React-cxxreact (from `../node_modules/react-native/ReactCommon/cxxreact`)
   - React-DevSupport (from `../node_modules/react-native/React`)
@@ -156,6 +159,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/jpush-react-native"
   React:
     :path: "../node_modules/react-native/"
+  React-ART:
+    :path: "../node_modules/react-native/Libraries/ART"
   React-Core:
     :path: "../node_modules/react-native/React"
   React-cxxreact:
@@ -214,6 +219,7 @@ SPEC CHECKSUMS:
   JCoreRN: 3d47af5c3e3ce324e8982291e07a2c7236b48fb5
   JPushRN: bd905d595849cbc4fbc3647cfca35cacae7f8e97
   React: 53c53c4d99097af47cf60594b8706b4e3321e722
+  React-ART: 662252e1a2f87f7d4e56150403040b4cd725c0f9
   React-Core: ba421f6b4f4cbe2fb17c0b6fc675f87622e78a64
   React-cxxreact: 8384287780c4999351ad9b6e7a149d9ed10a2395
   React-DevSupport: 197fb409737cff2c4f9986e77c220d7452cb9f9f
@@ -238,6 +244,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   yoga: 312528f5bbbba37b4dcea5ef00e8b4033fdd9411
 
-PODFILE CHECKSUM: 9d1303d5b499b52664994baf2b4d47a79e773837
+PODFILE CHECKSUM: 14005fbb22d3bb7b5ea1e4f1f9a1859dbcc85459
 
 COCOAPODS: 1.6.1

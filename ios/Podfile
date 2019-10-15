@@ -28,6 +28,8 @@ target 'reactapp' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   pod 'react-native-amap3d', path: '../node_modules/react-native-amap3d/lib/ios'
+  
+  pod 'React-ART', :path => '../node_modules/react-native/Libraries/ART'
 
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 

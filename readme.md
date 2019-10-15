@@ -77,3 +77,16 @@ pod install
 请参见 
 
 https://router.vuejs.org/zh/guide/essentials/dynamic-matching.html#%E5%93%8D%E5%BA%94%E8%B7%AF%E7%94%B1%E5%8F%82%E6%95%B0%E7%9A%84%E5%8F%98%E5%8C%96
+
+
+## ReactNative 使用 ART 库
+
+对于 ReactNative >= 0.60
+
+Open Podfile and add below given path and save the file
+
+pod 'React-ART', :path => '../node_modules/react-native/Libraries/ART'
+ 
+cd ios && pod install 即可解决
+
+参见 https://github.com/oblador/react-native-progress/issues/127
