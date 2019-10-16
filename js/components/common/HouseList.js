@@ -60,7 +60,7 @@ class HouseList extends Component {
                 <Text numberOfLines={1} style={[styles.listItemInfoTag,{marginLeft: 10,maxWidth: '50%'}]}>{this.props.item.asset_type || '-'}</Text>
               </View>
               <View>
-                <Text style={{height: 20,lineHeight: 20,fontSize: 12}}>起拍时间：{this.props.item.start_time || '-'}</Text>
+                <Text style={{height: 20,lineHeight: 20,fontSize: 12,color: '#a6abb3'}}>起拍时间：{this.props.item.start_time || '-'}</Text>
               </View>
             </View>
           </View>

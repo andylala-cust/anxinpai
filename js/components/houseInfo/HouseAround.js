@@ -315,7 +315,13 @@ class HouseAround extends Component {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={styles.mask}></View>
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => this.showAround(0)}
+            style={styles.mask}
+          >
+            <View style={styles.mask}></View>
+          </TouchableOpacity>
         </View>
         <View style={{marginLeft: 20,marginRight: 20,paddingTop: 20,paddingBottom: 20,borderBottomWidth: StyleSheet.hairlineWidth,borderColor: '#bbb'}}>
           <View style={{flexDirection: 'row',alignItems: 'center'}}>

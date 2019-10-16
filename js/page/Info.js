@@ -58,7 +58,6 @@ class Info extends Component {
     this.props.navigation.goBack()
   }
   render () {
-    console.log(STATUSBAR_HEIGHT)
     return (
       <View>
         <StatusBar
