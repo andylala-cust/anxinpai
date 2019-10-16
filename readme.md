@@ -90,3 +90,8 @@ pod 'React-ART', :path => '../node_modules/react-native/Libraries/ART'
 cd ios && pod install 即可解决
 
 参见 https://github.com/oblador/react-native-progress/issues/127
+
+
+## ListEmptyComponent 在 SectionList 中不起作用
+
+可以使用 renderSectionFooter 解决，请参见 Home.js 文件

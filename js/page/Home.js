@@ -28,7 +28,7 @@ class Home extends Component {
     this.state = {
       data: [],
       refreshing: false,
-      toggleLoadMore: true,
+      toggleLoadMore: false,
       toggleMore: true,
       bannerList: [],
       listParams: {
@@ -196,7 +196,12 @@ class Home extends Component {
         </Toast>
         <HomeSearch />
         <SectionList
+          showsVerticalScrollIndicator={false}
+          // 当下一个section把它的前一个section的可视区推离屏幕的时候，让这个section的header粘连在屏幕的顶端。这个属性在iOS上是默认可用的，因为这是iOS的平台规范。
+          // 安卓需要设置 showsVerticalScrollIndicator 为 true 在有sticky效果
+          stickySectionHeadersEnabled={true}
           renderSectionHeader={() => <FilterBar />}
+          renderSectionFooter={() => !this.state.data.length ? <HouseListPlaceHolder /> : null}
           sections={[{
             data: this.state.data
           }]}
@@ -206,7 +211,9 @@ class Home extends Component {
             callBack={this.houseListItemClick}
           />)}
           keyExtractor={(item) => item.id.toString()}
-          ListEmptyComponent={<HouseListPlaceHolder />}
+          // ListEmptyComponent 在 sectionList 中不起作用，是个 bug
+          // 解决方案可用 renderSectionFooter
+          // ListEmptyComponent={<HouseListPlaceHolder />}
           ListHeaderComponent={
             <View>
               <HomeMainEntry />
