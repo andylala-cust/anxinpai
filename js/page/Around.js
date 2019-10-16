@@ -14,7 +14,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { HeaderButtons, HeaderButton, Item } from 'react-navigation-header-buttons';
 import {IS_IPHONEX, STATUSBAR_HEIGHT} from '../util';
 import _fetch from '../fetch';
-import {BubblesLoader} from 'react-native-indicator';
+import {LinesLoader} from 'react-native-indicator';
 
 const GAODE_KEY = '29de9219429c6425c5cfd872e54e3838';  // 高德地图KEY
 const IPHONEX_TABBAR_DELTA = 34;
@@ -300,7 +300,7 @@ class Around extends Component {
         </View>
         {
           this.state.toggleLoader ? <View style={styles.loaderWrapper}>
-            <BubblesLoader />
+            <LinesLoader />
           </View> : null
         }
       </View>
