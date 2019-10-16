@@ -14,6 +14,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { HeaderButtons, HeaderButton, Item } from 'react-navigation-header-buttons';
 import {IS_IPHONEX, STATUSBAR_HEIGHT} from '../util';
 import _fetch from '../fetch';
+import {BubblesLoader} from 'react-native-indicator';
 
 const GAODE_KEY = '29de9219429c6425c5cfd872e54e3838';  // 高德地图KEY
 const IPHONEX_TABBAR_DELTA = 34;
@@ -69,7 +70,8 @@ class Around extends Component {
       title: '',
       aroundArr: [],
       toggleLoad: true, // 防止拖动地图后触发 onStatusChangeComplete,
-      sGeo: ''
+      sGeo: '',
+      toggleLoader: true
     }
     this.btnPress = this.btnPress.bind(this)
     this.getMarkerData = this.getMarkerData.bind(this)
@@ -81,6 +83,7 @@ class Around extends Component {
     this.setState((state, props) => ({
       toggleLoad: true,
       aroundArr: [],
+      toggleLoader: true,
       index
     }), () => {
       this.setState({
@@ -112,7 +115,8 @@ class Around extends Component {
                     const arr = [...this.state.aroundArr]
                     arr.push(...data.pois)
                     this.setState({
-                      aroundArr: arr
+                      aroundArr: arr,
+                      toggleLoader: false
                     })
                   })
               })
@@ -130,7 +134,8 @@ class Around extends Component {
                 const arr = [...this.state.aroundArr]
                 arr.push(...data.pois)
                 this.setState({
-                  aroundArr: arr
+                  aroundArr: arr,
+                  toggleLoader: false
                 })
               })
           })
@@ -147,7 +152,8 @@ class Around extends Component {
                 const arr = [...this.state.aroundArr]
                 arr.push(...data.pois)
                 this.setState({
-                  aroundArr: arr
+                  aroundArr: arr,
+                  toggleLoader: false
                 })
               })
           })
@@ -164,7 +170,8 @@ class Around extends Component {
                 const arr = [...this.state.aroundArr]
                 arr.push(...data.pois)
                 this.setState({
-                  aroundArr: arr
+                  aroundArr: arr,
+                  toggleLoader: false
                 })
               })
           })
@@ -291,6 +298,11 @@ class Around extends Component {
             </View>
           </TouchableOpacity>
         </View>
+        {
+          this.state.toggleLoader ? <View style={styles.loaderWrapper}>
+            <BubblesLoader />
+          </View> : null
+        }
       </View>
     )
   }
@@ -308,9 +320,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,.9)'
   },
   text: {
-    paddingBottom: 10,
+    lineHeight: 20,
+    paddingBottom: 5,
     color: '#333',
-    textAlign: 'center'
+    textAlign: 'center',
+  },
+  loaderWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: TAB_BAR_HEIGHT+65,
+    backgroundColor: 'transparent'
   }
 })
 

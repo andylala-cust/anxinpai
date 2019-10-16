@@ -5,6 +5,7 @@ import {
   View,
 } from 'react-native';
 import {userTipChange} from '../action/user/actionCreators';
+import {BubblesLoader} from 'react-native-indicator';
 
 class User extends Component {
   static navigationOptions = {
@@ -29,6 +30,7 @@ class User extends Component {
   render () {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <BubblesLoader />
         <Text>User Page</Text>
         <Text onPress={() => this.props.tipChange()}>{this.props.tip || 'hello world'}</Text>
       </View>

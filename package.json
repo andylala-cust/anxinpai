@@ -17,6 +17,7 @@
     "react-native-elements": "^1.2.1",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-image-zoom-viewer": "^2.2.26",
+    "react-native-indicator": "^1.0.0",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-parallax-header": "latest",
     "react-native-parallax-scroll-view": "^0.21.3",
