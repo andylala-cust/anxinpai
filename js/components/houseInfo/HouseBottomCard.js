@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Image, Text, View, StyleSheet} from 'react-native';
+import {Image, Text, View, StyleSheet, Platform} from 'react-native';
 import {IS_IPHONEX} from '../../util';
 
 const IPHONEX_TABBAR_DELTA = 34;
@@ -46,13 +46,20 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: TAB_BAR_HEIGHT+10,
     backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset:{
-      width: 0,
-      height: 1
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 5
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset:{
+          width: 0,
+          height: 1
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+      },
+      android: {
+        elevation: 10,
+      }
+    })
   },
   cardContainer: {
     flex: 1,

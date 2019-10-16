@@ -3,7 +3,7 @@ import Home from '../page/Home';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Service from '../page/Service';
 import Collect from '../page/Collect';
-import {View} from 'react-native';
+import {Platform, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import {Badge} from 'react-native-elements';
@@ -80,13 +80,20 @@ export const Tab = createBottomTabNavigator(
         backgroundColor: '#fff',
         borderTopColor: 'transparent',
         borderTopWidth: 0,
-        shadowColor: '#000',
-        shadowOffset:{
-          width: 0,
-          height: 1
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 5,
+        ...Platform.select({
+          ios: {
+            shadowColor: '#000',
+            shadowOffset:{
+              width: 0,
+              height: 1
+            },
+            shadowOpacity: 0.1,
+            shadowRadius: 5,
+          },
+          android: {
+            elevation: 10,
+          }
+        })
       }
     }
   }
