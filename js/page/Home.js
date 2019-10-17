@@ -50,6 +50,13 @@ class Home extends Component {
     this.handleSwiperItemClick = this.handleSwiperItemClick.bind(this)
     this.houseListItemClick = this.houseListItemClick.bind(this)
     this.initJPush = this.initJPush.bind(this)
+    this.stickyScroll = this.stickyScroll.bind(this)
+  }
+  stickyScroll (ref) {
+    this._sectionList.scrollToLocation({
+      itemIndex: 0
+    })
+    ref.open()
   }
   _onRefresh () {
     this.setState({
@@ -196,11 +203,12 @@ class Home extends Component {
         </Toast>
         <HomeSearch />
         <SectionList
+          ref={e => {this._sectionList = e}}
           showsVerticalScrollIndicator={false}
           // 当下一个section把它的前一个section的可视区推离屏幕的时候，让这个section的header粘连在屏幕的顶端。这个属性在iOS上是默认可用的，因为这是iOS的平台规范。
           // 安卓需要设置 showsVerticalScrollIndicator 为 true 在有sticky效果
           stickySectionHeadersEnabled={true}
-          renderSectionHeader={() => <FilterBar />}
+          renderSectionHeader={() => <FilterBar stickyScroll={this.stickyScroll} />}
           renderSectionFooter={() => !this.state.data.length ? <HouseListPlaceHolder /> : null}
           sections={[{
             data: this.state.data
