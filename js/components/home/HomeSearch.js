@@ -30,7 +30,7 @@ class HomeSearch extends Component {
             size={20}
             style={{color: '#5186ec'}}
           />
-          <Text style={styles.city}>上海</Text>
+          <Text style={styles.city} numberOfLines={1}>{this.props.cityName}</Text>
         </View>
       </View>
     )

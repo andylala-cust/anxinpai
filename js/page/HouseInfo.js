@@ -30,7 +30,6 @@ import _fetch from '../fetch';
 import {queryString} from '../util';
 
 const {Surface,Shape,Group} = ART;
-const defaultFirstImg = 'http://static.yfbudong.com/defaulthouse.jpg';
 const SWIPER_HEIGHT = 240;
 const IPHONEX_TABBAR_DELTA = 34;
 const TAB_BAR_HEIGHT = IS_IPHONEX ? IPHONEX_TABBAR_DELTA : 0;
@@ -41,6 +40,7 @@ const FIXED_TAB_HEIGHT = 40;
 const FIXED_HEADER_HEIGHT = STATUSBAR_HEIGHT+FIXED_ICON_HEIGHT+FIXED_TAB_HEIGHT;
 const TRAFFIC_RADIUS = 1000;
 const GAODE_KEY = '29de9219429c6425c5cfd872e54e3838';  // 高德地图KEY
+const DURATION = 500;
 
 class HouseInfo extends Component {
   static navigationOptions = {
@@ -50,11 +50,10 @@ class HouseInfo extends Component {
     super(props)
     self = this
     this.state = {
-      img: defaultFirstImg,
       barStyle: 'light-content',
       iconColor: '#fff',
       toggleFixedShow: false,
-      houseImgList: [defaultFirstImg],
+      houseImgList: [],
       houseInfo: {},
       houseSchool: {},
       trafficName: '',
@@ -82,7 +81,6 @@ class HouseInfo extends Component {
     _fetch.get(url)
       .then(data => {
         this.setState({
-          img: data.content[0],
           houseImgList: data.content
         })
         const arr = []
@@ -220,12 +218,14 @@ class HouseInfo extends Component {
     }
   }
   componentDidMount () {
-    this.getHouseImgList()
-    this.getHouseRate()
-    this.getHouseSchool()
-    this.getCourtDoc()
-    this.props._updateCourtUrl()
-    this.props._updateValueUrl()
+    setTimeout(() => {
+      this.getHouseImgList()
+      this.getHouseRate()
+      this.getHouseSchool()
+      this.getCourtDoc()
+      this.props._updateCourtUrl()
+      this.props._updateValueUrl()
+    }, DURATION)
   }
   componentWillMount () {
     this.setState({

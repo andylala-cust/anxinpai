@@ -5,7 +5,8 @@ import {
   StatusBar,
   NativeModules,
   RefreshControl,
-  SectionList
+  SectionList,
+  Text
 } from 'react-native';
 import {HouseList, HouseListPlaceHolder,LoadMore,BottomTip,FilterBar} from '../components/common';
 import {HomeMainEntry, HomeSwiper, HomeSearch, HomeSummary} from '../components/home';
@@ -27,19 +28,28 @@ class Home extends Component {
     super(props)
     this.state = {
       data: [],
+      toggleFirstEnter: true,
       refreshing: false,
       toggleLoadMore: false,
       toggleMore: true,
       bannerList: [],
+      recommendList: [],
       listParams: {
         city_id: '',
         page_id: 1,
         page_size: PAGE_SIZE,
-        type_id: TYPE_ID
+        type_id: TYPE_ID,
+        time_type: 0,
+        bid_time_type: 0,
+        price_type: 0,
+        cut_type: 0,
+        price_min: 0,
+        price_max: 0
       },
       summary: {},
       toastVisible: false,
-      toastText: ''
+      toastText: '',
+      cityName: '上海市'
     }
     this._onRefresh = this._onRefresh.bind(this)
     this.getCurrentCity = this.getCurrentCity.bind(this)
@@ -51,6 +61,7 @@ class Home extends Component {
     this.houseListItemClick = this.houseListItemClick.bind(this)
     this.initJPush = this.initJPush.bind(this)
     this.stickyScroll = this.stickyScroll.bind(this)
+    this.filterListParams = this.filterListParams.bind(this)
   }
   stickyScroll (ref) {
     this._sectionList.scrollToLocation({
@@ -97,11 +108,22 @@ class Home extends Component {
           listParams: {
             ...this.state.listParams,
             city_id: data.content.city_id
-          }
+          },
+          cityName: data.content.city_name
         })
         this.getBannerList(cityId)
         this.getInitHouseList(this.state.listParams)
         this.getSummary(cityId)
+        this.getRecommendList(cityId)
+      })
+  }
+  getRecommendList (cityId) {
+    const url = `/house/lists?city_id=${cityId}&page_id=${1}&page_size=${10}&type_id=${0}`
+    _fetch.get(url)
+      .then(data => {
+        this.setState({
+          recommendList: data.content
+        })
       })
   }
   getInitHouseList (param) {
@@ -112,7 +134,8 @@ class Home extends Component {
         .then(data => {
           this.setState({
             data: data.content,
-            toggleMore:  data.content.length < PAGE_SIZE ? false : true
+            toggleMore:  data.content.length < PAGE_SIZE ? false : true,
+            toggleFirstEnter: false
           })
           resolve()
         })
@@ -180,6 +203,16 @@ class Home extends Component {
       })
     }
   }
+  filterListParams (param) {
+    this.setState({
+      listParams: {
+        ...this.state.listParams,
+        ...param
+      }
+    }, () => {
+      this.getInitHouseList(this.state.listParams)
+    })
+  }
   componentDidMount () {
     this.getCurrentCity()
     this.initJPush()
@@ -201,15 +234,41 @@ class Home extends Component {
         >
           {this.state.toastText}
         </Toast>
-        <HomeSearch />
+        <HomeSearch cityName={this.state.cityName} />
         <SectionList
           ref={e => {this._sectionList = e}}
           showsVerticalScrollIndicator={false}
           // 当下一个section把它的前一个section的可视区推离屏幕的时候，让这个section的header粘连在屏幕的顶端。这个属性在iOS上是默认可用的，因为这是iOS的平台规范。
           // 安卓需要设置 showsVerticalScrollIndicator 为 true 在有sticky效果
           stickySectionHeadersEnabled={true}
-          renderSectionHeader={() => <FilterBar stickyScroll={this.stickyScroll} />}
-          renderSectionFooter={() => !this.state.data.length ? <HouseListPlaceHolder /> : null}
+          renderSectionHeader={() => <FilterBar filterListParams={this.filterListParams} stickyScroll={this.stickyScroll} />}
+          renderSectionFooter={() => {
+            if (!this.state.data.length) {
+              if (this.state.toggleFirstEnter)  {
+                return <HouseListPlaceHolder />
+              }
+            }
+            if (this.state.data.length < PAGE_SIZE) {
+              return  (
+                <View>
+                  <View style={{marginTop: 20,paddingLeft: 20,paddingRight: 20}}>
+                    <View style={{paddingLeft: 10,backgroundColor: '#f0f0f0'}}>
+                      <Text style={{height: 40,lineHeight: 40,fontSize: 13}}>筛选条件,发现更多,以下是为你推荐～</Text>
+                    </View>
+                  </View>
+                  {
+                    this.state.recommendList.map(item => (
+                      <HouseList
+                        item={item}
+                        navigation={this.props.navigation}
+                        callBack={this.houseListItemClick}
+                      />
+                    ))
+                  }
+                </View>
+              )
+            }
+          }}
           sections={[{
             data: this.state.data
           }]}
