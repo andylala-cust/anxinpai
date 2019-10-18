@@ -40,7 +40,6 @@ const FIXED_TAB_HEIGHT = 40;
 const FIXED_HEADER_HEIGHT = STATUSBAR_HEIGHT+FIXED_ICON_HEIGHT+FIXED_TAB_HEIGHT;
 const TRAFFIC_RADIUS = 1000;
 const GAODE_KEY = '29de9219429c6425c5cfd872e54e3838';  // 高德地图KEY
-const DURATION = 500;
 
 class HouseInfo extends Component {
   static navigationOptions = {
@@ -218,14 +217,12 @@ class HouseInfo extends Component {
     }
   }
   componentDidMount () {
-    setTimeout(() => {
-      this.getHouseImgList()
-      this.getHouseRate()
-      this.getHouseSchool()
-      this.getCourtDoc()
-      this.props._updateCourtUrl()
-      this.props._updateValueUrl()
-    }, DURATION)
+    this.getHouseImgList()
+    this.getHouseRate()
+    this.getHouseSchool()
+    this.getCourtDoc()
+    this.props._updateCourtUrl()
+    this.props._updateValueUrl()
   }
   componentWillMount () {
     this.setState({
