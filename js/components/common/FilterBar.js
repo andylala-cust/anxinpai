@@ -324,6 +324,9 @@ class FilterBar extends Component {
                       this.props.filterListParams({
                         page_id: 1,
                         time_type: SORT_TIME_TYPE,
+                        bid_time_type: 0,
+                        price_type: 0,
+                        cut_type: 0
                       })
                       break
                     }
@@ -331,7 +334,10 @@ class FilterBar extends Component {
                     case 2: {
                       this.props.filterListParams({
                         page_id: 1,
+                        time_type: 0,
                         bid_time_type: SORT_BID_TIME_TYPE_ASC,
+                        price_type: 0,
+                        cut_type: 0
                       })
                       break
                     }
@@ -339,7 +345,10 @@ class FilterBar extends Component {
                     case 3: {
                       this.props.filterListParams({
                         page_id: 1,
+                        time_type: 0,
                         bid_time_type: SORT_BID_TIME_TIME_DESC,
+                        price_type: 0,
+                        cut_type: 0
                       })
                       break
                     }
@@ -347,7 +356,10 @@ class FilterBar extends Component {
                     case 4: {
                       this.props.filterListParams({
                         page_id: 1,
+                        time_type: 0,
+                        bid_time_type: 0,
                         price_type: SORT_PRICE_TYPE_DESC,
+                        cut_type: 0
                       })
                       break
                     }
@@ -355,7 +367,10 @@ class FilterBar extends Component {
                     case 5: {
                       this.props.filterListParams({
                         page_id: 1,
+                        time_type: 0,
+                        bid_time_type: 0,
                         price_type: SORT_PRICE_TYPE_ASC,
+                        cut_type: 0
                       })
                       break
                     }
@@ -363,7 +378,10 @@ class FilterBar extends Component {
                     case 6: {
                       this.props.filterListParams({
                         page_id: 1,
-                        cut_type: SORT_CUT_TYPE_ASC,
+                        time_type: 0,
+                        bid_time_type: 0,
+                        price_type: 0,
+                        cut_type: SORT_CUT_TYPE_ASC
                       })
                       break
                     }
@@ -371,7 +389,10 @@ class FilterBar extends Component {
                     case 7: {
                       this.props.filterListParams({
                         page_id: 1,
-                        cut_type: SORT_CUT_TYPE_DESC,
+                        time_type: 0,
+                        bid_time_type: 0,
+                        price_type: 0,
+                        cut_type: SORT_CUT_TYPE_DESC
                       })
                       break
                     }
