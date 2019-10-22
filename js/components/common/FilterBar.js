@@ -461,10 +461,12 @@ class FilterBar extends Component {
     }
   }
   handleBarClick (index) {
-    this.setState({
-      menuIndex: index
-    }, () => {
-      this.props.stickyScroll(this._slideModal)
+    this.filterRef.measure((x, y, width, height, px, py) => {
+      this.setState({
+        menuIndex: index
+      }, () => {
+        this.props.stickyScroll(this._slideModal, Math.round(py) === 50+STATUSBAR_HEIGHT)
+      })
     })
   }
   renderItem (checked, label) {
@@ -480,7 +482,7 @@ class FilterBar extends Component {
   }
   render () {
     return (
-      <View style={styles.wrapper}>
+      <View style={styles.wrapper} ref={e => this.filterRef = e}>
         <TouchableOpacity style={styles.tabItemWrapper} onPress={() => this.handleBarClick(0)}>
           <View style={styles.tabItem}>
             <Text style={this.state.houseType ? styles.active : ''} numberOfLines={1}>{this.state.houseKind}</Text>

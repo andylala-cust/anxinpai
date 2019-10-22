@@ -63,8 +63,8 @@ class Home extends Component {
     this.stickyScroll = this.stickyScroll.bind(this)
     this.filterListParams = this.filterListParams.bind(this)
   }
-  stickyScroll (ref) {
-    this._sectionList.scrollToLocation({
+  stickyScroll (ref, bool) {
+    !bool && this._sectionList.scrollToLocation({
       itemIndex: 0
     })
     ref.open()
