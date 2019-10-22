@@ -11,9 +11,10 @@ import {
 import {HouseList, HouseListPlaceHolder,LoadMore,BottomTip,FilterBar} from '../components/common';
 import {HomeMainEntry, HomeSwiper, HomeSearch, HomeSummary} from '../components/home';
 import _fetch from '../fetch';
-import {queryString} from '../util';
+import {queryString, storage} from '../util';
 import {PAGE_SIZE,TYPE_ID,PULL_DOWN_REFRESH_DURATION} from '../constants';
 import Toast from 'react-native-root-toast';
+import {connect} from 'react-redux';
 
 const JPushModule = NativeModules.JPushModule;
 const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
@@ -104,6 +105,7 @@ class Home extends Component {
     _fetch.get(`/user/getLocation`)
       .then(data => {
         const cityId = data.content.city_id
+        storage.setItem('city_id', cityId.toString())
         this.setState({
           listParams: {
             ...this.state.listParams,
@@ -211,6 +213,16 @@ class Home extends Component {
       }
     }, () => {
       this.getInitHouseList(this.state.listParams)
+        .then(() => {
+          setTimeout(() => {
+            const toast = Toast.show('刷新成功^_^', {
+              position: 0
+            })
+            this._sectionList.scrollToLocation({
+              itemIndex: 0
+            })
+          }, 300)
+        })
     })
   }
   componentDidMount () {
@@ -236,6 +248,7 @@ class Home extends Component {
         </Toast>
         <HomeSearch cityName={this.state.cityName} />
         <SectionList
+          scrollEnabled={this.props.toggleScroll}
           ref={e => {this._sectionList = e}}
           showsVerticalScrollIndicator={false}
           // 当下一个section把它的前一个section的可视区推离屏幕的时候，让这个section的header粘连在屏幕的顶端。这个属性在iOS上是默认可用的，因为这是iOS的平台规范。
@@ -244,7 +257,7 @@ class Home extends Component {
           renderSectionHeader={() => <FilterBar filterListParams={this.filterListParams} stickyScroll={this.stickyScroll} />}
           renderSectionFooter={() => {
             if (!this.state.data.length) {
-              if (this.state.toggleFirstEnter)  {
+              if (this.state.toggleFirstEnter) {
                 return <HouseListPlaceHolder />
               }
             }
@@ -257,8 +270,9 @@ class Home extends Component {
                     </View>
                   </View>
                   {
-                    this.state.recommendList.map(item => (
+                    this.state.recommendList.map((item, index) => (
                       <HouseList
+                        key={index}
                         item={item}
                         navigation={this.props.navigation}
                         callBack={this.houseListItemClick}
@@ -319,4 +333,8 @@ class Home extends Component {
   }
 }
 
-export default Home;
+const mapStateToProps = state => ({
+  toggleScroll: state.common.toggleScroll
+})
+
+export default connect(mapStateToProps)(Home);

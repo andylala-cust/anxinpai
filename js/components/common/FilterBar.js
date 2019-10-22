@@ -7,11 +7,12 @@ import {
   Dimensions,
   TextInput,
   TouchableHighlight,
+  ScrollView
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {SlideModal,Radio} from 'beeshell';
-import {STATUSBAR_HEIGHT} from '../../util';
+import {STATUSBAR_HEIGHT, storage} from '../../util';
 import {
   DEFAULT_HOUSE_TYPE,
   COMMON_HOUSE_TYPE,
@@ -29,6 +30,10 @@ import {
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard';
 import Toast from 'react-native-root-toast';
+import _fetch from '../../fetch';
+import {connect} from 'react-redux';
+import {userTipChange} from '../../action/user/actionCreators';
+import {filterZoneChange,filterSubwayChange,filterSubwayNameChange,toggleScroll} from '../../action/common/actionCreators'
 
 const DURATION  = 300;
 const HOUSE_KIND = '类型';
@@ -56,9 +61,44 @@ class FilterBar extends Component {
       priceMin: '',
       priceMax: '',
       priceSelected: false,
-      sortType: ''
+      sortType: '',
+      city_id: '',
+      tabIndex: 0,
+      zoneArr: [],
+      subwayNameArr: [],
+      subwayLineArr: [[]],
+      subwayLineIndex: '',
+      checkedZoneIndex: '',
+      subwayLineNameIndex: ''
     }
+    this.getZoneArr = this.getZoneArr.bind(this)
+    this.getSubwayArr = this.getSubwayArr.bind(this)
     this.handleBarClick = this.handleBarClick.bind(this)
+  }
+  getZoneArr () {
+    const url = `/zone/infos?city_id=${this.state.city_id}`
+    _fetch.get(url)
+      .then(data => {
+        this.setState({
+          zoneArr: data.content
+        })
+      })
+  }
+  getSubwayArr () {
+    const url = `/zone/subways?city_id=${this.state.city_id}`
+    _fetch.get(url)
+      .then(data => {
+        const arr = []
+        const arr_ = []
+        for (let key in data.content) {
+          arr.push(key)
+          arr_.push(data.content[key])
+        }
+        this.setState({
+          subwayNameArr: arr,
+          subwayLineArr: arr_
+        })
+      })
   }
   renderMenu (index) {
     switch (index) {
@@ -455,12 +495,173 @@ class FilterBar extends Component {
           </Radio>
         )
       }
+      case 3: {
+        return (
+          <View style={{backgroundColor: '#fff'}}>
+            <View style={{flexDirection: 'row',width,paddingLeft: 20,paddingRight: 20,maxHeight: 200,overflow: 'hidden'}}>
+              <View style={{backgroundColor: '#f8f8f8'}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.getZoneArr()
+                    this.setState({
+                      tabIndex: 0
+                    })
+                  }}
+                >
+                  <View>
+                    <Text style={[{paddingLeft: 10,paddingRight: 10,lineHeight: 40,height: 40}, !this.state.tabIndex && styles.active]}>区域</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.getSubwayArr()
+                    this.setState({
+                      tabIndex: 1
+                    })
+                  }}
+                >
+                  <View>
+                    <Text style={[{paddingLeft: 10,paddingRight: 10,lineHeight: 40,height: 40}, this.state.tabIndex && styles.active]}>地铁</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={{flex: 1}}>
+                {
+                  !this.state.tabIndex ? <ScrollView ref={(e) => this.zoneRef = e}>
+                      {
+                        this.state.zoneArr.map((item,index) => (
+                          <TouchableOpacity
+                            onPress={() => {
+                              this.props._filterSubwayNameChange('')
+                              this.props._filterZoneChange(index)
+                              this.setState({
+                                checkedZoneIndex: index,
+                                zoneKind: item.name,
+                                subwayLineIndex: '',
+                                subwayLineNameIndex: ''
+                              }, () => {
+                                this._slideModal.close()
+                                setTimeout(() => {
+                                  this.props.filterListParams({
+                                    selectZoneItems: item.zone_id,
+                                    subway_id: '',
+                                    page_id: 1
+                                  })
+                                }, DURATION)
+                              })
+                            }}
+                            key={index}
+                          >
+                            <View style={{paddingLeft: 10,paddingRight: 10}}>
+                              <Text style={[{lineHeight: 40,height: 40}, this.state.checkedZoneIndex === index && styles.active]}>{item.name}</Text>
+                            </View>
+                          </TouchableOpacity>
+                        ))
+                      }
+                    </ScrollView> :
+                    <View style={{flexDirection: 'row'}}>
+                      {
+                        <View style={{flex: 1}}>
+                          <ScrollView ref={(e) => this.subwayLineRef = e}>
+                            {
+                              this.state.subwayNameArr.map((item,index) => (
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    this.setState({
+                                      subwayLineIndex: index,
+                                      subwayLineNameIndex: ''
+                                    })
+                                  }}
+                                  key={index}
+                                >
+                                  <View>
+                                    <Text style={[{lineHeight: 40, paddingLeft: 10, paddingRight: 10}, this.state.subwayLineIndex === index && styles.active]}>{item}</Text>
+                                  </View>
+                                </TouchableOpacity>
+                              ))
+                            }
+                          </ScrollView>
+                        </View>
+                      }
+                      {
+                        this.state.subwayLineArr[this.state.subwayLineIndex] &&
+                        <View style={{flex: 1}}>
+                          <ScrollView ref={(e) => this.subwayNameRef = e}>
+                            {
+                              this.state.subwayLineArr[this.state.subwayLineIndex].map((item,index) => (
+                                <TouchableOpacity
+                                  key={index}
+                                  onPress={() => {
+                                    this.props._filterZoneChange('')
+                                    this.props._filterSubwayChange(this.state.subwayLineIndex)
+                                    this.props._filterSubwayNameChange(index)
+                                    this.setState({
+                                      subwayLineNameIndex: index,
+                                      zoneKind: item.name,
+                                      checkedZoneIndex: ''
+                                    }, () => {
+                                      this._slideModal.close()
+                                      setTimeout(() => {
+                                        this.props.filterListParams({
+                                          selectZoneItems: '',
+                                          page_id: 1,
+                                          subway_id: item.id
+                                        })
+                                      }, DURATION)
+                                    })
+                                  }}
+                                >
+                                  <View>
+                                    <Text numberOfLines={1} style={[{height: 40,lineHeight: 40, paddingLeft: 10, paddingRight: 10}, this.state.subwayLineNameIndex === index && styles.active]}>{item.name}</Text>
+                                  </View>
+                                </TouchableOpacity>
+                              ))
+                            }
+                          </ScrollView>
+                        </View>
+                      }
+                    </View>
+                }
+              </View>
+            </View>
+            <TouchableHighlight
+              underlayColor={'rgba(0,106,255,.85)'}
+              style={{marginTop: 20,marginLeft: 20,marginRight: 20,marginBottom: 20,backgroundColor: '#006aff'}}
+              onPress={() => {
+                this.props._filterZoneChange('')
+                this.props._filterSubwayChange('')
+                this.props._filterSubwayNameChange('')
+                this.setState({
+                  checkedZoneIndex: '',
+                  zoneKind: ZONE_KIND
+                }, () => {
+                  this._slideModal.close()
+                  setTimeout(() => {
+                    this.props.filterListParams({
+                      selectZoneItems: '',
+                      page_id: 1,
+                      subway_id: ''
+                    })
+                  }, DURATION)
+                })
+              }}
+            >
+              <View>
+                <Text style={{height: 34,lineHeight: 34,textAlign: 'center',color: '#fff'}}>重置</Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+        )
+      }
       default: {
         return null
       }
     }
   }
   handleBarClick (index) {
+    if (index === 3) {
+      this.getZoneArr()
+    }
     this.filterRef.measure((x, y, width, height, px, py) => {
       this.setState({
         menuIndex: index
@@ -479,6 +680,13 @@ class FilterBar extends Component {
         </View>
       </View>
     )
+  }
+  componentDidMount () {
+    storage.getItem('city_id').then(data => {
+      this.setState({
+        city_id: data || 1207
+      })
+    })
   }
   render () {
     return (
@@ -512,7 +720,7 @@ class FilterBar extends Component {
         </TouchableOpacity>
         <TouchableOpacity style={styles.tabItemWrapper} onPress={() => this.handleBarClick(3)}>
           <View style={styles.tabItem}>
-            <Text numberOfLines={1}>{this.state.zoneKind}</Text>
+            <Text numberOfLines={1} style={(this.props.checkedZoneIndex || this.props.checkedZoneIndex === 0 || this.props.subwayLineNameIndex || this.props.subwayLineNameIndex === 0) && styles.active}>{this.state.zoneKind}</Text>
             <Ionicons
               name={'md-arrow-dropdown'}
             />
@@ -532,6 +740,37 @@ class FilterBar extends Component {
           offsetX={0}
           offsetY={STATUSBAR_HEIGHT+90+StyleSheet.hairlineWidth}
           direction={'down'}
+          onOpen={() => {
+            if (this.props.checkedZoneIndex || this.props.checkedZoneIndex === 0) {
+              this.setState({
+                tabIndex: 0
+              })
+            }
+            if (this.props.subwayLineNameIndex || this.props.subwayLineNameIndex === 0) {
+              this.setState({
+                tabIndex: 1
+              })
+            }
+          }}
+          onOpened={() => {
+            this.zoneRef && this.zoneRef.scrollTo({
+              y: this.props.checkedZoneIndex * 40
+            })
+            this.subwayLineRef && this.subwayLineRef.scrollTo({
+              y: this.props.subwayLineIndex * 40
+            })
+            this.subwayNameRef && this.subwayNameRef.scrollTo({
+              y: this.props.subwayLineNameIndex * 40
+            })
+            this.props._toggleScroll(false)
+          }}
+          onClosed={() => {
+            this.setState({
+              subwayLineIndex: this.props.subwayLineIndex,
+              subwayLineNameIndex: this.props.subwayLineNameIndex
+            })
+            this.props._toggleScroll(true)
+          }}
         >
           {this.renderMenu(this.state.menuIndex)}
         </SlideModal>
@@ -563,4 +802,29 @@ const styles = StyleSheet.create({
   }
 })
 
-export default FilterBar;
+const mapStateToProps = state => ({
+  checkedZoneIndex: state.common.checkedZoneIndex,
+  subwayLineIndex: state.common.subwayLineIndex,
+  subwayLineNameIndex: state.common.subwayLineNameIndex
+})
+
+const mapDispatchToProps = dispatch => ({
+  _filterZoneChange (index) {
+    const action = filterZoneChange(index)
+    dispatch(action)
+  },
+  _filterSubwayChange (index) {
+    const action = filterSubwayChange(index)
+    dispatch(action)
+  },
+  _filterSubwayNameChange (index) {
+    const action = filterSubwayNameChange(index)
+    dispatch(action)
+  },
+  _toggleScroll (bool) {
+    const action = toggleScroll(bool)
+    dispatch(action)
+  }
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(FilterBar);

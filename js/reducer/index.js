@@ -2,6 +2,7 @@ import {combineReducers} from 'redux';
 import {rootCom,StackNavigator} from '../navigator/stackNavigator';
 import UserReducer from './user';
 import HouseInfoReducer from './houseInfo';
+import CommonReducer from './common';
 
 // 指定默认 state
 const navState = StackNavigator.router.getStateForAction(StackNavigator.router.getActionForPathAndParams(rootCom));
@@ -17,7 +18,8 @@ const navReducer = (state = navState, action) => {
 const index = combineReducers({
   nav: navReducer,
   user: UserReducer,
-  houseInfo: HouseInfoReducer
+  houseInfo: HouseInfoReducer,
+  common: CommonReducer
 });
 
 export default index;
