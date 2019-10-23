@@ -10,7 +10,7 @@ import {
   Demo,
   Court,
   Around,
-  HouseValue
+  HouseValue,
 } from '../page';
 
 export const rootCom = 'Tab';
@@ -30,7 +30,7 @@ export const StackNavigator = createStackNavigator({
   Demo,
   Court,
   Around,
-  HouseValue
+  HouseValue,
 }, {
   headerMode: 'float',
   headerTransitionPreset: 'uikit',

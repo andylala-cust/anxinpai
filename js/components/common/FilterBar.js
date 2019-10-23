@@ -32,7 +32,6 @@ import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard';
 import Toast from 'react-native-root-toast';
 import _fetch from '../../fetch';
 import {connect} from 'react-redux';
-import {userTipChange} from '../../action/user/actionCreators';
 import {filterZoneChange,filterSubwayChange,filterSubwayNameChange,toggleScroll} from '../../action/common/actionCreators'
 
 const DURATION  = 300;
@@ -499,7 +498,7 @@ class FilterBar extends Component {
         return (
           <View style={{backgroundColor: '#fff'}}>
             <View style={{flexDirection: 'row',width,paddingLeft: 20,paddingRight: 20,maxHeight: 200,overflow: 'hidden'}}>
-              <View style={{backgroundColor: '#f8f8f8'}}>
+              <View style={{borderRightWidth: StyleSheet.hairlineWidth,borderRightColor: '#bbb'}}>
                 <TouchableOpacity
                   onPress={() => {
                     this.getZoneArr()
@@ -527,7 +526,7 @@ class FilterBar extends Component {
               </View>
               <View style={{flex: 1}}>
                 {
-                  !this.state.tabIndex ? <ScrollView ref={(e) => this.zoneRef = e}>
+                  !this.state.tabIndex ? <ScrollView showsVerticalScrollIndicator={false} ref={(e) => this.zoneRef = e}>
                       {
                         this.state.zoneArr.map((item,index) => (
                           <TouchableOpacity
@@ -562,7 +561,7 @@ class FilterBar extends Component {
                     <View style={{flexDirection: 'row'}}>
                       {
                         <View style={{flex: 1}}>
-                          <ScrollView ref={(e) => this.subwayLineRef = e}>
+                          <ScrollView showsVerticalScrollIndicator={false} ref={(e) => this.subwayLineRef = e}>
                             {
                               this.state.subwayNameArr.map((item,index) => (
                                 <TouchableOpacity
@@ -585,8 +584,8 @@ class FilterBar extends Component {
                       }
                       {
                         this.state.subwayLineArr[this.state.subwayLineIndex] &&
-                        <View style={{flex: 1}}>
-                          <ScrollView ref={(e) => this.subwayNameRef = e}>
+                        <View style={{flex: 1,borderLeftWidth: StyleSheet.hairlineWidth,borderLeftColor: '#bbb'}}>
+                          <ScrollView showsVerticalScrollIndicator={false} ref={(e) => this.subwayNameRef = e}>
                             {
                               this.state.subwayLineArr[this.state.subwayLineIndex].map((item,index) => (
                                 <TouchableOpacity
@@ -650,6 +649,197 @@ class FilterBar extends Component {
                 <Text style={{height: 34,lineHeight: 34,textAlign: 'center',color: '#fff'}}>重置</Text>
               </View>
             </TouchableHighlight>
+          </View>
+        )
+      }
+      case 4: {
+        return (
+          <View style={{width,height: 400,padding: 20,backgroundColor: '#fff'}}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              // 用户拖拽滚动视图的时候，是否要隐藏软键盘
+              keyboardDismissMode={'on-drag'}
+            >
+              <View style={{marginBottom: 20}}>
+                <View style={{marginBottom: 15}}>
+                  <Text style={{fontWeight: 'bold',fontSize: 16}}>建筑面积</Text>
+                </View>
+                <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',marginBottom: 20}}>
+                  <TextInput
+                    // defaultValue={this.state.priceMin}
+                    // onChangeText={(value) => {this.setState({
+                    //   priceMin: value
+                    // })}}
+                    keyboardType={'numeric'}
+                    maxLength={6}
+                    placeholder={'最小面积'}
+                    placeholderTextColor={'#bbb'}
+                    style={{flex: 1,borderBottomColor: '#bbb',borderBottomWidth: StyleSheet.hairlineWidth,height: 20,fontSize: 16,textAlign: 'center'}}
+                  />
+                  <Text>至</Text>
+                  <TextInput
+                    // defaultValue={this.state.priceMax}
+                    // onChangeText={(value) => {this.setState({
+                    //   priceMax: value
+                    // })}}
+                    keyboardType={'numeric'}
+                    maxLength={6}
+                    placeholder={'最大面积'}
+                    placeholderTextColor={'#bbb'}
+                    style={{flex: 1,borderBottomColor: '#bbb',borderBottomWidth: StyleSheet.hairlineWidth,height: 20,fontSize: 16,textAlign: 'center'}}
+                  />
+                </View>
+                <View style={{flexDirection: 'row',justifyContent: 'flex-start',alignItems: 'center'}}>
+                  <TouchableOpacity style={{width: '23%',}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>50以下</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{width: '23%',}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>50-90</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{width: '23%',}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>90-130</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{width: '23%',}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>130以上</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={{marginBottom: 20}}>
+                <View style={{marginBottom: 15}}>
+                  <Text style={{fontWeight: 'bold',fontSize: 16}}>占用情况</Text>
+                </View>
+                <View style={{flexDirection: 'row',justifyContent: 'flex-start',alignItems: 'center'}}>
+                  <TouchableOpacity style={{width: '23%'}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>被占用</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{width: '23%'}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>已清空</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{width: '23%'}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>不清楚</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={{marginBottom: 20}}>
+                <View style={{marginBottom: 15}}>
+                  <Text style={{fontWeight: 'bold',fontSize: 16}}>租用情况</Text>
+                </View>
+                <View style={{flexDirection: 'row',justifyContent: 'flex-start',alignItems: 'center'}}>
+                  <TouchableOpacity style={{width: '23%'}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>无出租</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{width: '23%'}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>已出租</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{width: '23%'}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>不清楚</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={{marginBottom: 20}}>
+                <View style={{marginBottom: 15}}>
+                  <Text style={{fontWeight: 'bold',fontSize: 16}}>税费承担</Text>
+                </View>
+                <View style={{flexDirection: 'row',justifyContent: 'flex-start',alignItems: 'center'}}>
+                  <TouchableOpacity style={{width: '23%',fontSize: 12}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>买受人</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{width: '23%'}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>被执行人</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{width: '23%'}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>各自承担</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{width: '23%'}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>不清楚</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={{marginBottom: 20}}>
+                <View style={{marginBottom: 15}}>
+                  <Text style={{fontWeight: 'bold',fontSize: 16}}>拍卖轮次</Text>
+                </View>
+                <View style={{flexDirection: 'row',flexWrap: 'wrap',justifyContent: 'flex-start',alignItems: 'center'}}>
+                  <TouchableOpacity style={{width: '23%',fontSize: 12}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>一拍</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{width: '23%'}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>二拍</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{width: '23%'}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>三拍</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{width: '23%'}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>变卖</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{width: '23%',marginTop: 15}}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.text}>已成交</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </ScrollView>
+            <View style={{flexDirection: 'row',borderTopColor: '#bbb',borderTopWidth: StyleSheet.hairlineWidth,paddingTop: 10}}>
+              <TouchableOpacity
+                onPress={() => {
+
+                }}
+                style={{justifyContent: 'space-between',alignItems: 'center'}}
+              >
+                <AntDesign
+                  name={'reload1'}
+                />
+                <Text>重置</Text>
+              </TouchableOpacity>
+              <TouchableHighlight
+                underlayColor={'rgba(0,106,255,.85)'}
+                onPress={() => {
+                  }
+                }
+                style={{flex: 1,justifyContent: 'center',alignItems: 'center',marginLeft: 20,backgroundColor: '#006aff'}}
+              >
+                <View>
+                  <Text style={{color: '#fff',height: 34,lineHeight: 34}}>确定</Text>
+                </View>
+              </TouchableHighlight>
+            </View>
           </View>
         )
       }
@@ -799,6 +989,18 @@ const styles = StyleSheet.create({
   },
   active: {
     color: '#006aff'
+  },
+  textWrapper: {
+    marginRight: 3,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    backgroundColor: '#eee'
+  },
+  text: {
+    textAlign: 'center',
+    fontSize: 12
   }
 })
 

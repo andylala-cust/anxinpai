@@ -181,7 +181,7 @@ class Home extends Component {
       })
   }
   handleSwiperItemClick (item) {
-    alert(item.url)
+    console.log(item)
   }
   houseListItemClick (item) {
     this.props.navigation.navigate('HouseInfo', {

@@ -15,5 +15,5 @@ export {
   Demo,
   Court,
   Around,
-  HouseValue
+  HouseValue,
 }

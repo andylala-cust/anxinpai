@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   StatusBar,
   ScrollView,
-  ART
+  ART,
+  StyleSheet
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -300,7 +301,7 @@ class HouseInfo extends Component {
           </View>
         </View>
         {
-          this.state.toggleFixedShow && <View style={{position: 'absolute',top: STATUSBAR_HEIGHT+FIXED_ICON_HEIGHT,left: 0,right: 0,backgroundColor: `rgba(255,255,255,${this.state.opacity})`,flexDirection: 'row',borderTopWidth: 1,borderTopColor: '#f4f4f4',}}>
+          this.state.toggleFixedShow && <View style={{position: 'absolute',top: STATUSBAR_HEIGHT+FIXED_ICON_HEIGHT,left: 0,right: 0,backgroundColor: `rgba(255,255,255,${this.state.opacity})`,flexDirection: 'row',borderTopWidth: StyleSheet.hairlineWidth,borderTopColor: '#bbb',}}>
             <TouchableOpacity
               onPress={() => {
                 this.scrollView.scrollTo({x: 0,y: this.props.baseLayout-FIXED_HEADER_HEIGHT,animated: true})
