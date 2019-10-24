@@ -1036,7 +1036,8 @@ class FilterBar extends Component {
       this.setState({
         menuIndex: index
       }, () => {
-        this.props.stickyScroll(this._slideModal, Math.round(py) === 50+STATUSBAR_HEIGHT)
+        const bool = (Math.abs(Math.round(py) - (50+STATUSBAR_HEIGHT)) <= 1)
+        this.props.stickyScroll(this._slideModal, bool)
       })
     })
   }
