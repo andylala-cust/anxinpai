@@ -25,15 +25,31 @@ import {
   SORT_PRICE_TYPE_DESC,
   SORT_PRICE_TYPE_ASC,
   SORT_CUT_TYPE_ASC,
-  SORT_CUT_TYPE_DESC
+  SORT_CUT_TYPE_DESC,
+  AREA_ARR,
+  RESET_ARR,
+  RENT_ARR,
+  TAX_ARR,
+  CIRC_ARR
 } from '../../constants';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard';
 import Toast from 'react-native-root-toast';
 import _fetch from '../../fetch';
 import {connect} from 'react-redux';
-import {filterZoneChange,filterSubwayChange,filterSubwayNameChange,toggleScroll} from '../../action/common/actionCreators'
+import {
+  filterZoneChange,
+  filterSubwayChange,
+  filterSubwayNameChange,
+  toggleScroll,
+  filterMoreChange
+} from '../../action/common/actionCreators'
 
+const AREA_REF = [];
+const RESET_REF= [];
+const RENT_REF = [];
+const TAX_REF = [];
+const CIRC_REF = [];
 const DURATION  = 300;
 const HOUSE_KIND = '类型';
 const PRICE_KIND = '价格';
@@ -60,6 +76,7 @@ class FilterBar extends Component {
       priceMin: '',
       priceMax: '',
       priceSelected: false,
+      toggleMore: false,
       sortType: '',
       city_id: '',
       tabIndex: 0,
@@ -68,11 +85,119 @@ class FilterBar extends Component {
       subwayLineArr: [[]],
       subwayLineIndex: '',
       checkedZoneIndex: '',
-      subwayLineNameIndex: ''
+      subwayLineNameIndex: '',
+      areaIndex: '',
+      areaMin: '',
+      areaMax: '',
+      resetIndex: '',
+      resetType: -2,
+      rentIndex: '',
+      rentType: -2,
+      taxIndex: '',
+      taxType: -2,
+      circIndex: '',
+      circType: -2
     }
+    this.selectArea = this.selectArea.bind(this)
+    this.selectReset = this.selectReset.bind(this)
+    this.selectRent = this.selectRent.bind(this)
+    this.selectTax = this.selectTax.bind(this)
+    this.selectCirc = this.selectCirc.bind(this)
     this.getZoneArr = this.getZoneArr.bind(this)
     this.getSubwayArr = this.getSubwayArr.bind(this)
     this.handleBarClick = this.handleBarClick.bind(this)
+  }
+  selectArea (item,index) {
+    if (!AREA_REF[index].switch) {
+      this.setState({
+        areaIndex: index,
+        areaMin: item.area_min,
+        areaMax: item.area_max,
+      })
+      for (let i = 0; i < AREA_REF.length; i++) {
+        AREA_REF[i].switch = false
+      }
+      AREA_REF[index].switch = true
+    } else {
+      this.setState({
+        areaIndex: '',
+        areaMin: '',
+        areaMax: '',
+      })
+      AREA_REF[index].switch = false
+    }
+  }
+  selectReset (item,index) {
+    if (!RESET_REF[index].switch) {
+      this.setState({
+        resetIndex: index,
+        resetType: item.reset_type
+      })
+      for (let i = 0; i < RESET_REF.length; i++) {
+        RESET_REF[i].switch = false
+      }
+      RESET_REF[index].switch = true
+    } else {
+      this.setState({
+        resetIndex: '',
+        resetType: -2
+      })
+      RESET_REF[index].switch = false
+    }
+  }
+  selectRent (item,index) {
+    if (!RENT_REF[index].switch) {
+      this.setState({
+        rentIndex: index,
+        rentType: item.rent_type
+      })
+      for (let i = 0; i < RENT_REF.length; i++) {
+        RENT_REF[i].switch = false
+      }
+      RENT_REF[index].switch = true
+    } else {
+      this.setState({
+        rentIndex: '',
+        rentType: -2
+      })
+      RENT_REF[index].switch = false
+    }
+  }
+  selectTax (item,index) {
+    if (!TAX_REF[index].switch) {
+      this.setState({
+        taxIndex: index,
+        taxType: item.tax_type
+      })
+      for (let i = 0; i < TAX_REF.length; i++) {
+        TAX_REF[i].switch = false
+      }
+      TAX_REF[index].switch = true
+    } else {
+      this.setState({
+        taxIndex: '',
+        taxType: -2
+      })
+      TAX_REF[index].switch = false
+    }
+  }
+  selectCirc (item,index) {
+    if (!CIRC_REF[index].switch) {
+      this.setState({
+        circIndex: index,
+        circType: item.circ_type
+      })
+      for (let i = 0; i < CIRC_REF.length; i++) {
+        CIRC_REF[i].switch = false
+      }
+      CIRC_REF[index].switch = true
+    } else {
+      this.setState({
+        circIndex: '',
+        circType: -2
+      })
+      CIRC_REF[index].switch = false
+    }
   }
   getZoneArr () {
     const url = `/zone/infos?city_id=${this.state.city_id}`
@@ -664,52 +789,46 @@ class FilterBar extends Component {
                 <View style={{marginBottom: 15}}>
                   <Text style={{fontWeight: 'bold',fontSize: 16}}>建筑面积</Text>
                 </View>
-                <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',marginBottom: 20}}>
-                  <TextInput
-                    // defaultValue={this.state.priceMin}
-                    // onChangeText={(value) => {this.setState({
-                    //   priceMin: value
-                    // })}}
-                    keyboardType={'numeric'}
-                    maxLength={6}
-                    placeholder={'最小面积'}
-                    placeholderTextColor={'#bbb'}
-                    style={{flex: 1,borderBottomColor: '#bbb',borderBottomWidth: StyleSheet.hairlineWidth,height: 20,fontSize: 16,textAlign: 'center'}}
-                  />
-                  <Text>至</Text>
-                  <TextInput
-                    // defaultValue={this.state.priceMax}
-                    // onChangeText={(value) => {this.setState({
-                    //   priceMax: value
-                    // })}}
-                    keyboardType={'numeric'}
-                    maxLength={6}
-                    placeholder={'最大面积'}
-                    placeholderTextColor={'#bbb'}
-                    style={{flex: 1,borderBottomColor: '#bbb',borderBottomWidth: StyleSheet.hairlineWidth,height: 20,fontSize: 16,textAlign: 'center'}}
-                  />
-                </View>
+                {/*<View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',marginBottom: 20}}>*/}
+                {/*  <TextInput*/}
+                {/*    // defaultValue={this.state.priceMin}*/}
+                {/*    // onChangeText={(value) => {this.setState({*/}
+                {/*    //   priceMin: value*/}
+                {/*    // })}}*/}
+                {/*    keyboardType={'numeric'}*/}
+                {/*    maxLength={6}*/}
+                {/*    placeholder={'最小面积'}*/}
+                {/*    placeholderTextColor={'#bbb'}*/}
+                {/*    style={{flex: 1,borderBottomColor: '#bbb',borderBottomWidth: StyleSheet.hairlineWidth,height: 20,fontSize: 16,textAlign: 'center'}}*/}
+                {/*  />*/}
+                {/*  <Text>至</Text>*/}
+                {/*  <TextInput*/}
+                {/*    // defaultValue={this.state.priceMax}*/}
+                {/*    // onChangeText={(value) => {this.setState({*/}
+                {/*    //   priceMax: value*/}
+                {/*    // })}}*/}
+                {/*    keyboardType={'numeric'}*/}
+                {/*    maxLength={6}*/}
+                {/*    placeholder={'最大面积'}*/}
+                {/*    placeholderTextColor={'#bbb'}*/}
+                {/*    style={{flex: 1,borderBottomColor: '#bbb',borderBottomWidth: StyleSheet.hairlineWidth,height: 20,fontSize: 16,textAlign: 'center'}}*/}
+                {/*  />*/}
+                {/*</View>*/}
                 <View style={{flexDirection: 'row',justifyContent: 'flex-start',alignItems: 'center'}}>
-                  <TouchableOpacity style={{width: '23%',}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>50以下</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{width: '23%',}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>50-90</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{width: '23%',}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>90-130</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{width: '23%',}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>130以上</Text>
-                    </View>
-                  </TouchableOpacity>
+                  {
+                    AREA_ARR.map((item,index) => (
+                      <TouchableOpacity
+                        ref={c => AREA_REF[index] = c}
+                        onPress={() => this.selectArea(item,index)}
+                        key={index}
+                        style={{width: '23%'}}
+                      >
+                        <View style={[styles.textWrapper,this.state.areaIndex === index && styles.checked]}>
+                          <Text style={[styles.text,this.state.areaIndex === index && styles.active]}>{item.title}</Text>
+                        </View>
+                      </TouchableOpacity>
+                    ))
+                  }
                 </View>
               </View>
               <View style={{marginBottom: 20}}>
@@ -717,21 +836,20 @@ class FilterBar extends Component {
                   <Text style={{fontWeight: 'bold',fontSize: 16}}>占用情况</Text>
                 </View>
                 <View style={{flexDirection: 'row',justifyContent: 'flex-start',alignItems: 'center'}}>
-                  <TouchableOpacity style={{width: '23%'}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>被占用</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{width: '23%'}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>已清空</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{width: '23%'}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>不清楚</Text>
-                    </View>
-                  </TouchableOpacity>
+                  {
+                    RESET_ARR.map((item,index) => (
+                      <TouchableOpacity
+                        ref={c => RESET_REF[index] = c}
+                        onPress={() => this.selectReset(item,index)}
+                        style={{width: '23%'}}
+                        key={index}
+                      >
+                        <View style={[styles.textWrapper,this.state.resetIndex === index && styles.checked]}>
+                          <Text style={[styles.text,this.state.resetIndex === index && styles.active]}>{item.title}</Text>
+                        </View>
+                      </TouchableOpacity>
+                    ))
+                  }
                 </View>
               </View>
               <View style={{marginBottom: 20}}>
@@ -739,21 +857,20 @@ class FilterBar extends Component {
                   <Text style={{fontWeight: 'bold',fontSize: 16}}>租用情况</Text>
                 </View>
                 <View style={{flexDirection: 'row',justifyContent: 'flex-start',alignItems: 'center'}}>
-                  <TouchableOpacity style={{width: '23%'}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>无出租</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{width: '23%'}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>已出租</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{width: '23%'}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>不清楚</Text>
-                    </View>
-                  </TouchableOpacity>
+                  {
+                    RENT_ARR.map((item,index) => (
+                      <TouchableOpacity
+                        ref={c => RENT_REF[index] = c}
+                        onPress={() => this.selectRent(item,index)}
+                        key={index}
+                        style={{width: '23%'}}
+                      >
+                        <View style={[styles.textWrapper,this.state.rentIndex === index && styles.checked]}>
+                          <Text style={[styles.text,this.state.rentIndex === index && styles.active]}>{item.title}</Text>
+                        </View>
+                      </TouchableOpacity>
+                    ))
+                  }
                 </View>
               </View>
               <View style={{marginBottom: 20}}>
@@ -761,26 +878,20 @@ class FilterBar extends Component {
                   <Text style={{fontWeight: 'bold',fontSize: 16}}>税费承担</Text>
                 </View>
                 <View style={{flexDirection: 'row',justifyContent: 'flex-start',alignItems: 'center'}}>
-                  <TouchableOpacity style={{width: '23%',fontSize: 12}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>买受人</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{width: '23%'}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>被执行人</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{width: '23%'}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>各自承担</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{width: '23%'}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>不清楚</Text>
-                    </View>
-                  </TouchableOpacity>
+                  {
+                    TAX_ARR.map((item,index) => (
+                      <TouchableOpacity
+                        ref={c => TAX_REF[index] = c}
+                        onPress={() => this.selectTax(item,index)}
+                        key={index}
+                        style={{width: '23%',fontSize: 12}}
+                      >
+                        <View style={[styles.textWrapper,this.state.taxIndex === index && styles.checked]}>
+                          <Text style={[styles.text,this.state.taxIndex === index && styles.active]}>{item.title}</Text>
+                        </View>
+                      </TouchableOpacity>
+                    ))
+                  }
                 </View>
               </View>
               <View style={{marginBottom: 20}}>
@@ -788,38 +899,78 @@ class FilterBar extends Component {
                   <Text style={{fontWeight: 'bold',fontSize: 16}}>拍卖轮次</Text>
                 </View>
                 <View style={{flexDirection: 'row',flexWrap: 'wrap',justifyContent: 'flex-start',alignItems: 'center'}}>
-                  <TouchableOpacity style={{width: '23%',fontSize: 12}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>一拍</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{width: '23%'}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>二拍</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{width: '23%'}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>三拍</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{width: '23%'}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>变卖</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{width: '23%',marginTop: 15}}>
-                    <View style={styles.textWrapper}>
-                      <Text style={styles.text}>已成交</Text>
-                    </View>
-                  </TouchableOpacity>
+                  {
+                    CIRC_ARR.map((item,index) => (
+                      <TouchableOpacity
+                        ref={c => CIRC_REF[index] = c}
+                        onPress={() => this.selectCirc(item,index)}
+                        key={index}
+                        style={{width: '23%',fontSize: 12}}
+                      >
+                        <View style={[styles.textWrapper,this.state.circIndex === index && styles.checked]}>
+                          <Text style={[styles.text,this.state.circIndex === index && styles.active]}>{item.title}</Text>
+                        </View>
+                      </TouchableOpacity>
+                    ))
+                  }
                 </View>
               </View>
             </ScrollView>
             <View style={{flexDirection: 'row',borderTopColor: '#bbb',borderTopWidth: StyleSheet.hairlineWidth,paddingTop: 10}}>
               <TouchableOpacity
                 onPress={() => {
-
+                  for (let i = 0; i < AREA_REF.length; i++) {
+                    AREA_REF[i].switch = false
+                  }
+                  for (let i = 0; i < RESET_REF.length; i++) {
+                    RESET_REF[i].switch = false
+                  }
+                  for (let i = 0; i < RENT_REF.length; i++) {
+                    RENT_REF[i].switch = false
+                  }
+                  for (let i = 0; i < TAX_REF.length; i++) {
+                    TAX_REF[i].switch = false
+                  }
+                  for (let i = 0; i < CIRC_REF.length; i++) {
+                    CIRC_REF[i].switch = false
+                  }
+                  this.setState({
+                    areaMin: '',
+                    areaMax: '',
+                    resetType: -2,
+                    rentType: -2,
+                    taxType: -2,
+                    circType: -2,
+                    areaIndex: '',
+                    resetIndex: '',
+                    rentIndex: '',
+                    taxIndex: '',
+                    circIndex: '',
+                  }, () => {
+                    this._slideModal.close()
+                    this.setState({
+                      toggleMore: false,
+                      moreKind: MORE_KIND
+                    })
+                    this.props._filterMoreChange({
+                      areaIndex: '',
+                      resetIndex: '',
+                      rentIndex: '',
+                      taxIndex: '',
+                      circIndex: '',
+                    })
+                    setTimeout(() => {
+                      this.props.filterListParams({
+                        page_id: 1,
+                        area_min: this.state.areaMin,
+                        area_max: this.state.areaMax,
+                        reset_type: this.state.resetType,
+                        rent_type: this.state.rentType,
+                        tax_type: this.state.taxType,
+                        circ_type: this.state.circType
+                      })
+                    }, DURATION)
+                  })
                 }}
                 style={{justifyContent: 'space-between',alignItems: 'center'}}
               >
@@ -831,8 +982,37 @@ class FilterBar extends Component {
               <TouchableHighlight
                 underlayColor={'rgba(0,106,255,.85)'}
                 onPress={() => {
+                  this._slideModal.close()
+                  if (this.state.areaIndex || this.state.resetIndex || this.state.rentIndex || this.state.taxIndex || this.state.circIndex) {
+                    this.setState({
+                      toggleMore: true,
+                      moreKind: '多选'
+                    })
+                  } else {
+                    this.setState({
+                      toggleMore: false,
+                      moreKind: MORE_KIND
+                    })
                   }
-                }
+                  this.props._filterMoreChange({
+                    areaIndex: this.state.areaIndex,
+                    resetIndex: this.state.resetIndex,
+                    rentIndex: this.state.rentIndex,
+                    taxIndex: this.state.taxIndex,
+                    circIndex: this.state.circIndex
+                  })
+                  setTimeout(() => {
+                    this.props.filterListParams({
+                      page_id: 1,
+                      area_min: this.state.areaMin,
+                      area_max: this.state.areaMax,
+                      reset_type: this.state.resetType,
+                      rent_type: this.state.rentType,
+                      tax_type: this.state.taxType,
+                      circ_type: this.state.circType
+                    })
+                  }, DURATION)
+                }}
                 style={{flex: 1,justifyContent: 'center',alignItems: 'center',marginLeft: 20,backgroundColor: '#006aff'}}
               >
                 <View>
@@ -910,16 +1090,23 @@ class FilterBar extends Component {
         </TouchableOpacity>
         <TouchableOpacity style={styles.tabItemWrapper} onPress={() => this.handleBarClick(3)}>
           <View style={styles.tabItem}>
-            <Text numberOfLines={1} style={(this.props.checkedZoneIndex || this.props.checkedZoneIndex === 0 || this.props.subwayLineNameIndex || this.props.subwayLineNameIndex === 0) && styles.active}>{this.state.zoneKind}</Text>
+            <Text
+              numberOfLines={1}
+              style={(this.props.checkedZoneIndex || this.props.checkedZoneIndex === 0 || this.props.subwayLineNameIndex || this.props.subwayLineNameIndex === 0) && styles.active}
+            >
+              {this.state.zoneKind}
+            </Text>
             <Ionicons
+              style={(this.props.checkedZoneIndex || this.props.checkedZoneIndex === 0 || this.props.subwayLineNameIndex || this.props.subwayLineNameIndex === 0) && styles.active}
               name={'md-arrow-dropdown'}
             />
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={styles.tabItemWrapper} onPress={() => this.handleBarClick(4)}>
           <View style={styles.tabItem}>
-            <Text numberOfLines={1}>{this.state.moreKind}</Text>
+            <Text style={this.state.toggleMore && styles.active} numberOfLines={1}>{this.state.moreKind}</Text>
             <Ionicons
+              style={this.state.toggleMore && styles.active}
               name={'md-arrow-dropdown'}
             />
           </View>
@@ -953,6 +1140,56 @@ class FilterBar extends Component {
               y: this.props.subwayLineNameIndex * 40
             })
             this.props._toggleScroll(false)
+            if (this.props.moreParam.areaIndex || this.props.moreParam.areaIndex === 0) {
+              for (let i = 0; i < AREA_REF.length; i++) {
+                AREA_REF[i].switch = false
+              }
+              AREA_REF[this.props.moreParam.areaIndex].switch = true
+            } else {
+              for (let i = 0; i < AREA_REF.length; i++) {
+                AREA_REF[i].switch = false
+              }
+            }
+            if (this.props.moreParam.resetIndex || this.props.moreParam.resetIndex === 0) {
+              for (let i = 0; i < RESET_REF.length; i++) {
+                RESET_REF[i].switch = false
+              }
+              RESET_REF[this.props.moreParam.resetIndex].switch = true
+            } else {
+              for (let i = 0; i < RESET_REF.length; i++) {
+                RESET_REF[i].switch = false
+              }
+            }
+            if (this.props.moreParam.rentIndex || this.props.moreParam.rentIndex === 0) {
+              for (let i = 0; i < RENT_REF.length; i++) {
+                RENT_REF[i].switch = false
+              }
+              RENT_REF[this.props.moreParam.rentIndex].switch = true
+            } else {
+              for (let i = 0; i < RENT_REF.length; i++) {
+                RENT_REF[i].switch = false
+              }
+            }
+            if (this.props.moreParam.taxIndex || this.props.moreParam.taxIndex === 0) {
+              for (let i = 0; i < TAX_REF.length; i++) {
+                TAX_REF[i].switch = false
+              }
+              TAX_REF[this.props.moreParam.taxIndex].switch = true
+            } else {
+              for (let i = 0; i < TAX_REF.length; i++) {
+                TAX_REF[i].switch = false
+              }
+            }
+            if (this.props.moreParam.circIndex || this.props.moreParam.circIndex === 0) {
+              for (let i = 0; i < CIRC_REF.length; i++) {
+                CIRC_REF[i].switch = false
+              }
+              CIRC_REF[this.props.moreParam.circIndex].switch = true
+            } else {
+              for (let i = 0; i < CIRC_REF.length; i++) {
+                CIRC_REF[i].switch = false
+              }
+            }
           }}
           onClosed={() => {
             this.setState({
@@ -960,6 +1197,51 @@ class FilterBar extends Component {
               subwayLineNameIndex: this.props.subwayLineNameIndex
             })
             this.props._toggleScroll(true)
+            if (this.props.moreParam.areaIndex || this.props.moreParam.areaIndex === 0) {
+              this.setState({
+                areaIndex: this.props.moreParam.areaIndex
+              })
+            } else {
+              this.setState({
+                areaIndex: ''
+              })
+            }
+            if (this.props.moreParam.resetIndex || this.props.moreParam.resetIndex === 0) {
+              this.setState({
+                resetIndex: this.props.moreParam.resetIndex
+              })
+            } else {
+              this.setState({
+                resetIndex: ''
+              })
+            }
+            if (this.props.moreParam.rentIndex || this.props.moreParam.rentIndex === 0) {
+              this.setState({
+                rentIndex: this.props.moreParam.rentIndex
+              })
+            } else {
+              this.setState({
+                rentIndex: ''
+              })
+            }
+            if (this.props.moreParam.taxIndex || this.props.moreParam.taxIndex === 0) {
+              this.setState({
+                taxIndex: this.props.moreParam.taxIndex
+              })
+            } else {
+              this.setState({
+                taxIndex: ''
+              })
+            }
+            if (this.props.moreParam.circIndex || this.props.moreParam.circIndex === 0) {
+              this.setState({
+                circIndex: this.props.moreParam.circIndex
+              })
+            } else {
+              this.setState({
+                circIndex: ''
+              })
+            }
           }}
         >
           {this.renderMenu(this.state.menuIndex)}
@@ -990,6 +1272,9 @@ const styles = StyleSheet.create({
   active: {
     color: '#006aff'
   },
+  checked: {
+    backgroundColor: '#f2f5fe'
+  },
   textWrapper: {
     marginRight: 3,
     paddingLeft: 10,
@@ -1007,7 +1292,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   checkedZoneIndex: state.common.checkedZoneIndex,
   subwayLineIndex: state.common.subwayLineIndex,
-  subwayLineNameIndex: state.common.subwayLineNameIndex
+  subwayLineNameIndex: state.common.subwayLineNameIndex,
+  moreParam: state.common.moreParam
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -1025,6 +1311,10 @@ const mapDispatchToProps = dispatch => ({
   },
   _toggleScroll (bool) {
     const action = toggleScroll(bool)
+    dispatch(action)
+  },
+  _filterMoreChange (param) {
+    const action = filterMoreChange(param)
     dispatch(action)
   }
 })

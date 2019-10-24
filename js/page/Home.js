@@ -45,7 +45,9 @@ class Home extends Component {
         price_type: 0,
         cut_type: 0,
         price_min: 0,
-        price_max: 0
+        price_max: 0,
+        area_min: '',
+        area_max: ''
       },
       summary: {},
       toastVisible: false,
@@ -181,7 +183,6 @@ class Home extends Component {
       })
   }
   handleSwiperItemClick (item) {
-    console.log(item)
     this.props.navigation.navigate('HomeBannerDetail', {
       item
     })

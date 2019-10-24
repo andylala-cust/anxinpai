@@ -2,7 +2,8 @@ import {
   FILTER_ZONE_CHANGE,
   FILTER_SUBWAY_CHANGE,
   FILTER_SUBWAY_NAME_CHANGE,
-  TOGGLE_SCROLL
+  TOGGLE_SCROLL,
+  FILTER_MORE_CHANGE
 } from './actionTypes';
 
 export const filterZoneChange = (value) => ({
@@ -22,5 +23,10 @@ export const filterSubwayNameChange = (value) => ({
 
 export const toggleScroll = (value) => ({
   type: TOGGLE_SCROLL,
+  value
+})
+
+export const filterMoreChange = (value) => ({
+  type: FILTER_MORE_CHANGE,
   value
 })

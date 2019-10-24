@@ -13,3 +13,89 @@ export const SORT_PRICE_TYPE_DESC = 1; // 价格从高到低
 export const SORT_PRICE_TYPE_ASC = 2; // 价格从低到高
 export const SORT_CUT_TYPE_ASC = 1 // 折扣力度从大到小
 export const SORT_CUT_TYPE_DESC = 2 // 折扣力度从小到大
+export const AREA_ARR = [
+  {
+    area_min: 0,
+    area_max: 50,
+    title: '50以下'
+  },
+  {
+    area_min: 50,
+    area_max: 90,
+    title: '50-90'
+  },
+  {
+    area_min: 90,
+    area_max: 130,
+    title: '90-130'
+  },
+  {
+    area_min: 130,
+    area_max: 1000000,
+    title: '130以上'
+  }
+]
+export const RESET_ARR = [
+  {
+    reset_type: 0,
+    title: '被占用'
+  },
+  {
+    reset_type: 1,
+    title: '已清空'
+  },
+  {
+    reset_type: -1,
+    title: '不清楚'
+  }
+]
+export const RENT_ARR = [
+  {
+    rent_type: 0,
+    title: '无出租'
+  },
+  {
+    rent_type: 1,
+    title: '已出租'
+  },
+  {
+    rent_type: -1,
+    title: '不清楚'
+  }
+]
+export const TAX_ARR = [
+  {
+    title: '买受人',
+    tax_type: '买受人承担'
+  },
+  {
+    title: '被执行人',
+    tax_type: '被执行人承担'
+  },
+  {
+    title: '各自承担',
+    tax_type: '各自承担'
+  },
+  {
+    title: '不清楚',
+    tax_type: '--'
+  }
+]
+export const CIRC_ARR = [
+  {
+    title: '一拍',
+    circ_type: 1
+  },
+  {
+    title: '二拍',
+    circ_type: 2
+  },
+  {
+    title: '三拍',
+    circ_type: 3
+  },
+  {
+    title: '变卖',
+    circ_type: 4
+  }
+]

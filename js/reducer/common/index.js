@@ -2,14 +2,22 @@ import {
   FILTER_ZONE_CHANGE,
   FILTER_SUBWAY_CHANGE,
   FILTER_SUBWAY_NAME_CHANGE,
-  TOGGLE_SCROLL
+  TOGGLE_SCROLL,
+  FILTER_MORE_CHANGE
 } from '../../action/common/actionTypes';
 
 const defaultState = {
   checkedZoneIndex: '',
   subwayLineIndex: '',
   subwayLineNameIndex: '',
-  toggleScroll: true
+  toggleScroll: true,
+  moreParam: {
+    areaIndex: '',
+    resetIndex: '',
+    rentIndex: '',
+    taxIndex: '',
+    circIndex: '',
+  }
 }
 
 export default (state = defaultState, action) => {
@@ -36,6 +44,12 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         toggleScroll: action.value
+      }
+    }
+    case FILTER_MORE_CHANGE: {
+      return {
+        ...state,
+        moreParam: action.value
       }
     }
     default: {

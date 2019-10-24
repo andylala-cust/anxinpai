@@ -2,12 +2,17 @@ import React, {Component} from 'react';
 import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Toast from 'react-native-root-toast';
 
 class HomeMainEntry extends Component {
   render () {
     return (
       <View style={styles.wrapper}>
-        <TouchableOpacity onPress={() => {alert(1)}}>
+        <TouchableOpacity onPress={() => {
+          const toast = Toast.show('敬请期待^_^', {
+            position: 0
+          })
+        }}>
           <View style={styles.item}>
             <Ionicons
               name={'ios-map'}
@@ -19,7 +24,11 @@ class HomeMainEntry extends Component {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {alert(2)}}>
+        <TouchableOpacity onPress={() => {
+          const toast = Toast.show('敬请期待^_^', {
+            position: 0
+          })
+        }}>
           <View style={styles.item}>
             <MaterialCommunityIcons
               name={'map-marker-radius'}
@@ -31,7 +40,11 @@ class HomeMainEntry extends Component {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {alert(3)}}>
+        <TouchableOpacity onPress={() => {
+          const toast = Toast.show('敬请期待^_^', {
+            position: 0
+          })
+        }}>
           <View style={styles.item}>
             <MaterialCommunityIcons
               name={'bullseye-arrow'}
@@ -43,7 +56,11 @@ class HomeMainEntry extends Component {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {alert(4)}}>
+        <TouchableOpacity onPress={() => {
+          const toast = Toast.show('敬请期待^_^', {
+            position: 0
+          })
+        }}>
           <View style={styles.item}>
             <Ionicons
               name={'ios-book'}

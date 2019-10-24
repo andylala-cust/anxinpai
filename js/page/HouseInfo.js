@@ -11,7 +11,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import {IS_IPHONEX} from '../util';
-import {STATUSBAR_HEIGHT} from '../util';
+import {STATUSBAR_HEIGHT,storage} from '../util';
 import {Split} from '../components/common';
 import {
   HouseInfoSwiper,
@@ -29,6 +29,7 @@ import {connect} from 'react-redux';
 import {updateCourtUrl,updateValueUrl,updatePreviewList,updateHouseProperty} from '../action/houseInfo/actionCreators';
 import _fetch from '../fetch';
 import {queryString} from '../util';
+import Toast from 'react-native-root-toast';
 
 const {Surface,Shape,Group} = ART;
 const SWIPER_HEIGHT = 240;
@@ -65,8 +66,10 @@ class HouseInfo extends Component {
       houseStatusArr: [],
       houseDealArr: [],
       opacity: 0,
-      highlightIndex: 0
+      highlightIndex: 0,
+      agentData: {}
     }
+    this.getAgent = this.getAgent.bind(this)
     this.getHouseImgList = this.getHouseImgList.bind(this)
     this.getHouseRate = this.getHouseRate.bind(this)
     this.getHouseSchool = this.getHouseSchool.bind(this)
@@ -74,6 +77,20 @@ class HouseInfo extends Component {
     this.getCourtDoc = this.getCourtDoc.bind(this)
     this.handleWebViewClick = this.handleWebViewClick.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
+  }
+  getAgent () {
+    storage.getItem('user_id').then(data => {
+      const userId = data
+      const url = `/activity/getConsultant?user_id=${userId}`
+      _fetch.get(url)
+        .then(data => {
+          this.setState({
+            agentData: data.content
+          }, () => {
+            console.log(this.state.agentData)
+          })
+        })
+    })
   }
   getHouseImgList () {
     const {id,datafrom} = this.props.navigation.state.params
@@ -218,6 +235,7 @@ class HouseInfo extends Component {
     }
   }
   componentDidMount () {
+    this.getAgent()
     this.getHouseImgList()
     this.getHouseRate()
     this.getHouseSchool()
@@ -269,16 +287,30 @@ class HouseInfo extends Component {
           />
           <HouseInfoFooter id={this.props.navigation.state.params.id} />
         </ScrollView>
-        <HouseBottomCard />
+        <HouseBottomCard {...this.state.agentData} />
         <View style={{position: 'absolute',left: 0,right: 0,flexDirection: 'row',justifyContent: 'space-between',paddingTop: STATUSBAR_HEIGHT,backgroundColor: `rgba(255,255,255,${this.state.opacity})`}}>
           <TouchableOpacity style={{paddingLeft: 20,paddingRight: 30,}} onPress={() => {this.props.navigation.goBack()}}>
             <Ionicons name="ios-arrow-back" size={26} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />
           </TouchableOpacity>
           <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
-            <TouchableOpacity style={{paddingLeft: 5,paddingRight: 5,marginRight: 15}} onPress={() => {alert(1)}}>
+            <TouchableOpacity
+              style={{paddingLeft: 5,paddingRight: 5,marginRight: 15}}
+              onPress={() => {
+                const toast = Toast.show('敬请期待^_^', {
+                  position: 0
+                })
+              }}
+            >
               <Ionicons name="ios-heart-empty" size={22} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />
             </TouchableOpacity>
-            <TouchableOpacity style={{paddingLeft: 5,paddingRight: 5,marginRight: 15}} onPress={() => {alert(1)}}>
+            <TouchableOpacity
+              style={{paddingLeft: 5,paddingRight: 5,marginRight: 15}}
+              onPress={() => {
+                const toast = Toast.show('敬请期待^_^', {
+                  position: 0
+                })
+              }}
+            >
               <View
                 style={{height: FIXED_ICON_HEIGHT,alignItems: 'center',justifyContent: 'center'}}
               >
@@ -295,7 +327,14 @@ class HouseInfo extends Component {
                 </Surface>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={{paddingRight: 20}} onPress={() => {alert('search')}} >
+            <TouchableOpacity
+              style={{paddingRight: 20}}
+              onPress={() => {
+                const toast = Toast.show('敬请期待^_^', {
+                  position: 0
+                })
+              }}
+            >
               <Feather name="share" size={20} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />
             </TouchableOpacity>
           </View>
