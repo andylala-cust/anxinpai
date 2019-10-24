@@ -13,14 +13,18 @@ class HouseBottomCard extends Component {
         <View style={styles.cardContainer}>
           <View style={{width: '38%',flexDirection: 'row'}}>
             <View style={{justifyContent: 'center',alignItems: 'center'}}>
-              <Image
-                source={{uri: this.props.avatar}}
-                style={{width: 50,height: 50,borderRadius: 25}}
-              />
+              <View
+                style={{width: 50,height: 50,borderRadius: 25,backgroundColor: '#bdbdbd'}}
+              >
+                <Image
+                  source={{uri: this.props.avatar}}
+                  style={{width: 50,height: 50,borderRadius: 25}}
+                />
+              </View>
             </View>
             <View style={{justifyContent: 'space-around',alignItems: 'flex-start',paddingLeft: 4}}>
-              <Text style={{fontWeight: 'bold',fontSize: 16}}>{this.props.name}</Text>
-              <Text style={{fontSize: 12,color: '#bababa'}}>{this.props.company_name}</Text>
+              <Text style={{fontWeight: 'bold',fontSize: 16}}>{this.props.name || '-'}</Text>
+              <Text style={{fontSize: 12,color: '#bababa'}}>{this.props.company_name || '-'}</Text>
             </View>
           </View>
           <View style={{flexDirection: 'row',width: '60%',justifyContent: 'space-between'}}>
