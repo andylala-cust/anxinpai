@@ -11,6 +11,7 @@ import {
   Court,
   Around,
   HouseValue,
+  HomeBannerDetail
 } from '../page';
 
 export const rootCom = 'Tab';
@@ -31,6 +32,7 @@ export const StackNavigator = createStackNavigator({
   Court,
   Around,
   HouseValue,
+  HomeBannerDetail
 }, {
   headerMode: 'float',
   headerTransitionPreset: 'uikit',
