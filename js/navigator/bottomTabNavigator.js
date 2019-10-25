@@ -62,11 +62,11 @@ export const Tab = createBottomTabNavigator(
               size={26}
               style={{color: tintColor}}
             />
-            <Badge
-              value={'9'}
-              status={'error'}
-              containerStyle={{ position: 'absolute', top: -2, right: -20 }}
-            />
+            {/*<Badge*/}
+            {/*  value={'9'}*/}
+            {/*  status={'error'}*/}
+            {/*  containerStyle={{ position: 'absolute', top: -2, right: -20 }}*/}
+            {/*/>*/}
           </View>
         )
       }

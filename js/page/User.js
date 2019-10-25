@@ -30,9 +30,10 @@ class User extends Component {
   render () {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <BubblesLoader />
-        <Text>User Page</Text>
-        <Text onPress={() => this.props.tipChange()}>{this.props.tip || 'hello world'}</Text>
+        {/*<BubblesLoader />*/}
+        {/*<Text>User Page</Text>*/}
+        {/*<Text onPress={() => this.props.tipChange()}>{this.props.tip || 'hello world'}</Text>*/}
+        <Text>敬请期待</Text>
       </View>
     )
   }

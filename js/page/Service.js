@@ -29,34 +29,35 @@ class Service extends Component {
   render () {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Button
-          title={'start animation'}
-          onPress={() => this.handleBtnClick()}
-        />
-        <Animated.View style={{opacity: this.state.opacity}}>
-          <Text>lalala</Text>
-        </Animated.View>
-        <Text>
-          Service Page
-        </Text>
-        <View>
-          <Avatar
-            rounded
-            source={{
-              uri: 'http://static.yfbudong.com/cat.png',
-            }}
-            size="large"
-          />
-          <Badge
-            value={'99'}
-            status={'error'}
-            containerStyle={{ position: 'absolute', top: -4, right: -4 }}
-          />
-        </View>
-        <Button
-          title={'Go To Info Page'}
-          onPress={() => this.props.navigation.navigate('Info')}
-        />
+        {/*<Button*/}
+        {/*  title={'start animation'}*/}
+        {/*  onPress={() => this.handleBtnClick()}*/}
+        {/*/>*/}
+        {/*<Animated.View style={{opacity: this.state.opacity}}>*/}
+        {/*  <Text>lalala</Text>*/}
+        {/*</Animated.View>*/}
+        {/*<Text>*/}
+        {/*  Service Page*/}
+        {/*</Text>*/}
+        {/*<View>*/}
+        {/*  <Avatar*/}
+        {/*    rounded*/}
+        {/*    source={{*/}
+        {/*      uri: 'http://static.yfbudong.com/cat.png',*/}
+        {/*    }}*/}
+        {/*    size="large"*/}
+        {/*  />*/}
+        {/*  <Badge*/}
+        {/*    value={'99'}*/}
+        {/*    status={'error'}*/}
+        {/*    containerStyle={{ position: 'absolute', top: -4, right: -4 }}*/}
+        {/*  />*/}
+        {/*</View>*/}
+        {/*<Button*/}
+        {/*  title={'Go To Info Page'}*/}
+        {/*  onPress={() => this.props.navigation.navigate('Info')}*/}
+        {/*/>*/}
+        <Text>敬请期待</Text>
       </View>
     )
   }

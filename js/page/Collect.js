@@ -21,26 +21,27 @@ class Collect extends Component {
   render () {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>About Page</Text>
-        <Button
-          title={'Go To Detail Page'}
-          onPress={() => this.props.navigation.navigate('Detail')}
-        />
-        <AirbnbRating
-          count={5}
-          size={20}
-          defaultRating={this.state.rate}
-          onFinishRating={(rate) => {
-            this.setState({
-              rate: rate
-            })
-          }}
-        />
-        <Rating
-          imageSize={20}
-          readonly
-          startingValue={this.state.rate}
-        />
+        {/*<Text>About Page</Text>*/}
+        {/*<Button*/}
+        {/*  title={'Go To Detail Page'}*/}
+        {/*  onPress={() => this.props.navigation.navigate('Detail')}*/}
+        {/*/>*/}
+        {/*<AirbnbRating*/}
+        {/*  count={5}*/}
+        {/*  size={20}*/}
+        {/*  defaultRating={this.state.rate}*/}
+        {/*  onFinishRating={(rate) => {*/}
+        {/*    this.setState({*/}
+        {/*      rate: rate*/}
+        {/*    })*/}
+        {/*  }}*/}
+        {/*/>*/}
+        {/*<Rating*/}
+        {/*  imageSize={20}*/}
+        {/*  readonly*/}
+        {/*  startingValue={this.state.rate}*/}
+        {/*/>*/}
+        <Text>敬请期待</Text>
       </View>
     )
   }
