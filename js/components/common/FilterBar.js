@@ -1131,6 +1131,32 @@ class FilterBar extends Component {
             }
           }}
           onOpened={() => {
+            if (this.props.moreParam.areaIndex === '') {
+              this.setState({
+                areaMin: '',
+                areaMax: ''
+              })
+            }
+            if (this.props.moreParam.resetIndex === '') {
+              this.setState({
+                resetType: -2
+              })
+            }
+            if (this.props.moreParam.resetIndex === '') {
+              this.setState({
+                rentType: -2
+              })
+            }
+            if (this.props.moreParam.taxIndex === '') {
+              this.setState({
+                taxType: -2
+              })
+            }
+            if (this.props.moreParam.circIndex === '') {
+              this.setState({
+                circType: -2
+              })
+            }
             this.zoneRef && this.zoneRef.scrollTo({
               y: this.props.checkedZoneIndex * 40
             })
@@ -1143,52 +1169,52 @@ class FilterBar extends Component {
             this.props._toggleScroll(false)
             if (this.props.moreParam.areaIndex || this.props.moreParam.areaIndex === 0) {
               for (let i = 0; i < AREA_REF.length; i++) {
-                AREA_REF[i].switch = false
+                AREA_REF[i] && (AREA_REF[i].switch = false)
               }
-              AREA_REF[this.props.moreParam.areaIndex].switch = true
+              AREA_REF[this.props.moreParam.areaIndex] && (AREA_REF[this.props.moreParam.areaIndex].switch = true)
             } else {
               for (let i = 0; i < AREA_REF.length; i++) {
-                AREA_REF[i].switch = false
+                AREA_REF[i] && (AREA_REF[i].switch = false)
               }
             }
             if (this.props.moreParam.resetIndex || this.props.moreParam.resetIndex === 0) {
               for (let i = 0; i < RESET_REF.length; i++) {
-                RESET_REF[i].switch = false
+                RESET_REF[i] && (RESET_REF[i].switch = false)
               }
-              RESET_REF[this.props.moreParam.resetIndex].switch = true
+              RESET_REF[this.props.moreParam.resetIndex] && (RESET_REF[this.props.moreParam.resetIndex].switch = true)
             } else {
               for (let i = 0; i < RESET_REF.length; i++) {
-                RESET_REF[i].switch = false
+                RESET_REF[i] && (RESET_REF[i].switch = false)
               }
             }
             if (this.props.moreParam.rentIndex || this.props.moreParam.rentIndex === 0) {
               for (let i = 0; i < RENT_REF.length; i++) {
-                RENT_REF[i].switch = false
+                RENT_REF[i] && (RENT_REF[i].switch = false)
               }
-              RENT_REF[this.props.moreParam.rentIndex].switch = true
+              RENT_REF[this.props.moreParam.rentIndex] && (RENT_REF[this.props.moreParam.rentIndex].switch = true)
             } else {
               for (let i = 0; i < RENT_REF.length; i++) {
-                RENT_REF[i].switch = false
+                RENT_REF[i] && (RENT_REF[i].switch = false)
               }
             }
             if (this.props.moreParam.taxIndex || this.props.moreParam.taxIndex === 0) {
               for (let i = 0; i < TAX_REF.length; i++) {
-                TAX_REF[i].switch = false
+                TAX_REF[i] && (TAX_REF[i].switch = false)
               }
-              TAX_REF[this.props.moreParam.taxIndex].switch = true
+              TAX_REF[this.props.moreParam.taxIndex] && (TAX_REF[this.props.moreParam.taxIndex].switch = true)
             } else {
               for (let i = 0; i < TAX_REF.length; i++) {
-                TAX_REF[i].switch = false
+                TAX_REF[i] && (TAX_REF[i].switch = false)
               }
             }
             if (this.props.moreParam.circIndex || this.props.moreParam.circIndex === 0) {
               for (let i = 0; i < CIRC_REF.length; i++) {
-                CIRC_REF[i].switch = false
+                CIRC_REF[i] && (CIRC_REF[i].switch = false)
               }
-              CIRC_REF[this.props.moreParam.circIndex].switch = true
+              CIRC_REF[this.props.moreParam.circIndex] && (CIRC_REF[this.props.moreParam.circIndex].switch = true)
             } else {
               for (let i = 0; i < CIRC_REF.length; i++) {
-                CIRC_REF[i].switch = false
+                CIRC_REF[i] && (CIRC_REF[i].switch = false)
               }
             }
           }}
