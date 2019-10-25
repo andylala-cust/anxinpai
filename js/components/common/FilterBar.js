@@ -686,9 +686,12 @@ class FilterBar extends Component {
                     <View style={{flexDirection: 'row'}}>
                       {
                         <View style={{flex: 1}}>
-                          <ScrollView showsVerticalScrollIndicator={false} ref={(e) => this.subwayLineRef = e}>
+                          <ScrollView
+                            showsVerticalScrollIndicator={false}
+                            ref={(e) => this.subwayLineRef = e}
+                          >
                             {
-                              this.state.subwayNameArr.map((item,index) => (
+                              this.state.subwayNameArr.length ? this.state.subwayNameArr.map((item,index) => (
                                 <TouchableOpacity
                                   onPress={() => {
                                     this.setState({
@@ -702,7 +705,7 @@ class FilterBar extends Component {
                                     <Text style={[{lineHeight: 40, paddingLeft: 10, paddingRight: 10}, this.state.subwayLineIndex === index && styles.active]}>{item}</Text>
                                   </View>
                                 </TouchableOpacity>
-                              ))
+                              )) : <Text style={{height: 40,lineHeight: 40,paddingLeft: 10}}>暂无地铁</Text>
                             }
                           </ScrollView>
                         </View>
