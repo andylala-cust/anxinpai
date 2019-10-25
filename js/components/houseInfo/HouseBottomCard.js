@@ -1,5 +1,13 @@
 import React,{Component} from 'react';
-import {Image, Text, View, StyleSheet, Platform, TouchableOpacity} from 'react-native';
+import {
+  Image,
+  Text,
+  View,
+  StyleSheet,
+  Platform,
+  TouchableOpacity,
+  Linking
+} from 'react-native';
 import {IS_IPHONEX} from '../../util';
 import Toast from 'react-native-root-toast';
 
@@ -32,9 +40,22 @@ class HouseBottomCard extends Component {
               style={[styles.cardLeftBtn,{backgroundColor: '#66c18f'}]}
               activeOpacity={1}
               onPress={() => {
-                const toast = Toast.show('敬请期待^_^', {
-                  position: 0
-                })
+                const url = `tel: 18616329661`
+                Linking.canOpenURL(url)
+                  .then(supported => {
+                    if (!supported) {
+                      const toast = Toast.show('你的设备不支持此操作>_<', {
+                        position: 0
+                      })
+                    } else {
+                      return Linking.openURL(url)
+                    }
+                  })
+                  .catch(err => {
+                    const toast = Toast.show('我跑到火星去了>_<', {
+                      position: 0
+                    })
+                  })
               }}
             >
               <View>

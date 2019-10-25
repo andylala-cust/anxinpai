@@ -86,8 +86,6 @@ class HouseInfo extends Component {
         .then(data => {
           this.setState({
             agentData: data.content
-          }, () => {
-            console.log(this.state.agentData)
           })
         })
     })
