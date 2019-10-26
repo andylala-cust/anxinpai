@@ -15,6 +15,7 @@ import {queryString, storage} from '../util';
 import {PAGE_SIZE,TYPE_ID,PULL_DOWN_REFRESH_DURATION} from '../constants';
 import Toast from 'react-native-root-toast';
 import {connect} from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
 
 const JPushModule = NativeModules.JPushModule;
 const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
@@ -231,6 +232,7 @@ class Home extends Component {
     })
   }
   componentDidMount () {
+    SplashScreen.hide()
     this.getCurrentCity()
     this.initJPush()
   }

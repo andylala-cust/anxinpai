@@ -70,6 +70,8 @@ PODS:
   - react-native-amap3d (1.1.1):
     - AMap3DMap (~> 6.6.0)
     - React
+  - react-native-splash-screen (3.2.0):
+    - React
   - react-native-webview (7.2.7):
     - React
   - React-RCTActionSheet (0.60.5):
@@ -125,6 +127,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-amap3d (from `../node_modules/react-native-amap3d/lib/ios`)
+  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -181,6 +184,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-amap3d:
     :path: "../node_modules/react-native-amap3d/lib/ios"
+  react-native-splash-screen:
+    :path: "../node_modules/react-native-splash-screen"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
@@ -237,6 +242,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 90ad2f9db09513fc763bc757fdc3c4ff8bde2a30
   React-jsinspector: e08662d1bf5b129a3d556eb9ea343a3f40353ae4
   react-native-amap3d: 8dda78f6605472b50a17818f5af185518081eec7
+  react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-webview: 4e86924f095da5cb81708104d414e37ae43f2978
   React-RCTActionSheet: b0f1ea83f4bf75fb966eae9bfc47b78c8d3efd90
   React-RCTAnimation: 359ba1b5690b1e87cc173558a78e82d35919333e
@@ -256,6 +262,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   yoga: 312528f5bbbba37b4dcea5ef00e8b4033fdd9411
 
-PODFILE CHECKSUM: b46873bc90680940b42a60470d59a95572f00579
+PODFILE CHECKSUM: 2e5d70cc0f27a754c975a4d2ca01f494da168e60
 
 COCOAPODS: 1.6.1
