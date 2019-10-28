@@ -96,6 +96,7 @@ class Around extends Component {
     switch (index) {
       case 0: {
         // 141202 获取高德地图附近一公里中学
+        StatusBar.setNetworkActivityIndicatorVisible(true)
         _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=141202&radius=1000&offset=10&page=1&extensions=all`,true)
           .then(data => {
             this.setState({
@@ -118,12 +119,14 @@ class Around extends Component {
                       aroundArr: arr,
                       toggleLoader: false
                     })
+                    StatusBar.setNetworkActivityIndicatorVisible(false)
                   })
               })
           })
         break
       }
       case 1: {
+        StatusBar.setNetworkActivityIndicatorVisible(true)
         _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=150500&radius=1000&offset=10&page=1&extensions=all`,true)
           .then(data => {
             this.setState({
@@ -137,11 +140,13 @@ class Around extends Component {
                   aroundArr: arr,
                   toggleLoader: false
                 })
+                StatusBar.setNetworkActivityIndicatorVisible(false)
               })
           })
         break
       }
       case 2: {
+        StatusBar.setNetworkActivityIndicatorVisible(true)
         _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=060100&radius=1000&offset=10&page=1&extensions=all`,true)
           .then(data => {
             this.setState({
@@ -155,11 +160,13 @@ class Around extends Component {
                   aroundArr: arr,
                   toggleLoader: false
                 })
+                StatusBar.setNetworkActivityIndicatorVisible(false)
               })
           })
         break
       }
       case 3: {
+        StatusBar.setNetworkActivityIndicatorVisible(true)
         _fetch.get(`https://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&location=${geo}&types=090100&radius=1000&offset=10&page=1&extensions=all`,true)
           .then(data => {
             this.setState({
@@ -173,6 +180,7 @@ class Around extends Component {
                   aroundArr: arr,
                   toggleLoader: false
                 })
+                StatusBar.setNetworkActivityIndicatorVisible(false)
               })
           })
         break
@@ -182,6 +190,7 @@ class Around extends Component {
     }
   }
   componentDidMount () {
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     this.setState({
       latitude : this.props.navigation.getParam('latitude'),
       longitude: this.props.navigation.getParam('longitude'),

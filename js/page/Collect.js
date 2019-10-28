@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import {
   Text,
   View,
-  Button
+  Button,
+  StatusBar, Platform,
 } from 'react-native';
 import {Rating, AirbnbRating} from 'react-native-elements'
 
-const DEFAULTRATE = 5
+const DEFAULTRATE = 5;
+const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
 
 class Collect extends Component {
   static navigationOptions = {
@@ -17,6 +19,14 @@ class Collect extends Component {
     this.state = {
       rate: DEFAULTRATE
     }
+  }
+  componentDidMount () {
+    this._navListener = this.props.navigation.addListener('didFocus', () => {
+      StatusBar.setBarStyle(BARSTYLE)
+    })
+  }
+  componentWillUnmount() {
+    this._navListener.remove()
   }
   render () {
     return (
@@ -41,6 +51,12 @@ class Collect extends Component {
         {/*  readonly*/}
         {/*  startingValue={this.state.rate}*/}
         {/*/>*/}
+        <StatusBar
+          barStyle={BARSTYLE}
+          backgroundColor={"transparent"}
+          translucent={true}
+          // networkActivityIndicatorVisible={true}
+        />
         <Text>敬请期待</Text>
       </View>
     )

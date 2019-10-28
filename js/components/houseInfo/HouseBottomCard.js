@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {IS_IPHONEX} from '../../util';
 import Toast from 'react-native-root-toast';
+import {IMG_PLACE_COLOR} from '../../constants';
 
 const IPHONEX_TABBAR_DELTA = 34;
 const TAB_BAR_HEIGHT = IS_IPHONEX ? IPHONEX_TABBAR_DELTA : 0;
@@ -22,7 +23,7 @@ class HouseBottomCard extends Component {
           <View style={{width: '38%',flexDirection: 'row'}}>
             <View style={{justifyContent: 'center',alignItems: 'center'}}>
               <View
-                style={{width: 50,height: 50,borderRadius: 25,backgroundColor: '#bdbdbd'}}
+                style={{width: 50,height: 50,borderRadius: 25,backgroundColor: IMG_PLACE_COLOR}}
               >
                 <Image
                   source={{uri: this.props.avatar}}

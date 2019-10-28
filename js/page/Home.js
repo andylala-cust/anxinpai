@@ -124,17 +124,20 @@ class Home extends Component {
   }
   getRecommendList (cityId) {
     const url = `/house/lists?city_id=${cityId}&page_id=${1}&page_size=${10}&type_id=${0}`
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     _fetch.get(url)
       .then(data => {
         this.setState({
           recommendList: data.content
         })
+        StatusBar.setNetworkActivityIndicatorVisible(false)
       })
   }
   getInitHouseList (param) {
     return new Promise(resolve => {
       const query = queryString.stringify(param)
       const url = `/house/lists?${query}`
+      StatusBar.setNetworkActivityIndicatorVisible(true)
       console.log(url)
       _fetch.get(url)
         .then(data => {
@@ -143,6 +146,7 @@ class Home extends Component {
             toggleMore:  data.content.length < PAGE_SIZE ? false : true,
             toggleFirstEnter: false
           })
+          StatusBar.setNetworkActivityIndicatorVisible(false)
           resolve()
         })
     })
@@ -156,6 +160,7 @@ class Home extends Component {
     })
     const query = queryString.stringify(this.state.listParams)
     const url = `/house/lists?${query}`
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     _fetch.get(url)
       .then(data => {
         const arr = [...this.state.data]
@@ -164,24 +169,29 @@ class Home extends Component {
           data: arr,
           toggleMore:  data.content.length < PAGE_SIZE ? false : true
         })
+        StatusBar.setNetworkActivityIndicatorVisible(false)
       })
   }
   getBannerList (cityId) {
     const url = `/share/activity/getAd?city_id=${cityId}`
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     _fetch.get(url)
       .then(data => {
         this.setState({
           bannerList: data.content
         })
+        StatusBar.setNetworkActivityIndicatorVisible(false)
       })
   }
   getSummary (cityId) {
     const url = `/house/get_house_summary?city_id=${cityId}`
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     _fetch.get(url)
       .then(data => {
         this.setState({
           summary: data.content
         })
+        StatusBar.setNetworkActivityIndicatorVisible(false)
       })
   }
   handleSwiperItemClick (item) {
@@ -233,8 +243,15 @@ class Home extends Component {
   }
   componentDidMount () {
     SplashScreen.hide()
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     this.getCurrentCity()
     this.initJPush()
+    this._navListener = this.props.navigation.addListener('didFocus', () => {
+      StatusBar.setBarStyle(BARSTYLE)
+    })
+  }
+  componentWillUnmount() {
+    this._navListener.remove()
   }
   render () {
     return (
@@ -243,6 +260,7 @@ class Home extends Component {
           barStyle={BARSTYLE}
           backgroundColor={"transparent"}
           translucent={true}
+          // networkActivityIndicatorVisible={true}
         />
         <Toast
           visible={this.state.toastVisible}

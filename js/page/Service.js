@@ -4,9 +4,13 @@ import {
   View,
   Button,
   Animated,
-  Easing
+  Easing,
+  StatusBar,
+  Platform
 } from 'react-native';
 import {Badge,Avatar} from 'react-native-elements';
+
+const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
 
 class Service extends Component {
   static navigationOptions = {
@@ -25,6 +29,14 @@ class Service extends Component {
       duration: 2000,
       easing: Easing.ease,
     }).start()
+  }
+  componentDidMount () {
+    this._navListener = this.props.navigation.addListener('didFocus', () => {
+      StatusBar.setBarStyle(BARSTYLE)
+    })
+  }
+  componentWillUnmount() {
+    this._navListener.remove()
   }
   render () {
     return (
@@ -57,6 +69,12 @@ class Service extends Component {
         {/*  title={'Go To Info Page'}*/}
         {/*  onPress={() => this.props.navigation.navigate('Info')}*/}
         {/*/>*/}
+        <StatusBar
+          barStyle={BARSTYLE}
+          backgroundColor={"transparent"}
+          translucent={true}
+          // networkActivityIndicatorVisible={true}
+        />
         <Text>敬请期待</Text>
       </View>
     )

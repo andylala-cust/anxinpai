@@ -11,8 +11,8 @@ export const SORT_BID_TIME_TYPE_ASC = 1; // 拍卖时间从近到远
 export const SORT_BID_TIME_TIME_DESC = 2; // 拍卖时间从远到近
 export const SORT_PRICE_TYPE_DESC = 1; // 价格从高到低
 export const SORT_PRICE_TYPE_ASC = 2; // 价格从低到高
-export const SORT_CUT_TYPE_ASC = 1 // 折扣力度从大到小
-export const SORT_CUT_TYPE_DESC = 2 // 折扣力度从小到大
+export const SORT_CUT_TYPE_ASC = 1; // 折扣力度从大到小
+export const SORT_CUT_TYPE_DESC = 2; // 折扣力度从小到大
 export const AREA_ARR = [
   {
     area_min: 0,
@@ -34,7 +34,7 @@ export const AREA_ARR = [
     area_max: 1000000,
     title: '130以上'
   }
-]
+];
 export const RESET_ARR = [
   {
     reset_type: 0,
@@ -48,7 +48,7 @@ export const RESET_ARR = [
     reset_type: -1,
     title: '不清楚'
   }
-]
+];
 export const RENT_ARR = [
   {
     rent_type: 0,
@@ -62,7 +62,7 @@ export const RENT_ARR = [
     rent_type: -1,
     title: '不清楚'
   }
-]
+];
 export const TAX_ARR = [
   {
     title: '买受人',
@@ -80,7 +80,7 @@ export const TAX_ARR = [
     title: '不清楚',
     tax_type: '--'
   }
-]
+];
 export const CIRC_ARR = [
   {
     title: '一拍',
@@ -98,4 +98,5 @@ export const CIRC_ARR = [
     title: '变卖',
     circ_type: 4
   }
-]
+];
+export const IMG_PLACE_COLOR = '#bdbdbd';

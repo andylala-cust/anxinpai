@@ -79,6 +79,7 @@ class HouseInfo extends Component {
     this.handleScroll = this.handleScroll.bind(this)
   }
   getAgent () {
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     storage.getItem('user_id').then(data => {
       const userId = data
       const url = `/activity/getConsultant?user_id=${userId}`
@@ -87,14 +88,17 @@ class HouseInfo extends Component {
           this.setState({
             agentData: data.content
           })
+          StatusBar.setNetworkActivityIndicatorVisible(false)
         })
     })
   }
   getHouseImgList () {
     const {id,datafrom} = this.props.navigation.state.params
     const url = `/house/pic?house_id=${id}&datafrom=${datafrom}`
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     _fetch.get(url)
       .then(data => {
+        StatusBar.setNetworkActivityIndicatorVisible(false)
         this.setState({
           houseImgList: data.content
         })
@@ -110,8 +114,10 @@ class HouseInfo extends Component {
   getHouseRate () {
     const {id} = this.props.navigation.state.params
     const url =`/house/rate?house_id=${id}`
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     _fetch.get(url)
       .then(data => {
+        StatusBar.setNetworkActivityIndicatorVisible(false)
         const {x, y} = data.content.geo
         const {title,zone_id,typeId} = data.content
         this.setState({
@@ -131,33 +137,40 @@ class HouseInfo extends Component {
       })
   }
   getHouseStatus (zoneId, title) {
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     _fetch.get(`/house/actionstatus?zone_id=${zoneId}&title=${title}`)
       .then(data => {
         this.setState({
           houseStatusArr: data.content
         })
+        StatusBar.setNetworkActivityIndicatorVisible(false)
       })
   }
   getDealList (params) {
     const str = queryString.stringify(params)
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     _fetch.get(`/house/similarhouses?${str}`)
       .then(data => {
         this.setState({
           houseDealArr: data.content
         })
+        StatusBar.setNetworkActivityIndicatorVisible(false)
       })
   }
   getHouseSchool () {
     const {id} = this.props.navigation.state.params
     const url = `/house/schools?house_id=${id}&type_id=1002&page_id=1&page_size=1`
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     _fetch.get(url)
       .then(data => {
         this.setState({
           houseSchool: data.content[0] || {}
         })
+        StatusBar.setNetworkActivityIndicatorVisible(false)
       })
   }
   getHouseTraffic (lng, lat) {
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     const location = `${lng},${lat}`
     const subwayUrl = `http://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&keywords=地铁&location=${location}&radius=${TRAFFIC_RADIUS}&offset=1`
     const busUrl = `http://restapi.amap.com/v3/place/around?key=${GAODE_KEY}&keywords=公交&location=${location}&radius=${TRAFFIC_RADIUS}&offset=1`
@@ -169,9 +182,11 @@ class HouseInfo extends Component {
             trafficAddress: data.pois[0].address,
             trafficDistance: data.pois[0].distance
           })
+          StatusBar.setNetworkActivityIndicatorVisible(false)
         } else {
           _fetch.get(busUrl, true)
             .then(data => {
+              StatusBar.setNetworkActivityIndicatorVisible(false)
               this.setState({
                 trafficName: data.pois[0].name,
                 trafficAddress: data.pois[0].address,
@@ -184,11 +199,13 @@ class HouseInfo extends Component {
   getCourtDoc () {
     const {id} = this.props.navigation.state.params
     const url = `/house/court/doc?house_id=${id}`
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     _fetch.get(url)
       .then(data => {
         this.setState({
           courtDoc: data.content
         })
+        StatusBar.setNetworkActivityIndicatorVisible(false)
       })
   }
   handleWebViewClick () {
@@ -233,6 +250,10 @@ class HouseInfo extends Component {
     }
   }
   componentDidMount () {
+    StatusBar.setNetworkActivityIndicatorVisible(true)
+    this.navListener = this.props.navigation.addListener('didFocus', () => {
+      StatusBar.setBarStyle('light-content')
+    })
     this.getAgent()
     this.getHouseImgList()
     this.getHouseRate()
@@ -247,6 +268,9 @@ class HouseInfo extends Component {
       opacity: 0
     })
   }
+  componentWillUnmount() {
+    this.navListener.remove()
+  }
   render() {
     return (
       <View>
@@ -260,6 +284,8 @@ class HouseInfo extends Component {
           <StatusBar
             barStyle={this.state.barStyle}
             backgroundColor={"transparent"}
+            translucent={true}
+            networkActivityIndicatorVisible={true}
           />
           <HousePreview />
           <HouseInfoSwiper houseImgList={this.state.houseImgList} />
