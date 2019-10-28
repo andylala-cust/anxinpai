@@ -138,7 +138,6 @@ class Home extends Component {
       const query = queryString.stringify(param)
       const url = `/house/lists?${query}`
       StatusBar.setNetworkActivityIndicatorVisible(true)
-      console.log(url)
       _fetch.get(url)
         .then(data => {
           this.setState({

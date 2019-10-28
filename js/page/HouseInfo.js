@@ -51,7 +51,7 @@ class HouseInfo extends Component {
     super(props)
     self = this
     this.state = {
-      barStyle: 'light-content',
+      barStyle: true, // 判断是否从同意路由退出
       iconColor: '#fff',
       toggleFixedShow: false,
       houseImgList: [],
@@ -237,22 +237,28 @@ class HouseInfo extends Component {
     })
     if (e.nativeEvent.contentOffset.y > 0) {
       this.setState({
-        barStyle: BARDEFAULTSTYLE,
+        barStyle: false,
         iconColor: '#000',
         toggleFixedShow: true
       })
+      StatusBar.setBarStyle(BARDEFAULTSTYLE)
     } else {
       this.setState({
-        barStyle: 'light-content',
+        barStyle: true,
         iconColor: '#fff',
         toggleFixedShow: false
       })
+      StatusBar.setBarStyle('light-content')
     }
   }
   componentDidMount () {
     StatusBar.setNetworkActivityIndicatorVisible(true)
     this.navListener = this.props.navigation.addListener('didFocus', () => {
-      StatusBar.setBarStyle('light-content')
+      if (this.state.barStyle) {
+        StatusBar.setBarStyle('light-content')
+      } else {
+        StatusBar.setBarStyle(BARDEFAULTSTYLE)
+      }
     })
     this.getAgent()
     this.getHouseImgList()
@@ -282,7 +288,7 @@ class HouseInfo extends Component {
           onScroll={(e) => this.handleScroll(e)}
         >
           <StatusBar
-            barStyle={this.state.barStyle}
+            // barStyle={this.state.barStyle}
             backgroundColor={"transparent"}
             translucent={true}
             networkActivityIndicatorVisible={true}
