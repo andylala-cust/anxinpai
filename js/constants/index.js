@@ -99,4 +99,4 @@ export const CIRC_ARR = [
     circ_type: 4
   }
 ];
-export const IMG_PLACE_COLOR = '#bdbdbd';
+export const IMG_PLACE_COLOR = '#efefef';
