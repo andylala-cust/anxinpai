@@ -40,8 +40,8 @@ const IMG_ARR_ = [
 class UserEntry extends Component {
   render () {
     return (
-      <View style={{paddingTop: 20}}>
-        <View style={{flexDirection: 'row',flexWrap: 'wrap'}}>
+      <View>
+        <View style={{flexDirection: 'row',flexWrap: 'wrap',paddingTop: 20,paddingBottom: 20}}>
           {
             TITLE_ARR.map((item,index) => (
               <TouchableOpacity
@@ -67,7 +67,7 @@ class UserEntry extends Component {
           }
         </View>
         <Split />
-        <View style={{flexDirection: 'row',flexWrap: 'wrap'}}>
+        <View style={{flexDirection: 'row',flexWrap: 'wrap',paddingTop: 20,paddingBottom: 20}}>
           {
             TITLE_ARR_.map((item,index) => (
               <TouchableOpacity
