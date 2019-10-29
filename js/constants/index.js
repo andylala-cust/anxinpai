@@ -100,3 +100,4 @@ export const CIRC_ARR = [
   }
 ];
 export const IMG_PLACE_COLOR = '#efefef';
+export const DELAY_LOAD_TIME = 1000;

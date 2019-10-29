@@ -4,6 +4,7 @@ import {WebView} from 'react-native-webview';
 import LinearGradient from "react-native-linear-gradient";
 import {connect} from 'react-redux';
 import {getCourtLayout} from '../../action/houseInfo/actionCreators';
+import {DELAY_LOAD_TIME} from '../../constants';
 
 let self;
 
@@ -24,7 +25,7 @@ class HouseCourt extends Component {
       this.setState({
         showHouseCourt: true
       })
-    }, 1000)
+    }, DELAY_LOAD_TIME)
   }
   componentWillUnmount () {
     this.timer && clearTimeout(this.timer)

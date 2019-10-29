@@ -39,7 +39,6 @@ class HouseBottomCard extends Component {
           <View style={{flexDirection: 'row',width: '60%',justifyContent: 'space-between'}}>
             <TouchableOpacity
               style={[styles.cardLeftBtn,{backgroundColor: '#66c18f'}]}
-              activeOpacity={1}
               onPress={() => {
                 const url = `tel: 18616329661`
                 Linking.canOpenURL(url)
@@ -65,7 +64,6 @@ class HouseBottomCard extends Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.cardLeftBtn,{backgroundColor: '#3e74ee'}]}
-              activeOpacity={1}
               onPress={() => {
                 const toast = Toast.show('敬请期待^_^', {
                   position: 0

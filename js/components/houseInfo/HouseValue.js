@@ -3,6 +3,7 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {getValueLayout} from '../../action/houseInfo/actionCreators';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {DELAY_LOAD_TIME} from '../../constants';
 
 let self;
 
@@ -12,6 +13,9 @@ class HouseValue extends Component {
     self = this
     this.formatTime = this.formatTime.bind(this)
     this.handleLayout = this.handleLayout.bind(this)
+    this.state = {
+      toggleShow: false
+    }
   }
   formatTime (str) {
     if (!str) return
@@ -24,6 +28,16 @@ class HouseValue extends Component {
   handleLayout (event) {
     this.valueLayout = event.nativeEvent.layout
     this.props._getValueLayout()
+  }
+  componentDidMount () {
+    this.timer = setTimeout(() => {
+      this.setState({
+        toggleShow: true
+      })
+    }, DELAY_LOAD_TIME)
+  }
+  componentWillUnmount () {
+    this.timer && clearTimeout(this.timer)
   }
   render () {
     return (
@@ -45,36 +59,40 @@ class HouseValue extends Component {
             </View>
           </TouchableOpacity>
         </View>
-        <View style={{position: 'relative',paddingLeft: 20,paddingRight: 20,backgroundColor: '#fff'}}>
-          <View>
-            <Text style={{marginBottom: 10,fontWeight: 'bold'}}>交易记录</Text>
-          </View>
-          {
-            this.props.houseStatusArr ? this.props.houseStatusArr.map(item => (
-              <View style={styles.itemWrapper} key={item.id}>
-                <View style={{width: '10%'}}>
-                  <View style={styles.circle}></View>
-                  <View style={styles.line}></View>
-                </View>
-                <View style={{flex: 1,flexDirection: 'row'}}>
-                  <View>
-                    <Text style={[styles.text,{fontWeight: 'bold'}]}>{item.circ}{item.cn_status}</Text>
-                  </View>
-                  <View style={{flex: 1,justifyContent: 'center',alignItems: 'center'}}>
-                    <Text style={[styles.text]}>{this.formatTime(item.start_time)}开始</Text>
-                    <Text style={styles.text}>{this.formatTime(item.end_time)}开始</Text>
-                  </View>
-                  <View>
-                    <Text style={styles.text}>{item.cn_price}</Text>
-                    <Text style={[styles.text,{color: '#fa8a7c',fontWeight: 'bold'}]}>{item.currentPrice}</Text>
-                  </View>
-                </View>
-              </View>
-            )) : <View style={{paddingTop: 10,paddingBottom: 10}}>
-              <Text style={{color: '#ccc'}}>暂无交易记录</Text>
+        {
+          this.state.toggleShow ? <View style={{position: 'relative',paddingLeft: 20,paddingRight: 20,backgroundColor: '#fff'}}>
+            <View>
+              <Text style={{marginBottom: 10,fontWeight: 'bold'}}>交易记录</Text>
             </View>
-          }
-        </View>
+            {
+              this.props.houseStatusArr ? this.props.houseStatusArr.map(item => (
+                <View style={styles.itemWrapper} key={item.id}>
+                  <View style={{width: '10%'}}>
+                    <View style={styles.circle}></View>
+                    <View style={styles.line}></View>
+                  </View>
+                  <View style={{flex: 1,flexDirection: 'row'}}>
+                    <View>
+                      <Text style={[styles.text,{fontWeight: 'bold'}]}>{item.circ}{item.cn_status}</Text>
+                    </View>
+                    <View style={{flex: 1,justifyContent: 'center',alignItems: 'center'}}>
+                      <Text style={[styles.text]}>{this.formatTime(item.start_time)}开始</Text>
+                      <Text style={styles.text}>{this.formatTime(item.end_time)}开始</Text>
+                    </View>
+                    <View>
+                      <Text style={styles.text}>{item.cn_price}</Text>
+                      <Text style={[styles.text,{color: '#fa8a7c',fontWeight: 'bold'}]}>{item.currentPrice}</Text>
+                    </View>
+                  </View>
+                </View>
+              )) : <View style={{paddingTop: 10,paddingBottom: 10}}>
+                <Text style={{color: '#ccc'}}>暂无交易记录</Text>
+              </View>
+            }
+          </View> :<View style={{backgroundColor: '#fff'}}>
+            <Text style={{textAlign: 'center',paddingTop: 10,paddingBottom: 10}}>努力加载中...</Text>
+          </View>
+        }
       </View>
     )
   }

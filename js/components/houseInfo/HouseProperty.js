@@ -12,6 +12,7 @@ import {
   HouseProfitPrice,
   HouseRecommendPrice
 } from './index';
+import {DELAY_LOAD_TIME} from '../../constants';
 
 const dataArray = [
   {
@@ -35,7 +36,8 @@ class HouseProperty extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      index: 0
+      index: 0,
+      toggleShow: false
     }
   }
   _renderHeader(item, expanded) {
@@ -86,31 +88,43 @@ class HouseProperty extends Component {
         return null
     }
   }
+  componentDidMount () {
+    this.timer = setTimeout(() => {
+      this.setState({
+        toggleShow: true
+      })
+    }, DELAY_LOAD_TIME)
+  }
+  componentWillUnmount () {
+    this.timer && clearTimeout(this.timer)
+  }
   render() {
     return (
       <View
         style={{paddingTop: 10,paddingBottom: 10,backgroundColor: '#fff'}}
       >
-        <Accordion
-          style={{borderWidth: 0}}
-          dataArray={dataArray}
-          animation={true}
-          expanded={0}
-          renderHeader={this._renderHeader}
-          contentStyle={{marginRight: 20,marginLeft: 20}}
-          renderContent={() => (
-            <View style={{marginRight: 20,marginLeft: 20}}>
-              {
-                this._renderContent()
-              }
-            </View>
-          )}
-          onAccordionOpen={(item, index) => {
-            this.setState({
-              index
-            })
-          }}
-        />
+        {
+          this.state.toggleShow ? <Accordion
+            style={{borderWidth: 0}}
+            dataArray={dataArray}
+            animation={true}
+            expanded={0}
+            renderHeader={this._renderHeader}
+            contentStyle={{marginRight: 20,marginLeft: 20}}
+            renderContent={() => (
+              <View style={{marginRight: 20,marginLeft: 20}}>
+                {
+                  this._renderContent()
+                }
+              </View>
+            )}
+            onAccordionOpen={(item, index) => {
+              this.setState({
+                index
+              })
+            }}
+          /> : null
+        }
       </View>
     );
   }
