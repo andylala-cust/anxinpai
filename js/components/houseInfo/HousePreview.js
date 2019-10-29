@@ -4,6 +4,7 @@ import {Modal,View,Text,Animated,Easing,TouchableHighlight} from 'react-native';
 import {connect} from 'react-redux';
 import {hidePreview} from '../../action/houseInfo/actionCreators';
 import {IS_IPHONEX} from '../../util';
+import Toast from 'react-native-root-toast';
 
 const IPHONEX_TABBAR_DELTA = 34;
 const TAB_BAR_HEIGHT = IS_IPHONEX ? IPHONEX_TABBAR_DELTA : 15;
@@ -55,7 +56,10 @@ class Menus extends React.Component {
 
   render(){
     const menus = [
-      {title:'保存图片',onPress:() => {alert(1)}},
+      {title:'保存图片',onPress:() => {
+        alert('敬请期待^_^')
+        this.props.cancel()
+      }},
     ];
     const rotate= {
       transform: [
