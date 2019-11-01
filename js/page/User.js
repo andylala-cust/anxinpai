@@ -12,9 +12,9 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import LinearGradient from "react-native-linear-gradient";
 import {STATUSBAR_HEIGHT} from '../util';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Toast from 'react-native-root-toast';
 import {UserEntry} from  '../components/user';
-import {IMG_PLACE_COLOR} from '../constants';
+import {IMG_PLACE_COLOR,DEFAULT_USER_AVATAR} from '../constants';
+import {storage} from '../util';
 
 const AVATAR_SIZE = 80;
 const PARALLAX_HEADER_HEIGHT = 240;
@@ -26,10 +26,39 @@ class User extends Component {
   }
   constructor (props) {
     super(props)
+    this.state = {
+      isLogin: false,
+      userId: '',
+      userName: '',
+      userAvatar: DEFAULT_USER_AVATAR,
+      userPhone: ''
+    }
     this.init = this.init.bind(this)
+    this.goSetting = this.goSetting.bind(this)
   }
-  init () {
-    // alert(1)
+  goSetting () {
+    this.props.navigation.navigate('Setting')
+  }
+  async init () {
+    const userId = await storage.getItem('user_id')
+    const userPhone = await storage.getItem('user_phone')
+    const userAvatar = await storage.getItem('user_avatar')
+    const userName = await storage.getItem('user_name')
+    if (userId) {
+      this.setState({
+        isLogin: true,
+        userName,
+        userAvatar,
+        userPhone
+      })
+    } else {
+      this.setState({
+        isLogin: false,
+        userName: '',
+        userAvatar: DEFAULT_USER_AVATAR,
+        userPhone: ''
+      })
+    }
   }
   // bottomTabNavigation每次进入时都执行某个函数
   componentDidMount () {
@@ -69,11 +98,7 @@ class User extends Component {
                 <Text style={{color: '#fff',fontWeight: 'bold',fontSize: 16}}>无名小海豚</Text>
                 <TouchableOpacity
                   style={{position: 'absolute',top: 0,right: 20}}
-                  onPress={() => {
-                    const toast = Toast.show('敬请期待^_^', {
-                      position: 0
-                    })
-                  }}
+                  onPress={() => this.goSetting()}
                 >
                   <Ionicons
                     name={'md-settings'}
@@ -105,11 +130,7 @@ class User extends Component {
             <View style={{position: 'relative',flexDirection: 'row',alignItems: 'center',justifyContent: 'center',height: PARALLAX_HEADER_HEIGHT,paddingTop: STATUSBAR_HEIGHT,paddingLeft: 20,paddingRight: 20}}>
               <TouchableOpacity
                 style={{position: 'absolute',top: STICKY_HEADER_HEIGHT,right: 20}}
-                onPress={() => {
-                  const toast = Toast.show('敬请期待^_^', {
-                    position: 0
-                  })
-                }}
+                onPress={() => this.goSetting()}
               >
                 <Ionicons
                   name={'md-settings'}
@@ -118,19 +139,36 @@ class User extends Component {
                 />
               </TouchableOpacity>
               <View style={{overflow: 'hidden',borderRadius: AVATAR_SIZE/2,backgroundColor: IMG_PLACE_COLOR}}>
-                <Image source={{
-                  uri: 'http://static.yfbudong.com/%E6%9C%8D%E5%8A%A1%E5%A4%B4%E5%83%8F.jpg',
-                  width: AVATAR_SIZE,
-                  height: AVATAR_SIZE,
-                }}/>
+                <Image
+                  style={{width: AVATAR_SIZE,height: AVATAR_SIZE}}
+                  source={{uri: this.state.userAvatar}}
+                />
               </View>
               <View style={{flex: 1,paddingLeft: 20,justifyContent: 'space-between'}}>
-                <Text style={{lineHeight: 30,color: '#fff',fontWeight: 'bold',fontSize: 16}}>
-                  无名小海豚
-                </Text>
-                <Text style={{lineHeight: 30,color: '#fff',fontWeight: 'bold',fontSize: 14}}>
-                  登录功能敬请期待~
-                </Text>
+                {
+                  !this.state.isLogin ? <TouchableOpacity
+                    onPress={() => {this.props.navigation.navigate('Login')}}
+                    activeOpacity={1}
+                  >
+                    <Text style={{lineHeight: 30,color: '#fff',fontWeight: 'bold',fontSize: 16}}>
+                      登录/注册
+                    </Text>
+                  </TouchableOpacity> : <Text style={{lineHeight: 30,color: '#fff',fontWeight: 'bold',fontSize: 16}}>{this.state.userName}</Text>
+                }
+                {
+                  !this.state.isLogin ? <TouchableOpacity
+                    onPress={() => {this.props.navigation.navigate('Login')}}
+                    activeOpacity={1}
+                  >
+                    <Text onPress={() => {this.props.navigation.navigate('Login')}} style={{lineHeight: 30,color: '#fff',fontWeight: 'bold',fontSize: 13}}>
+                      登录体验更多功能~
+                    </Text>
+                  </TouchableOpacity> : <TouchableOpacity
+                    onPress={() => this.goSetting()}
+                  >
+                    <Text style={{lineHeight: 30,color: '#fff',fontWeight: 'bold',fontSize: 13}}>查看并编辑个人资料</Text>
+                  </TouchableOpacity>
+                }
               </View>
             </View>
           </View>
@@ -149,7 +187,7 @@ class User extends Component {
 }
 
 const mapStateToProps = state => ({
-  tip: state.user.tip
+  nav: state.nav
 })
 
 const mapDispatchToProps = dispatch => ({

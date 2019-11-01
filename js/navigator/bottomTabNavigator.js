@@ -5,7 +5,7 @@ import Service from '../page/Service';
 import Collect from '../page/Collect';
 import {Platform, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Badge} from 'react-native-elements';
 import User from '../page/User';
 import React from 'react';

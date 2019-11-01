@@ -9,6 +9,7 @@ import {
   Platform
 } from 'react-native';
 import {Badge,Avatar} from 'react-native-elements';
+import {storage} from '../util';
 
 const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
 
@@ -34,6 +35,7 @@ class Service extends Component {
     this._navListener = this.props.navigation.addListener('didFocus', () => {
       StatusBar.setBarStyle(BARSTYLE)
     })
+    // storage.clear()
   }
   componentWillUnmount() {
     this._navListener.remove()

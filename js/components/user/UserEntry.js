@@ -45,6 +45,7 @@ class UserEntry extends Component {
           {
             TITLE_ARR.map((item,index) => (
               <TouchableOpacity
+                key={index}
                 onPress={() => {
                   const toast = Toast.show('敬请期待^_^', {
                     position: 0
@@ -71,6 +72,7 @@ class UserEntry extends Component {
           {
             TITLE_ARR_.map((item,index) => (
               <TouchableOpacity
+                key={index}
                 onPress={() => {
                   const toast = Toast.show('敬请期待^_^', {
                     position: 0

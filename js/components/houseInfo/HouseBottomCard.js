@@ -36,7 +36,7 @@ class HouseBottomCard extends Component {
               <Text style={{fontSize: 12,color: '#bababa'}}>{this.props.company_name || '-'}</Text>
             </View>
           </View>
-          <View style={{flexDirection: 'row',width: '60%',justifyContent: 'space-between'}}>
+          <View style={{flexDirection: 'row',width: '60%',justifyContent: 'flex-end'}}>
             <TouchableOpacity
               style={[styles.cardLeftBtn,{backgroundColor: '#66c18f'}]}
               onPress={() => {
@@ -62,18 +62,18 @@ class HouseBottomCard extends Component {
                 <Text style={styles.cardLeftText}>打电话</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.cardLeftBtn,{backgroundColor: '#3e74ee'}]}
-              onPress={() => {
-                const toast = Toast.show('敬请期待^_^', {
-                  position: 0
-                })
-              }}
-            >
-              <View>
-                <Text style={styles.cardLeftText}>去贷款</Text>
-              </View>
-            </TouchableOpacity>
+            {/*<TouchableOpacity*/}
+            {/*  style={[styles.cardLeftBtn,{backgroundColor: '#3e74ee',marginLeft: 8}]}*/}
+            {/*  onPress={() => {*/}
+            {/*    const toast = Toast.show('敬请期待^_^', {*/}
+            {/*      position: 0*/}
+            {/*    })*/}
+            {/*  }}*/}
+            {/*>*/}
+            {/*  <View>*/}
+            {/*    <Text style={styles.cardLeftText}>去贷款</Text>*/}
+            {/*  </View>*/}
+            {/*</TouchableOpacity>*/}
           </View>
         </View>
       </View>

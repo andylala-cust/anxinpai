@@ -7,6 +7,11 @@ import Court from  './Court';
 import Around from './Around';
 import HouseValue from './HouseValue';
 import HomeBannerDetail from './HomeBannerDetail';
+import Login from './Login';
+import Register from './Register';
+import Protocol from './Protocol';
+import Setting from './Setting';
+import ActivityPage from './ActivityPage';
 
 export {
   Info,
@@ -17,5 +22,10 @@ export {
   Court,
   Around,
   HouseValue,
-  HomeBannerDetail
+  HomeBannerDetail,
+  Login,
+  Register,
+  Protocol,
+  Setting,
+  ActivityPage
 }

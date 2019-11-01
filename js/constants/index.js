@@ -101,3 +101,6 @@ export const CIRC_ARR = [
 ];
 export const IMG_PLACE_COLOR = '#efefef';
 export const DELAY_LOAD_TIME = 1000;
+export const REGISTER_CODE = 0; // 注册
+export const CHANGE_PWD = 1; // 修改密码
+export const DEFAULT_USER_AVATAR = 'http://static.yfbudong.com/%E6%9C%8D%E5%8A%A1%E5%A4%B4%E5%83%8F.jpg';

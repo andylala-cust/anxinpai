@@ -1,7 +1,7 @@
 import {USER_TIP_CHANGE} from '../../action/user/actiontypes'
 
 const defaultState = {
-    tip: 'andylala'
+  tip: 'andylala'
 }
 
 export default (state = defaultState, action) => {

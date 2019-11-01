@@ -16,5 +16,12 @@ export default {
     } catch (err) {
       console.log(err)
     }
+  },
+  async clear () {
+    try {
+      await AsyncStorage.clear()
+    } catch(err) {
+      console.log(err)
+    }
   }
 }
