@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {Split} from '../components/common';
 import {Button} from 'native-base';
-import {storage} from '../util';
+import {PHONE_CHECK, storage} from '../util';
 import {CHANGE_PWD,MIN_PWD_LENGTH} from '../constants';
 import _fetch from '../fetch';
 import md5 from 'js-md5';
@@ -104,7 +104,6 @@ class ChangePwd extends Component {
       StatusBar.setNetworkActivityIndicatorVisible(true)
       _fetch.post(url, params)
         .then(data => {
-          console.log(data)
           StatusBar.setNetworkActivityIndicatorVisible(false)
           if (data.errCode === 1001) {
             const toast = Toast.show(`无效的验证码>_<`, {
@@ -127,9 +126,23 @@ class ChangePwd extends Component {
     this.setState({
       phone
     })
+    return phone
   }
   componentDidMount () {
     this.getPhone()
+      .then(data => {
+        if (data) {
+          this.setState({
+            codeDisable: false,
+            codeColor: '#000',
+          })
+        } else {
+          this.setState({
+            codeDisable: true,
+            codeColor: CODE_COLOR,
+          })
+        }
+      })
     this.navListener = this.props.navigation.addListener('didFocus', () => {
       StatusBar.setBarStyle(BARSTYLE)
     })
@@ -152,7 +165,30 @@ class ChangePwd extends Component {
         <Split color={'#f9f9f9'} />
         <View style={styles.wrapper}>
           <View style={styles.phoneWrapper}>
-            <Text style={{lineHeight: 50}}>{this.state.phone}</Text>
+            <TextInput
+              placeholder={'请输入手机号'}
+              defaultValue={this.state.phone}
+              style={{height: 50}}
+              maxLength={11}
+              keyboardType={'numeric'}
+              onChangeText={value => {
+                this.setState({
+                  phone: value
+                })
+                if (value.match(PHONE_CHECK)) {
+                  this.setState({
+                    codeDisable: false,
+                    codeColor: '#000',
+                  })
+                } else {
+                  this.setState({
+                    codeDisable: true,
+                    codeColor: CODE_COLOR
+                  })
+                }
+              }}
+            />
+            {/*<Text style={{lineHeight: 50}}>{this.state.phone}</Text>*/}
             <Button
               transparent
               disabled={this.state.codeDisable}

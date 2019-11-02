@@ -163,9 +163,8 @@ class User extends Component {
                 {
                   !this.state.isLogin ? <TouchableOpacity
                     onPress={() => {this.props.navigation.navigate('Login')}}
-                    activeOpacity={1}
                   >
-                    <Text onPress={() => {this.props.navigation.navigate('Login')}} style={{lineHeight: 30,color: '#fff',fontWeight: 'bold',fontSize: 13}}>
+                    <Text style={{lineHeight: 30,color: '#fff',fontWeight: 'bold',fontSize: 13}}>
                       登录体验更多功能~
                     </Text>
                   </TouchableOpacity> : <TouchableOpacity

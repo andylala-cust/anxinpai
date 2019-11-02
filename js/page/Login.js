@@ -74,7 +74,7 @@ class Login extends Component {
           </TouchableOpacity>
           {
             !this.state.loginType && <TouchableOpacity
-              onPress={() => {alert(1)}}
+              onPress={() => {this.props.navigation.navigate('ChangePwd')}}
             >
               <View>
                 <Text style={{color: '#bbb',marginLeft: 20}}>忘记密码</Text>
