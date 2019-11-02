@@ -104,13 +104,20 @@ class ChangePwd extends Component {
       StatusBar.setNetworkActivityIndicatorVisible(true)
       _fetch.post(url, params)
         .then(data => {
+          console.log(data)
           StatusBar.setNetworkActivityIndicatorVisible(false)
           if (data.errCode === 1001) {
             const toast = Toast.show(`无效的验证码>_<`, {
               position: 0
             })
           } else if (data.errCode === ERR_OK) {
-            this.props.navigation.goBack()
+            if (data.content === 'fail') {
+              const toast = Toast.show(`无效的验证码>_<`, {
+                position: 0
+              })
+            } else {
+              this.props.navigation.goBack()
+            }
           }
         })
     }
