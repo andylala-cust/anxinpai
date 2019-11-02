@@ -45,7 +45,8 @@ const GAODE_KEY = '29de9219429c6425c5cfd872e54e3838';  // 高德地图KEY
 
 class HouseInfo extends Component {
   static navigationOptions = {
-    header: null
+    header: null,
+    headerBackTitle: null
   }
   constructor (props) {
     super(props)
@@ -85,6 +86,9 @@ class HouseInfo extends Component {
       const url = `/activity/getConsultant?user_id=${userId}`
       _fetch.get(url)
         .then(data => {
+          if (data.content.avatar.indexOf('http') === -1) {
+            data.content.avatar = `http://static.yfbudong.com/${data.content.avatar}`
+          }
           this.setState({
             agentData: data.content
           })

@@ -4,8 +4,11 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
+  ScrollView
 } from 'react-native';
 import {UserCodeLogin,UserPwdLogin} from '../components/user';
+import {connect} from 'react-redux';
+import {userAddListener} from '../action/user/actionCreators';
 
 const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
 const CODE_LOGIN = '手机快捷登录';
@@ -38,13 +41,16 @@ class Login extends Component {
     this.navListener = this.props.navigation.addListener('didFocus', () => {
       StatusBar.setBarStyle(BARSTYLE)
     })
+    this.props._userAddListener()
   }
   componentWillUnmount () {
     this.navListener.remove()
   }
   render () {
     return (
-      <View>
+      <ScrollView
+        keyboardDismissMode={'on-drag'}
+      >
         <StatusBar
           barStyle={BARSTYLE}
           backgroundColor={"transparent"}
@@ -76,9 +82,20 @@ class Login extends Component {
             </TouchableOpacity>
           }
         </View>
-      </View>
+      </ScrollView>
     )
   }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+
+})
+
+const mapDispatchToProps = dispatch => ({
+  _userAddListener () {
+    const action = userAddListener('')
+    dispatch(action)
+  }
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(Login);

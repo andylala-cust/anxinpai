@@ -1,9 +1,11 @@
 import React,{Component} from 'react';
-import {View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity, StatusBar} from 'react-native';
 import {Button} from "native-base";
 import _fetch from '../../fetch';
 import {ERR_OK} from '../../errCode';
 import Toast from "react-native-root-toast";
+import md5 from 'js-md5';
+import {storage} from '../../util';
 
 const CODE_COLOR = '#bbb';
 
@@ -16,31 +18,43 @@ class UserPwdLogin extends Component {
       pwd: ''
     }
     this.pwdLogin = this.pwdLogin.bind(this)
+    this.setUserInfo = this.setUserInfo.bind(this)
+  }
+  async setUserInfo (params) {
+    const {user_id,phone,avatar,name} = params
+    await storage.setItem('user_id', user_id.toString())
+    await storage.setItem('user_phone', phone.toString())
+    await storage.setItem('user_avatar', avatar.toString())
+    await storage.setItem('user_name', name.toString())
   }
   pwdLogin () {
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     const url = `/user/login`
     const user = this.state.account
-    const pwd = this.state.pwd
+    const pwd = md5(this.state.pwd)
     const params = {
       user,
       pwd
     }
-    console.log(params)
     _fetch.post(url, params)
       .then(data => {
+        StatusBar.setNetworkActivityIndicatorVisible(false)
         if (data.errCode === 1001) {
           const toast = Toast.show(`${data.content}>_<`, {
             position: 0
           })
         } else if (data.errCode === ERR_OK) {
-          console.log(data)
+          this.setUserInfo(data.content)
+            .then(() => {
+              this.props.navigation.goBack()
+            })
         }
       })
   }
   render () {
     return (
-      <ScrollView
-        alwaysBounceVertical={false}
+      <View
+        // alwaysBounceVertical={false}
       >
         <View style={styles.container}>
           <Text style={styles.title}>账号密码登录</Text>
@@ -71,6 +85,7 @@ class UserPwdLogin extends Component {
             </View>
             <View style={{marginTop: 30}}>
               <TextInput
+                secureTextEntry
                 keyboardType={'numeric'}
                 maxLength={20}
                 placeholder={'请输入密码'}
@@ -112,7 +127,7 @@ class UserPwdLogin extends Component {
             </Button>
           </View>
         </View>
-      </ScrollView>
+      </View>
     )
   }
 }

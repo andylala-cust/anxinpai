@@ -1,15 +1,16 @@
-import {USER_TIP_CHANGE} from '../../action/user/actiontypes'
+import {ADD_LISTENER} from '../../action/user/actiontypes'
 
 const defaultState = {
-  tip: 'andylala'
+  listener: ''
 }
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case USER_TIP_CHANGE: {
+    // this.props.navigation.addListener, 每次进入页面执行函数
+    case ADD_LISTENER: {
       return {
         ...state,
-        tip: action.value
+        listener: action.value
       }
     }
     default: {

@@ -1,6 +1,6 @@
-import {USER_TIP_CHANGE} from './actiontypes';
+import {ADD_LISTENER} from './actiontypes';
 
-export const userTipChange = (value) => ({
-  type: USER_TIP_CHANGE,
+export const userAddListener = (value) => ({
+  type: ADD_LISTENER,
   value
 });

@@ -36,7 +36,7 @@ class Register extends Component {
           translucent={true}
           // networkActivityIndicatorVisible={true}
         />
-        <Text onPress={() => {this.props.navigation.navigate('User')}}>1</Text>
+        <Text onPress={() => {this.props.navigation.pop(2)}}>1</Text>
       </View>
     )
   }

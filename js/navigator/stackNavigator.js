@@ -15,7 +15,8 @@ import {
   Login,
   Register,
   Protocol,
-  Setting
+  Setting,
+  UserName
 } from '../page';
 
 export const rootCom = 'Tab';
@@ -40,7 +41,8 @@ export const StackNavigator = createStackNavigator({
   Login,
   Register,
   Protocol,
-  Setting
+  Setting,
+  UserName
 }, {
   headerMode: 'float',
   headerTransitionPreset: 'uikit',

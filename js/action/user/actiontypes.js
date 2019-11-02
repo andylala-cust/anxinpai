@@ -1,1 +1,1 @@
-export const USER_TIP_CHANGE = 'USER_TIP_CHANGE';
+export const ADD_LISTENER = 'ADD_LISTENER';

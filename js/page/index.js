@@ -11,6 +11,7 @@ import Login from './Login';
 import Register from './Register';
 import Protocol from './Protocol';
 import Setting from './Setting';
+import UserName from './UserName';
 import ActivityPage from './ActivityPage';
 
 export {
@@ -27,5 +28,6 @@ export {
   Register,
   Protocol,
   Setting,
+  UserName,
   ActivityPage
 }

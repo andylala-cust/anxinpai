@@ -7,6 +7,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   TextInput,
+  StatusBar
 } from 'react-native';
 import {Button} from 'native-base';
 import {CODE_CHECK, PHONE_CHECK} from '../../util';
@@ -36,6 +37,7 @@ class UserCodeLogin extends Component {
     this.setUserInfo = this.setUserInfo.bind(this)
   }
   async login () {
+    StatusBar.setNetworkActivityIndicatorVisible(true)
     storage.getItem('city_id')
       .then(data => {
         const {code,phone,msgId} = this.state
@@ -48,6 +50,7 @@ class UserCodeLogin extends Component {
         }
         _fetch.post(url, params)
           .then(data => {
+            StatusBar.setNetworkActivityIndicatorVisible(false)
             if (data.errCode === 1001) {
               const toast = Toast.show(`${data.content}>_<`, {
                 position: 0
@@ -55,7 +58,7 @@ class UserCodeLogin extends Component {
             } else if (data.errCode === ERR_OK){
               this.setUserInfo(data.content)
                 .then(() => {
-                  this.props.navigation.pop()
+                  this.props.navigation.goBack()
                 })
             }
           })
@@ -106,8 +109,8 @@ class UserCodeLogin extends Component {
   }
   render () {
     return (
-      <ScrollView
-        alwaysBounceVertical={false}
+      <View
+        // alwaysBounceVertical={false}
       >
         <View style={styles.container}>
           <Text style={styles.title}>手机快捷登录</Text>
@@ -121,11 +124,22 @@ class UserCodeLogin extends Component {
                 placeholderTextColor={CODE_COLOR}
                 style={styles.textInput}
                 onChangeText={(value) => {
+                  this.setState({
+                    phone: value
+                  })
+                  if (value.match(PHONE_CHECK) && this.state.code.match(CODE_CHECK)) {
+                    this.setState({
+                      loginBtnDisable: false
+                    })
+                  } else {
+                    this.setState({
+                      loginBtnDisable: true
+                    })
+                  }
                   if (value.match(PHONE_CHECK)) {
                     this.setState({
                       btnDisable: false,
                       codeColor: '#000',
-                      phone: value
                     })
                   } else {
                     this.setState({
@@ -152,14 +166,16 @@ class UserCodeLogin extends Component {
                 placeholderTextColor={'#bbb'}
                 style={styles.textInput}
                 onChangeText={(value) => {
-                  if (value.match(CODE_CHECK)) {
+                  this.setState({
+                    code: value
+                  })
+                  if (value.match(CODE_CHECK) && this.state.phone.match(PHONE_CHECK)) {
                     this.setState({
-                      loginBtnDisable: false,
-                      code: value
+                      loginBtnDisable: false
                     })
                   } else {
                     this.setState({
-                      loginBtnDisable: true,
+                      loginBtnDisable: true
                     })
                   }
                 }}
@@ -184,7 +200,7 @@ class UserCodeLogin extends Component {
             </Button>
           </View>
         </View>
-      </ScrollView>
+      </View>
     )
   }
 }

@@ -36,8 +36,13 @@ class User extends Component {
     this.init = this.init.bind(this)
     this.goSetting = this.goSetting.bind(this)
   }
-  goSetting () {
-    this.props.navigation.navigate('Setting')
+  async goSetting () {
+    const userId = await storage.getItem('user_id')
+    if (userId) {
+      this.props.navigation.navigate('Setting')
+    } else {
+      this.props.navigation.navigate('Login')
+    }
   }
   async init () {
     const userId = await storage.getItem('user_id')
@@ -186,15 +191,11 @@ class User extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  nav: state.nav
-})
+// const mapDispatchToProps = dispatch => ({
+//   tipChange () {
+//     const action = userTipChange('tip changed')
+//     dispatch(action)
+//   }
+// })
 
-const mapDispatchToProps = dispatch => ({
-  tipChange () {
-    const action = userTipChange('tip changed')
-    dispatch(action)
-  }
-})
-
-export default connect(mapStateToProps,mapDispatchToProps)(User);
+export default User;
