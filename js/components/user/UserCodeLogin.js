@@ -98,11 +98,19 @@ class UserCodeLogin extends Component {
       }, () => {
         if (time <= 0) {
           clearInterval(this.timer)
-          this.setState({
-            codeText: `获取验证码`,
-            btnDisable: false,
-            codeColor: '#000'
-          })
+          if (this.state.phone.match(PHONE_CHECK)) {
+            this.setState({
+              codeText: `获取验证码`,
+              btnDisable: false,
+              codeColor: '#000'
+            })
+          } else {
+            this.setState({
+              codeText: `获取验证码`,
+              btnDisable: true,
+              codeColor: CODE_COLOR
+            })
+          }
         }
       })
     }, 1000)

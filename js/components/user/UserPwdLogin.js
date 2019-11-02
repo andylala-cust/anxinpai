@@ -86,7 +86,6 @@ class UserPwdLogin extends Component {
             <View style={{marginTop: 30}}>
               <TextInput
                 secureTextEntry
-                keyboardType={'numeric'}
                 maxLength={20}
                 placeholder={'请输入密码'}
                 placeholderTextColor={'#bbb'}

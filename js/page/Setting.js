@@ -61,7 +61,7 @@ class Setting extends Component {
     })
   }
   handlePwd () {
-
+    this.props.navigation.navigate('ChangePwd')
   }
   handleSignOut () {
     storage.clear()
