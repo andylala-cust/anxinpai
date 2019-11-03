@@ -13,7 +13,7 @@ import {userAddListener} from '../action/user/actionCreators';
 import {Button} from "native-base";
 import {CODE_CHECK, PHONE_CHECK, storage} from '../util';
 import Toast from "react-native-root-toast";
-import {REGISTER_CODE} from '../constants';
+import {REGISTER_CODE,MIN_PWD_LENGTH} from '../constants';
 import _fetch from '../fetch';
 import md5 from 'js-md5';
 import {ERR_OK} from '../errCode';
@@ -59,8 +59,8 @@ class Register extends Component {
     await storage.setItem('user_name', name.toString())
   }
   async login () {
-    if (!this.state.pwd) {
-      const toast = Toast.show(`密码不能为空>_<`, {
+    if (this.state.pwd < MIN_PWD_LENGTH) {
+      const toast = Toast.show(`密码不能少于${MIN_PWD_LENGTH}位>_<`, {
         position: 0
       })
     } else {
@@ -78,16 +78,23 @@ class Register extends Component {
           }
           _fetch.post(url, params)
             .then(data => {
+              console.log(data)
               StatusBar.setNetworkActivityIndicatorVisible(false)
               if (data.errCode === 1001) {
                 const toast = Toast.show(`${data.content}>_<`, {
                   position: 0
                 })
               } else if (data.errCode === ERR_OK){
-                this.setUserInfo(data.content)
-                  .then(() => {
-                    this.props.navigation.pop(2)
+                if (!data.content) {
+                  const toast = Toast.show(`注册失败>_<`, {
+                    position: 0
                   })
+                } else {
+                  this.setUserInfo(data.content)
+                    .then(() => {
+                      this.props.navigation.pop(2)
+                    })
+                }
               }
             })
         })
