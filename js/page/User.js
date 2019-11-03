@@ -100,7 +100,7 @@ class User extends Component {
               }}
             >
               <View style={{width: '100%',flexDirection: 'row',alignItems: 'center',justifyContent: 'center',position: 'relative'}}>
-                <Text style={{color: '#fff',fontWeight: 'bold',fontSize: 16}}>无名小海豚</Text>
+                <Text style={{color: '#fff',fontWeight: 'bold',fontSize: 16}}>{this.state.userName}</Text>
                 <TouchableOpacity
                   style={{position: 'absolute',top: 0,right: 20}}
                   onPress={() => this.goSetting()}
