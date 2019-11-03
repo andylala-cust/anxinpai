@@ -40,7 +40,7 @@ class HouseBottomCard extends Component {
             <TouchableOpacity
               style={[styles.cardLeftBtn,{backgroundColor: '#66c18f'}]}
               onPress={() => {
-                const url = `tel: 18616329661`
+                const url = `tel: ${this.props.phone}`
                 Linking.canOpenURL(url)
                   .then(supported => {
                     if (!supported) {
