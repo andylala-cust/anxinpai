@@ -74,19 +74,20 @@ class UserPostFeedBack extends Component {
   }
   render () {
     return (
-      <ScrollView>
+      <ScrollView
+        keyboardDismissMode={'on-drag'}
+      >
         <View style={{padding: 20}}>
           <Text style={{fontSize: 16,fontWeight: 'bold'}}>反馈内容(必填)</Text>
         </View>
         <View style={{padding: 20}}>
           <Textarea
             placeholderTextColor={'#bbb'}
-            keyboardDismissMode={'on-drag'}
             autoCapitalize={'none'}
             rowSpan={5}
             placeholder="请输入亲的宝贵意见ヾ(o◕∀◕)ﾉ"
             maxLength={200}
-            style={{borderWidth: StyleSheet.hairlineWidth,borderColor: '#bbb',borderRadius: 5,fontSize: 16}}
+            style={{paddingLeft: 10,paddingRight: 10,borderWidth: StyleSheet.hairlineWidth,borderColor: '#bbb',borderRadius: 5,fontSize: 16}}
             onChangeText={value => {
               this.setState({
                 feedBackContent: value
@@ -101,11 +102,10 @@ class UserPostFeedBack extends Component {
           <TextInput
             keyboardType={'numeric'}
             placeholderTextColor={'#bbb'}
-            keyboardDismissMode={'on-drag'}
             autoCapitalize={'none'}
             placeholder="请输入亲的联系方式ヾ(o◕∀◕)ﾉ"
             maxLength={20}
-            style={{height: 40,borderWidth: StyleSheet.hairlineWidth,borderColor: '#bbb',borderRadius: 5,fontSize: 16}}
+            style={{paddingLeft: 10,paddingRight: 10,height: 40,borderWidth: StyleSheet.hairlineWidth,borderColor: '#bbb',borderRadius: 5,fontSize: 16}}
             onChangeText={value => {
               this.setState({
                 contact: value

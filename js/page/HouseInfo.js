@@ -258,11 +258,16 @@ class HouseInfo extends Component {
   componentDidMount () {
     StatusBar.setNetworkActivityIndicatorVisible(true)
     this.navListener = this.props.navigation.addListener('didFocus', () => {
-      if (this.state.barStyle) {
-        StatusBar.setBarStyle('light-content')
-      } else {
-        StatusBar.setBarStyle(BARDEFAULTSTYLE)
-      }
+      // 这个promise很关键
+      new Promise(resolve => {
+        resolve()
+      }).then(() => {
+        if (this.state.barStyle) {
+          StatusBar.setBarStyle('light-content')
+        } else {
+          StatusBar.setBarStyle(BARDEFAULTSTYLE)
+        }
+      })
     })
     this.getAgent()
     this.getHouseImgList()
@@ -293,6 +298,7 @@ class HouseInfo extends Component {
         >
           <StatusBar
             // barStyle={this.state.barStyle}
+            barStyle={'light-content'}
             backgroundColor={"transparent"}
             translucent={true}
             networkActivityIndicatorVisible={true}

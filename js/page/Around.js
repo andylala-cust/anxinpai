@@ -191,6 +191,7 @@ class Around extends Component {
   }
   componentDidMount () {
     StatusBar.setNetworkActivityIndicatorVisible(true)
+    StatusBar.setBarStyle(BARSTYLE)
     this.setState({
       latitude : this.props.navigation.getParam('latitude'),
       longitude: this.props.navigation.getParam('longitude'),
