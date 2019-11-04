@@ -13,6 +13,9 @@ import Protocol from './Protocol';
 import Setting from './Setting';
 import UserName from './UserName';
 import ChangePwd from './ChangePwd';
+import UserGroup from './user/UserGroup';
+import UserFeedBack from './user/UserFeedBack';
+import UserPostFeedBack from './user/UserPostFeedBack';
 import ActivityPage from './ActivityPage';
 
 export {
@@ -31,5 +34,8 @@ export {
   Setting,
   UserName,
   ChangePwd,
+  UserGroup,
+  UserFeedBack,
+  UserPostFeedBack,
   ActivityPage
 }

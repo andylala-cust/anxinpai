@@ -38,6 +38,40 @@ const IMG_ARR_ = [
 ]
 
 class UserEntry extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+
+    }
+  }
+  handleUserItemClick (index) {
+    switch (index) {
+      case 0: {
+        this.props.navigation.navigate('UserGroup')
+        break
+      }
+      case 1: {
+        const item = {
+          kefu_name: null,
+          kefu_phone: null,
+          targetUrl: "http://static.yfbudong.com/banner_xiaoyuanzhuo_detail",
+          title: "发现投资新机会",
+          url: "http://static.yfbudong.com/banner_2.png",
+        }
+        this.props.navigation.navigate('HomeBannerDetail', {
+          item
+        })
+        break
+      }
+      case 2: {
+        this.props.navigation.navigate('UserFeedBack')
+        break
+      }
+      default: {
+        break
+      }
+    }
+  }
   render () {
     return (
       <View>
@@ -74,9 +108,7 @@ class UserEntry extends Component {
               <TouchableOpacity
                 key={index}
                 onPress={() => {
-                  const toast = Toast.show('敬请期待^_^', {
-                    position: 0
-                  })
+                  this.handleUserItemClick(index)
                 }}
                 style={{width: '25%',alignItems: 'center',justifyContent: 'center',paddingTop: 10,paddingBottom: 10}}
               >

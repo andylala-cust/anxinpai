@@ -17,7 +17,10 @@ import {
   Protocol,
   Setting,
   UserName,
-  ChangePwd
+  ChangePwd,
+  UserGroup,
+  UserFeedBack,
+  UserPostFeedBack
 } from '../page';
 
 export const rootCom = 'Tab';
@@ -44,7 +47,10 @@ export const StackNavigator = createStackNavigator({
   Protocol,
   Setting,
   UserName,
-  ChangePwd
+  ChangePwd,
+  UserGroup,
+  UserFeedBack,
+  UserPostFeedBack
 }, {
   headerMode: 'float',
   headerTransitionPreset: 'uikit',

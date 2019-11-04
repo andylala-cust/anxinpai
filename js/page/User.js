@@ -184,7 +184,7 @@ class User extends Component {
           translucent={true}
           // networkActivityIndicatorVisible={true}
         />
-        <UserEntry />
+        <UserEntry navigation={this.props.navigation} />
       </ParallaxScrollView>
     )
   }
