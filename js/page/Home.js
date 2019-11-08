@@ -285,7 +285,7 @@ class Home extends Component {
     this.initJPush()
     this._navListener = this.props.navigation.addListener('didFocus', () => {
       if (this.props.toggleRefreshHome) {
-        this.props._toggleHomeRefresh(true)
+        // this.props._toggleHomeRefresh(true)
         this.cityRefresh()
       }
       // 这个Promise很关键

@@ -13,7 +13,7 @@ import {
 import {CITY, IS_IPHONEX, STATUSBAR_HEIGHT, storage} from '../util';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
-import {changeCity, getHotCityLayout} from '../action/common/actionCreators';
+import {changeCity, getHotCityLayout, toggleHomeRefresh} from '../action/common/actionCreators';
 
 const HOT_CITY = [
   {
@@ -88,6 +88,7 @@ class CityList extends Component {
       searchValue: ''
     })
     this.props._changeCity()
+    this.props._toggleHomeRefresh(true)
     this.props.navigation.goBack()
   }
   handleHeaderLayout (event) {
@@ -119,6 +120,7 @@ class CityList extends Component {
     await storage.setItem('city_id', params.cityId.toString())
     await storage.setItem('city_name', params.cityName.toString())
     this.props._changeCity()
+    this.props._toggleHomeRefresh(true)
     this.props.navigation.goBack()
   }
   _renderHeader () {
@@ -423,6 +425,10 @@ const mapDispatchToProps = dispatch => ({
   },
   _getHotCityLayout (height) {
     const action = getHotCityLayout(height)
+    dispatch(action)
+  },
+  _toggleHomeRefresh (bool) {
+    const action = toggleHomeRefresh(bool)
     dispatch(action)
   }
 })
