@@ -214,10 +214,10 @@ class CityList extends Component {
         >
           {
             !this.state.toggleSearch && <TouchableOpacity
-              style={{height: 40,width: 30}}
+              style={{height: 40,width: 30,marginRight: 10}}
               onPress={() => this.props.navigation.goBack()}
             >
-              <View style={{justifyContent: 'center',alignItems: 'center',height: 40,width: 30,marginRight: 20}}>
+              <View style={{justifyContent: 'center',alignItems: 'center',height: 40,width: 30}}>
                 <Ionicons
                   name={'ios-close'}
                   size={34}
