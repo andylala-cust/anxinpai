@@ -251,7 +251,7 @@ class CityList extends Component {
               }}
             >
               <View style={{justifyContent: 'center',alignItems: 'center',height: 40,marginLeft: 20,marginRight: 10}}>
-                <Text>取消</Text>
+                <Text style={{fontWeight: 'bold',fontSize: 15}}>取消</Text>
               </View>
             </TouchableOpacity>
           }
