@@ -323,7 +323,7 @@ class Home extends Component {
           ref={e => {this._sectionList = e}}
           showsVerticalScrollIndicator={false}
           // 当下一个section把它的前一个section的可视区推离屏幕的时候，让这个section的header粘连在屏幕的顶端。这个属性在iOS上是默认可用的，因为这是iOS的平台规范。
-          // 安卓需要设置 showsVerticalScrollIndicator 为 true 在有sticky效果
+          // 安卓需要设置 stickySectionHeadersEnabled 为 true 才有sticky效果
           stickySectionHeadersEnabled={true}
           renderSectionHeader={() => <FilterBar navigation={this.props.navigation} filterListParams={this.filterListParams} stickyScroll={this.stickyScroll} />}
           renderSectionFooter={() => {
