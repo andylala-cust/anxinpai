@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  TouchableHighlight,
   Dimensions,
   FlatList
 } from 'react-native';
@@ -341,13 +342,13 @@ class CityList extends Component {
               keyboardDismissMode={'on-drag'}
               data={this.state.searchArr}
               renderItem={({item, index}) => (
-                <TouchableOpacity
+                <TouchableHighlight
                   onPress={() => this.handleItemClick(item)}
                 >
                   <View style={styles.itemWrapper}>
                     <Text key={index} style={styles.item}>{item.cityName}</Text>
                   </View>
-                </TouchableOpacity>
+                </TouchableHighlight>
               )}
             />
           </View>
