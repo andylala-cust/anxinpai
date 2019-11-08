@@ -4,8 +4,24 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Toast from 'react-native-root-toast';
+import {connect} from 'react-redux';
 
 class HomeSearch extends Component {
+  constructor(props) {
+    super(props)
+    this.handleCityClick = this.handleCityClick.bind(this)
+  }
+
+  handleCityClick () {
+    if (this.props.slideModal) {
+      this.props.slideModal.close()
+        .then(() => {
+          this.props.navigation.navigate('CityList')
+        })
+    } else {
+      this.props.navigation.navigate('CityList')
+    }
+  }
   render () {
     return (
       <View
@@ -37,11 +53,7 @@ class HomeSearch extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.right}
-          onPress={() => {
-            const toast = Toast.show('敬请期待^_^', {
-              position: 0
-            })
-          }}
+          onPress={() => this.handleCityClick()}
         >
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
             <MaterialCommunityIcons
@@ -96,4 +108,8 @@ const styles = StyleSheet.create({
   }
 })
 
-export default HomeSearch;
+const mapStateToProps = state => ({
+  slideModal: state.common.slideModal
+})
+
+export default connect(mapStateToProps)(HomeSearch);

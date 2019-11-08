@@ -78,7 +78,6 @@ class Register extends Component {
           }
           _fetch.post(url, params)
             .then(data => {
-              console.log(data)
               StatusBar.setNetworkActivityIndicatorVisible(false)
               if (data.errCode === 1001) {
                 const toast = Toast.show(`${data.content}>_<`, {

@@ -79,22 +79,21 @@ class HouseInfo extends Component {
     this.handleWebViewClick = this.handleWebViewClick.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
   }
-  getAgent () {
+  async getAgent () {
     StatusBar.setNetworkActivityIndicatorVisible(true)
-    storage.getItem('user_id').then(data => {
-      const userId = data
-      const url = `/activity/getConsultant?user_id=${userId}`
-      _fetch.get(url)
-        .then(data => {
-          if (data.content.avatar.indexOf('http') === -1) {
-            data.content.avatar = `http://static.yfbudong.com/${data.content.avatar}`
-          }
-          this.setState({
-            agentData: data.content
-          })
-          StatusBar.setNetworkActivityIndicatorVisible(false)
+    const userId = await storage.getItem('user_id')
+    const cityId = await storage.getItem('city_id')
+    const url = `/activity/getConsultant?user_id=${userId}&a_city_id=${cityId}`
+    _fetch.get(url)
+      .then(data => {
+        if (data.content.avatar.indexOf('http') === -1) {
+          data.content.avatar = `http://static.yfbudong.com/${data.content.avatar}`
+        }
+        this.setState({
+          agentData: data.content
         })
-    })
+        StatusBar.setNetworkActivityIndicatorVisible(false)
+      })
   }
   getHouseImgList () {
     const {id,datafrom} = this.props.navigation.state.params

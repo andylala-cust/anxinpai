@@ -20,7 +20,8 @@ import {
   ChangePwd,
   UserGroup,
   UserFeedBack,
-  UserPostFeedBack
+  UserPostFeedBack,
+  CityList
 } from '../page';
 
 export const rootCom = 'Tab';
@@ -50,7 +51,8 @@ export const StackNavigator = createStackNavigator({
   ChangePwd,
   UserGroup,
   UserFeedBack,
-  UserPostFeedBack
+  UserPostFeedBack,
+  CityList
 }, {
   headerMode: 'float',
   headerTransitionPreset: 'uikit',

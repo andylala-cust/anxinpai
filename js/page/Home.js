@@ -6,7 +6,8 @@ import {
   NativeModules,
   RefreshControl,
   SectionList,
-  Text
+  Text,
+  Modal
 } from 'react-native';
 import {HouseList, HouseListPlaceHolder,LoadMore,BottomTip,FilterBar} from '../components/common';
 import {HomeMainEntry, HomeSwiper, HomeSearch, HomeSummary} from '../components/home';
@@ -16,6 +17,8 @@ import {PAGE_SIZE,TYPE_ID,PULL_DOWN_REFRESH_DURATION} from '../constants';
 import Toast from 'react-native-root-toast';
 import {connect} from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
+import {changeCity,toggleHomeRefresh} from '../action/common/actionCreators';
+import {ColorDotsLoader} from 'react-native-indicator';
 
 const JPushModule = NativeModules.JPushModule;
 const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
@@ -53,7 +56,7 @@ class Home extends Component {
       summary: {},
       toastVisible: false,
       toastText: '',
-      cityName: '上海市'
+      cityName: '上海'
     }
     this._onRefresh = this._onRefresh.bind(this)
     this.getCurrentCity = this.getCurrentCity.bind(this)
@@ -112,9 +115,9 @@ class Home extends Component {
         this.setState({
           listParams: {
             ...this.state.listParams,
-            city_id: data.content.city_id
+            city_id: cityId
           },
-          cityName: data.content.city_name
+          cityName: data.content.city_name.replace(/市/g,'')
         })
         this.getBannerList(cityId)
         this.getInitHouseList(this.state.listParams)
@@ -240,13 +243,57 @@ class Home extends Component {
         })
     })
   }
+  async cityRefresh () {
+    const cityId = await storage.getItem('city_id')
+    const cityName = await storage.getItem('city_name')
+    this.setState({
+      cityName,
+      listParams: {
+        city_id: cityId,
+        page_id: 1,
+        page_size: PAGE_SIZE,
+        type_id: TYPE_ID,
+        time_type: 0,
+        bid_time_type: 0,
+        price_type: 0,
+        cut_type: 0,
+        price_min: 0,
+        price_max: 0,
+        area_min: '',
+        area_max: ''
+      }
+    }, () => {
+      this.getBannerList(cityId)
+      this.getSummary(cityId)
+      this.getRecommendList(cityId)
+      this.getInitHouseList(this.state.listParams)
+        .then(() => {
+          setTimeout(() => {
+            this._sectionList.scrollToLocation({
+              itemIndex: 0
+            })
+            this.props._toggleHomeRefresh(false)
+          }, 300)
+        })
+      this.props._changeCity()
+    })
+  }
   componentDidMount () {
     SplashScreen.hide()
     StatusBar.setNetworkActivityIndicatorVisible(true)
     this.getCurrentCity()
     this.initJPush()
     this._navListener = this.props.navigation.addListener('didFocus', () => {
-      StatusBar.setBarStyle(BARSTYLE)
+      if (this.props.toggleRefreshHome) {
+        this.props._toggleHomeRefresh(true)
+        this.cityRefresh()
+      }
+      // 这个Promise很关键
+      new Promise(resolve => {
+        resolve()
+      }).then(() => {
+        StatusBar.setBarStyle(BARSTYLE)
+      })
     })
   }
   componentWillUnmount() {
@@ -270,7 +317,7 @@ class Home extends Component {
         >
           {this.state.toastText}
         </Toast>
-        <HomeSearch cityName={this.state.cityName} />
+        <HomeSearch navigation={this.props.navigation} cityName={this.state.cityName} />
         <SectionList
           scrollEnabled={this.props.toggleScroll}
           ref={e => {this._sectionList = e}}
@@ -278,7 +325,7 @@ class Home extends Component {
           // 当下一个section把它的前一个section的可视区推离屏幕的时候，让这个section的header粘连在屏幕的顶端。这个属性在iOS上是默认可用的，因为这是iOS的平台规范。
           // 安卓需要设置 showsVerticalScrollIndicator 为 true 在有sticky效果
           stickySectionHeadersEnabled={true}
-          renderSectionHeader={() => <FilterBar filterListParams={this.filterListParams} stickyScroll={this.stickyScroll} />}
+          renderSectionHeader={() => <FilterBar navigation={this.props.navigation} filterListParams={this.filterListParams} stickyScroll={this.stickyScroll} />}
           renderSectionFooter={() => {
             if (!this.state.data.length) {
               if (this.state.toggleFirstEnter) {
@@ -352,13 +399,34 @@ class Home extends Component {
             })
           }}
         />
+        <Modal
+          transparent={true}
+          visible={this.props.showLoader}
+        >
+          <View style={{flex: 1,justifyContent: 'center',alignItems: 'center'}}>
+            <ColorDotsLoader />
+          </View>
+        </Modal>
       </View>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  toggleScroll: state.common.toggleScroll
+  toggleScroll: state.common.toggleScroll,
+  toggleRefreshHome: state.common.toggleRefreshHome,
+  showLoader: state.common.showLoader
 })
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = dispatch => ({
+  _changeCity () {
+    const action = changeCity(false)
+    dispatch(action)
+  },
+  _toggleHomeRefresh (bool) {
+    const action = toggleHomeRefresh(bool)
+    dispatch(action)
+  }
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(Home);

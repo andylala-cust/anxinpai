@@ -16,6 +16,7 @@ import ChangePwd from './ChangePwd';
 import UserGroup from './user/UserGroup';
 import UserFeedBack from './user/UserFeedBack';
 import UserPostFeedBack from './user/UserPostFeedBack';
+import CityList from './CityList';
 import ActivityPage from './ActivityPage';
 
 export {
@@ -37,5 +38,6 @@ export {
   UserGroup,
   UserFeedBack,
   UserPostFeedBack,
+  CityList,
   ActivityPage
 }

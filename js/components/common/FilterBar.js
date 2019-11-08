@@ -7,7 +7,7 @@ import {
   Dimensions,
   TextInput,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -42,8 +42,10 @@ import {
   filterSubwayChange,
   filterSubwayNameChange,
   toggleScroll,
-  filterMoreChange
-} from '../../action/common/actionCreators'
+  filterMoreChange,
+  slideModal
+} from '../../action/common/actionCreators';
+import {userAddListener} from '../../action/user/actionCreators';
 
 const AREA_REF = [];
 const RESET_REF= [];
@@ -106,6 +108,8 @@ class FilterBar extends Component {
     this.getZoneArr = this.getZoneArr.bind(this)
     this.getSubwayArr = this.getSubwayArr.bind(this)
     this.handleBarClick = this.handleBarClick.bind(this)
+    this.getCityId = this.getCityId.bind(this)
+    this.refreshData = this.refreshData.bind(this)
   }
   selectArea (item,index) {
     if (!AREA_REF[index].switch) {
@@ -1032,6 +1036,7 @@ class FilterBar extends Component {
     }
   }
   handleBarClick (index) {
+    this.props._slideModal(this._slideModal)
     if (index === 3) {
       this.getZoneArr()
     }
@@ -1055,12 +1060,65 @@ class FilterBar extends Component {
       </View>
     )
   }
-  componentDidMount () {
-    storage.getItem('city_id').then(data => {
-      this.setState({
-        city_id: data || 1207
-      })
+  async getCityId () {
+    const cityId = await storage.getItem('city_id')
+    this.setState({
+      city_id: cityId || 1207
     })
+  }
+  refreshData () {
+    this.props._filterZoneChange('')
+    this.props._filterSubwayChange('')
+    this.props._filterSubwayNameChange('')
+    this.props._filterMoreChange({
+      areaIndex: '',
+      resetIndex: '',
+      rentIndex: '',
+      taxIndex: '',
+      circIndex: ''
+    })
+    this.setState({
+      houseKind: HOUSE_KIND,
+      houseType: '',
+      priceKind: PRICE_KIND,
+      priceType: '',
+      priceSelected: false,
+      priceMin: '',
+      priceMax: '',
+      sortKind: SORT_KIND,
+      sortType: '',
+      zoneKind: ZONE_KIND,
+      menuIndex: 0,
+      tabIndex: 0,
+      subwayLineIndex: '',
+      checkedZoneIndex: '',
+      subwayLineNameIndex: '',
+      moreKind: MORE_KIND,
+      toggleMore: false,
+      areaIndex: '',
+      areaMin: '',
+      areaMax: '',
+      resetIndex: '',
+      resetType: -2,
+      rentIndex: '',
+      rentType: -2,
+      taxIndex: '',
+      taxType: -2,
+      circIndex: '',
+      circType: -2
+    })
+  }
+  componentDidMount () {
+    this.navListener = this.props.navigation.addListener('didFocus', () => {
+      if (this.props.toggleRefreshHome) {
+        this.refreshData()
+      }
+      this.getCityId()
+    })
+    this.props._userAddListener()
+  }
+  componentWillUnmount () {
+    this.navListener.remove()
   }
   render () {
     return (
@@ -1323,7 +1381,8 @@ const mapStateToProps = state => ({
   checkedZoneIndex: state.common.checkedZoneIndex,
   subwayLineIndex: state.common.subwayLineIndex,
   subwayLineNameIndex: state.common.subwayLineNameIndex,
-  moreParam: state.common.moreParam
+  moreParam: state.common.moreParam,
+  toggleRefreshHome: state.common.toggleRefreshHome
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -1345,6 +1404,14 @@ const mapDispatchToProps = dispatch => ({
   },
   _filterMoreChange (param) {
     const action = filterMoreChange(param)
+    dispatch(action)
+  },
+  _userAddListener () {
+    const action = userAddListener('')
+    dispatch(action)
+  },
+  _slideModal (ref) {
+    const action = slideModal(ref)
     dispatch(action)
   }
 })

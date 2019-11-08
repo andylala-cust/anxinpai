@@ -3,7 +3,11 @@ import {
   FILTER_SUBWAY_CHANGE,
   FILTER_SUBWAY_NAME_CHANGE,
   TOGGLE_SCROLL,
-  FILTER_MORE_CHANGE
+  FILTER_MORE_CHANGE,
+  CITY_CHANGE,
+  SLIDE_MODAL,
+  GET_HOT_CITY_LAYOUT,
+  TOGGLE_HOME_REFRESH
 } from './actionTypes';
 
 export const filterZoneChange = (value) => ({
@@ -28,5 +32,25 @@ export const toggleScroll = (value) => ({
 
 export const filterMoreChange = (value) => ({
   type: FILTER_MORE_CHANGE,
+  value
+})
+
+export const changeCity = (value) => ({
+  type: CITY_CHANGE,
+  value
+})
+
+export const slideModal = (value) => ({
+  type: SLIDE_MODAL,
+  value
+})
+
+export const getHotCityLayout = (value) => ({
+  type: GET_HOT_CITY_LAYOUT,
+  value
+})
+
+export const toggleHomeRefresh = (value) => ({
+  type: TOGGLE_HOME_REFRESH,
   value
 })
