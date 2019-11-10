@@ -7,7 +7,9 @@ import {
   CITY_CHANGE,
   SLIDE_MODAL,
   GET_HOT_CITY_LAYOUT,
-  TOGGLE_HOME_REFRESH
+  TOGGLE_HOME_REFRESH,
+  NOTIFY_STATUS,
+  LOVE_STATUS
 } from './actionTypes';
 
 export const filterZoneChange = (value) => ({
@@ -52,5 +54,15 @@ export const getHotCityLayout = (value) => ({
 
 export const toggleHomeRefresh = (value) => ({
   type: TOGGLE_HOME_REFRESH,
+  value
+})
+
+export const changeNotifyStatus = (value) => ({
+  type: NOTIFY_STATUS,
+  value
+})
+
+export const changeLoveStatus = (value) => ({
+  type: LOVE_STATUS,
   value
 })

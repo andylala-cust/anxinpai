@@ -3,6 +3,10 @@ import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
 import {getBaseLayout} from '../../action/houseInfo/actionCreators';
+import {storage} from '../../util';
+import _fetch from '../../fetch';
+import {changeNotifyStatus} from '../../action/common/actionCreators';
+import Toast from "react-native-root-toast";
 
 const NOTIFY_RESOLVE = 'bell-o'; // 没有提醒
 const NOTIFY_RESOLVE_TEXT = '结束前提醒';
@@ -14,19 +18,26 @@ class HouseDetail extends Component {
   constructor (props) {
     super(props)
     self = this
-    this.state = {
-      notifyIcon: NOTIFY_RESOLVE,
-      notifyText: NOTIFY_RESOLVE_TEXT,
-      notifyStatus: false,
-    }
     this.changeNotify = this.changeNotify.bind(this)
   }
-  changeNotify () {
-    this.setState({
-      notifyStatus: !this.state.notifyStatus,
-      notifyIcon: this.state.notifyStatus ? NOTIFY_RESOLVE : NOFITY_REJECT,
-      notifyText: this.state.notifyStatus ? NOTIFY_RESOLVE_TEXT : NOFITY_REJECT_TEXT
-    })
+  async changeNotify () {
+    const url = `/user/houseNotify`
+    const userId = await storage.getItem('user_id')
+    const {id} = this.props.navigation.state.params
+    const params = {
+      user_id: userId,
+      house_id: id,
+      is_notified: this.props.notifyStatus ? 0 : 1,
+      push_time: this.props.auction_start
+    }
+    _fetch.post(url, params)
+      .then(data => {
+        const notifyText = this.props.notifyStatus ? '取消成功' : '提醒成功'
+        const toast = Toast.show(`${notifyText}^_^`, {
+          position: 0
+        })
+        this.props._changeNotifyStatus(this.props.notifyStatus ? 0 : 1)
+      })
   }
   handleLayout (event) {
     this.baseLayout = event.nativeEvent.layout
@@ -45,11 +56,11 @@ class HouseDetail extends Component {
             <TouchableOpacity onPress={() => this.changeNotify()}>
               <View style={{flexDirection: 'row'}}>
                 <FontAwesome
-                  name={this.state.notifyIcon}
+                  name={this.props.notifyStatus ? NOFITY_REJECT : NOTIFY_RESOLVE}
                   size={13}
                   style={{marginRight: 3,lineHeight: 15,color: '#5186ec'}}
                 />
-                <Text style={{fontSize: 13,lineHeight: 15}}>{this.state.notifyText}</Text>
+                <Text style={{fontSize: 13,lineHeight: 15}}>{this.props.notifyStatus ? NOFITY_REJECT_TEXT : NOTIFY_RESOLVE_TEXT}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -210,12 +221,16 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-
+  notifyStatus: state.common.notifyStatus
 })
 
 const mapDispatchToProps  = dispatch => ({
   _getBaseLayout () {
     const action = getBaseLayout(self.baseLayout.y)
+    dispatch(action)
+  },
+  _changeNotifyStatus (value) {
+    const action = changeNotifyStatus(value)
     dispatch(action)
   }
 })

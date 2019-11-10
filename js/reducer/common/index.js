@@ -7,7 +7,9 @@ import {
   CITY_CHANGE,
   SLIDE_MODAL,
   GET_HOT_CITY_LAYOUT,
-  TOGGLE_HOME_REFRESH
+  TOGGLE_HOME_REFRESH,
+  NOTIFY_STATUS,
+  LOVE_STATUS
 } from '../../action/common/actionTypes';
 
 const defaultState = {
@@ -25,7 +27,9 @@ const defaultState = {
   },
   slideModal: '',
   hotCityLayout: 0,
-  showLoader: false
+  showLoader: false,
+  notifyStatus: 0,
+  loveStatus: 0
 }
 
 export default (state = defaultState, action) => {
@@ -82,6 +86,18 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         showLoader: action.value
+      }
+    }
+    case NOTIFY_STATUS: {
+      return {
+        ...state,
+        notifyStatus: action.value
+      }
+    }
+    case LOVE_STATUS: {
+      return {
+        ...state,
+        loveStatus: action.value
       }
     }
     default: {

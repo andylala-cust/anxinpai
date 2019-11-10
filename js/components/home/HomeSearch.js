@@ -31,9 +31,7 @@ class HomeSearch extends Component {
           style={styles.left}
           activeOpacity={1}
           onPress={() => {
-            const toast = Toast.show('敬请期待^_^', {
-              position: 0
-            })
+            this.props.navigation.navigate('Search')
           }}
         >
           <View

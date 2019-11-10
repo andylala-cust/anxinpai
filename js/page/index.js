@@ -17,6 +17,8 @@ import UserGroup from './user/UserGroup';
 import UserFeedBack from './user/UserFeedBack';
 import UserPostFeedBack from './user/UserPostFeedBack';
 import CityList from './CityList';
+import Search from './Search';
+import UserNotify from './user/UserNotify';
 import ActivityPage from './ActivityPage';
 
 export {
@@ -39,5 +41,7 @@ export {
   UserFeedBack,
   UserPostFeedBack,
   CityList,
+  Search,
+  UserNotify,
   ActivityPage
 }

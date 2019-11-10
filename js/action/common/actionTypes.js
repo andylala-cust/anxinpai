@@ -7,3 +7,5 @@ export const CITY_CHANGE = 'CITY_CHANGE';
 export const SLIDE_MODAL = 'SLIDE_MODAL';
 export const GET_HOT_CITY_LAYOUT = 'GET_HOT_CITY_LAYOUT';
 export const TOGGLE_HOME_REFRESH = 'TOGGLE_HOME_REFRESH';
+export const NOTIFY_STATUS = 'NOTIFY_STATUS';
+export const LOVE_STATUS = 'LOVE_STATUS';

@@ -17,6 +17,13 @@ export default {
       console.log(err)
     }
   },
+  async removeItem (key) {
+    try {
+      await AsyncStorage.removeItem(key)
+    } catch(err) {
+      console.log(err)
+    }
+  },
   async clear () {
     try {
       await AsyncStorage.clear()

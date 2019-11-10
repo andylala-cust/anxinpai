@@ -27,6 +27,7 @@ import {
 } from '../components/houseInfo';
 import {connect} from 'react-redux';
 import {updateCourtUrl,updateValueUrl,updatePreviewList,updateHouseProperty} from '../action/houseInfo/actionCreators';
+import {changeNotifyStatus,changeLoveStatus} from '../action/common/actionCreators';
 import _fetch from '../fetch';
 import {queryString} from '../util';
 import Toast from 'react-native-root-toast';
@@ -68,8 +69,10 @@ class HouseInfo extends Component {
       houseDealArr: [],
       opacity: 0,
       highlightIndex: 0,
-      agentData: {}
+      agentData: {},
     }
+    this.handleLoveClick = this.handleLoveClick.bind(this)
+    this.getStatusByHouse = this.getStatusByHouse.bind(this)
     this.getAgent = this.getAgent.bind(this)
     this.getHouseImgList = this.getHouseImgList.bind(this)
     this.getHouseRate = this.getHouseRate.bind(this)
@@ -78,6 +81,35 @@ class HouseInfo extends Component {
     this.getCourtDoc = this.getCourtDoc.bind(this)
     this.handleWebViewClick = this.handleWebViewClick.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
+  }
+  async handleLoveClick () {
+    const url = `/user/love`
+    const userId = await storage.getItem('user_id')
+    const {id} = this.props.navigation.state.params
+    const params = {
+      user_id: userId,
+      house_id: id,
+      is_loved: this.props.loveStatus ? 0 : 1
+    }
+    _fetch.post(url, params)
+      .then(data => {
+        const notifyText = this.props.loveStatus ? '取消成功' : '收藏成功'
+        const toast = Toast.show(`${notifyText}^_^`, {
+          position: 0
+        })
+        this.props._changeLoveStatus(this.props.loveStatus ? 0 : 1)
+      })
+  }
+  async getStatusByHouse () {
+    const userId = await storage.getItem('user_id')
+    const {id} = this.props.navigation.state.params
+    const url = `/user/getStatusByHouse?user_id=${userId}&house_id=${id}`
+    _fetch.get(url)
+      .then(data => {
+        const {is_notified,is_loved} = data.content
+        this.props._changeNotifyStatus(is_notified)
+        this.props._changeLoveStatus(is_loved)
+      })
   }
   async getAgent () {
     StatusBar.setNetworkActivityIndicatorVisible(true)
@@ -268,6 +300,7 @@ class HouseInfo extends Component {
         }
       })
     })
+    this.getStatusByHouse()
     this.getAgent()
     this.getHouseImgList()
     this.getHouseRate()
@@ -281,6 +314,7 @@ class HouseInfo extends Component {
       toggleFixedShow: false,
       opacity: 0
     })
+    this.props._changeLoveStatus(0)
   }
   componentWillUnmount() {
     this.navListener.remove()
@@ -306,6 +340,7 @@ class HouseInfo extends Component {
           <HouseInfoSwiper houseImgList={this.state.houseImgList} />
           <HouseDetail
             {...this.state.houseInfo}
+            navigation={this.props.navigation}
             houseSchool={this.state.houseSchool}
             trafficName={this.state.trafficName}
             trafficAddress={this.state.trafficAddress}
@@ -334,13 +369,14 @@ class HouseInfo extends Component {
           <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
             <TouchableOpacity
               style={{paddingLeft: 5,paddingRight: 5,marginRight: 15}}
-              onPress={() => {
-                const toast = Toast.show('敬请期待^_^', {
-                  position: 0
-                })
-              }}
+              onPress={() => this.handleLoveClick()}
             >
-              <Ionicons name="ios-heart-empty" size={22} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />
+              <Ionicons
+                name={this.props.loveStatus ? 'ios-heart' : 'ios-heart-empty'}
+                size={22}
+                color={this.props.loveStatus ? '#ff2f1b' : this.state.iconColor}
+                style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}}
+              />
             </TouchableOpacity>
             <TouchableOpacity
               style={{paddingLeft: 5,paddingRight: 5,marginRight: 15}}
@@ -432,7 +468,8 @@ const mapStateToProps = state => ({
   baseLayout: state.houseInfo.baseLayout,
   courtLayout: state.houseInfo.courtLayout,
   valueLayout: state.houseInfo.valueLayout,
-  aroundLayout: state.houseInfo.aroundLayout
+  aroundLayout: state.houseInfo.aroundLayout,
+  loveStatus: state.common.loveStatus
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -452,6 +489,14 @@ const mapDispatchToProps = dispatch => ({
   },
   _updateHouseProperty (value) {
     const action = updateHouseProperty(value)
+    dispatch(action)
+  },
+  _changeNotifyStatus (value) {
+    const action = changeNotifyStatus(value)
+    dispatch(action)
+  },
+  _changeLoveStatus (value) {
+    const action = changeLoveStatus(value)
     dispatch(action)
   }
 })

@@ -4,7 +4,7 @@ import {Split} from  '../../components/common';
 import Toast from 'react-native-root-toast';
 
 const TITLE_ARR = [
-  '我的余额',
+  '我的优惠券',
   '我的会员',
   '我的咨询',
   '我的消息',
@@ -43,6 +43,40 @@ class UserEntry extends Component {
     this.state = {
 
     }
+    this.handleTopEntryClick = this.handleTopEntryClick.bind(this)
+    this.handleUserItemClick = this.handleUserItemClick.bind(this)
+  }
+  handleTopEntryClick (index) {
+    switch (index) {
+      case 0: {
+        break
+      }
+      case 1: {
+        break
+      }
+      case 2: {
+        break
+      }
+      case 3: {
+        break
+      }
+      case 4: {
+        break
+      }
+      case 5: {
+        break
+      }
+      case 6: {
+        this.props.navigation.navigate('UserNotify')
+        break
+      }
+      case 7: {
+        break
+      }
+      default: {
+        break
+      }
+    }
   }
   handleUserItemClick (index) {
     switch (index) {
@@ -80,11 +114,7 @@ class UserEntry extends Component {
             TITLE_ARR.map((item,index) => (
               <TouchableOpacity
                 key={index}
-                onPress={() => {
-                  const toast = Toast.show('敬请期待^_^', {
-                    position: 0
-                  })
-                }}
+                onPress={() => this.handleTopEntryClick(index)}
                 style={{width: '25%',alignItems: 'center',justifyContent: 'center',paddingTop: 10,paddingBottom: 10}
                 }>
                 <View style={{marginBottom: 5}}>
