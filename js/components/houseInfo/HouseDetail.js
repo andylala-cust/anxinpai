@@ -7,6 +7,7 @@ import {storage} from '../../util';
 import _fetch from '../../fetch';
 import {changeNotifyStatus} from '../../action/common/actionCreators';
 import Toast from "react-native-root-toast";
+import {ERR_OK} from '../../errCode';
 
 const NOTIFY_RESOLVE = 'bell-o'; // 没有提醒
 const NOTIFY_RESOLVE_TEXT = '结束前提醒';
@@ -32,16 +33,25 @@ class HouseDetail extends Component {
     }
     _fetch.post(url, params)
       .then(data => {
-        const notifyText = this.props.notifyStatus ? '取消成功' : '提醒成功'
-        const toast = Toast.show(`${notifyText}^_^`, {
-          position: 0
-        })
-        this.props._changeNotifyStatus(this.props.notifyStatus ? 0 : 1)
+        if (data.errCode === ERR_OK) {
+          const notifyText = this.props.notifyStatus ? '取消成功' : '提醒成功'
+          const toast = Toast.show(`${notifyText}^_^`, {
+            position: 0
+          })
+          this.props._changeNotifyStatus(this.props.notifyStatus ? 0 : 1)
+        } else {
+          const toast = Toast.show(`未知错误，请重试>_<`, {
+            position: 0
+          })
+        }
       })
   }
   handleLayout (event) {
     this.baseLayout = event.nativeEvent.layout
     this.props._getBaseLayout()
+  }
+  componentWillUnmount () {
+    this.props._changeNotifyStatus(0)
   }
   render () {
     return (

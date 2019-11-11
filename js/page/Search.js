@@ -1,8 +1,11 @@
 import React,{Component} from 'react';
-import {Text, TextInput, TouchableOpacity, View, StyleSheet} from 'react-native';
+import {Text, TextInput, TouchableOpacity, View, StyleSheet, StatusBar} from 'react-native';
 import {STATUSBAR_HEIGHT} from '../util';
 import {storage} from '../util';
 import _fetch from '../fetch';
+import {SwipeListView} from 'react-native-swipe-list-view';
+
+const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
 
 class Search extends Component {
   static navigationOptions = {
@@ -27,6 +30,12 @@ class Search extends Component {
   render () {
     return (
       <View>
+        <StatusBar
+          barStyle={BARSTYLE}
+          backgroundColor={"transparent"}
+          translucent={true}
+          // networkActivityIndicatorVisible={true}
+        />
         <View
           style={styles.searchWrapper}
         >

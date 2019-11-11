@@ -16,6 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {changeCity, getHotCityLayout, toggleHomeRefresh} from '../action/common/actionCreators';
 
+const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
 const HOT_CITY = [
   {
     cityName: '上海',
@@ -127,6 +128,12 @@ class CityList extends Component {
   _renderHeader () {
     return (
       <View style={{padding: 20}} onLayout={event => {this.handleHeaderLayout(event)}}>
+        <StatusBar
+          barStyle={BARSTYLE}
+          backgroundColor={"transparent"}
+          translucent={true}
+          // networkActivityIndicatorVisible={true}
+        />
         <Text>热门城市</Text>
         <View
           style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',flexWrap: 'wrap'}}

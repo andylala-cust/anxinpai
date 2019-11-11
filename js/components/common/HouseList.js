@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
   listWrapper: {
     paddingLeft: 20,
     paddingRight: 20,
+    backgroundColor: '#fff'
   },
   listContainer: {
     flex: 1,

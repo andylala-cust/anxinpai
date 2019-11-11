@@ -67,7 +67,9 @@ class UserEntry extends Component {
         break
       }
       case 6: {
-        this.props.navigation.navigate('UserNotify')
+        this.props.navigation.navigate('UserNotify', {
+          toggleEdit: false
+        })
         break
       }
       case 7: {

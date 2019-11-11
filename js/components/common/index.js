@@ -5,6 +5,7 @@ import Split from './Split';
 import LoadMore from './LoadMore';
 import BottomTip from './BottomTip';
 import FilterBar from './FilterBar';
+import EmptyContent from './EmptyContent';
 
 export {
   HouseList,
@@ -12,5 +13,6 @@ export {
   Split,
   LoadMore,
   BottomTip,
-  FilterBar
+  FilterBar,
+  EmptyContent
 }
