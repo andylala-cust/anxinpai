@@ -9,7 +9,9 @@ import {
   GET_HOT_CITY_LAYOUT,
   TOGGLE_HOME_REFRESH,
   NOTIFY_STATUS,
-  LOVE_STATUS
+  LOVE_STATUS,
+  USER_LOVE_CHANGE,
+  USER_NOTIFY_CHANGE
 } from '../../action/common/actionTypes';
 
 const defaultState = {
@@ -29,7 +31,9 @@ const defaultState = {
   hotCityLayout: 0,
   showLoader: false,
   notifyStatus: 0,
-  loveStatus: 0
+  loveStatus: 0,
+  userLoveChange: false,
+  userNotifyChange: false
 }
 
 export default (state = defaultState, action) => {
@@ -98,6 +102,18 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         loveStatus: action.value
+      }
+    }
+    case USER_LOVE_CHANGE: {
+      return {
+        ...state,
+        userLoveChange: action.value
+      }
+    }
+    case USER_NOTIFY_CHANGE: {
+      return {
+        ...state,
+        userNotifyChange: action.value
       }
     }
     default: {

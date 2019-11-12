@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {getBaseLayout} from '../../action/houseInfo/actionCreators';
 import {storage} from '../../util';
 import _fetch from '../../fetch';
-import {changeNotifyStatus} from '../../action/common/actionCreators';
+import {changeNotifyStatus,userNotifyChange} from '../../action/common/actionCreators';
 import Toast from "react-native-root-toast";
 import {ERR_OK} from '../../errCode';
 
@@ -39,6 +39,7 @@ class HouseDetail extends Component {
             position: 0
           })
           this.props._changeNotifyStatus(this.props.notifyStatus ? 0 : 1)
+          this.props._userNotifyChange(this.props.notifyStatus ? false : true)
         } else {
           const toast = Toast.show(`未知错误，请重试>_<`, {
             position: 0
@@ -241,6 +242,10 @@ const mapDispatchToProps  = dispatch => ({
   },
   _changeNotifyStatus (value) {
     const action = changeNotifyStatus(value)
+    dispatch(action)
+  },
+  _userNotifyChange (value) {
+    const action = userNotifyChange(value)
     dispatch(action)
   }
 })

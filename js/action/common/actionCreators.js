@@ -9,7 +9,9 @@ import {
   GET_HOT_CITY_LAYOUT,
   TOGGLE_HOME_REFRESH,
   NOTIFY_STATUS,
-  LOVE_STATUS
+  LOVE_STATUS,
+  USER_LOVE_CHANGE,
+  USER_NOTIFY_CHANGE
 } from './actionTypes';
 
 export const filterZoneChange = (value) => ({
@@ -64,5 +66,15 @@ export const changeNotifyStatus = (value) => ({
 
 export const changeLoveStatus = (value) => ({
   type: LOVE_STATUS,
+  value
+})
+
+export const userLoveChange = (value) => ({
+  type: USER_LOVE_CHANGE,
+  value
+})
+
+export const userNotifyChange = (value) => ({
+  type: USER_NOTIFY_CHANGE,
   value
 })

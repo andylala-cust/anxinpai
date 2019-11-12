@@ -19,6 +19,8 @@ import UserPostFeedBack from './user/UserPostFeedBack';
 import CityList from './CityList';
 import Search from './Search';
 import UserNotify from './user/UserNotify';
+import UserLove from './user/UserLove';
+import Compare from './Compare';
 import ActivityPage from './ActivityPage';
 
 export {
@@ -43,5 +45,7 @@ export {
   CityList,
   Search,
   UserNotify,
+  UserLove,
+  Compare,
   ActivityPage
 }

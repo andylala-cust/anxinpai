@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import {View,Text,TouchableOpacity,Image} from 'react-native';
 import {Split} from  '../../components/common';
 import Toast from 'react-native-root-toast';
+import {storage} from '../../util';
+
 
 const TITLE_ARR = [
   '我的优惠券',
@@ -46,7 +48,12 @@ class UserEntry extends Component {
     this.handleTopEntryClick = this.handleTopEntryClick.bind(this)
     this.handleUserItemClick = this.handleUserItemClick.bind(this)
   }
-  handleTopEntryClick (index) {
+  async handleTopEntryClick (index) {
+    const userId = await storage.getItem('user_id')
+    if (!userId) {
+      this.props.navigation.navigate('Login')
+      return
+    }
     switch (index) {
       case 0: {
         break
@@ -61,6 +68,9 @@ class UserEntry extends Component {
         break
       }
       case 4: {
+        this.props.navigation.navigate('UserLove', {
+          toggleEdit: false
+        })
         break
       }
       case 5: {

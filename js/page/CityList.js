@@ -15,6 +15,7 @@ import {CITY, IS_IPHONEX, STATUSBAR_HEIGHT, storage} from '../util';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {changeCity, getHotCityLayout, toggleHomeRefresh} from '../action/common/actionCreators';
+import {userAddListener} from '../action/user/actionCreators';
 
 const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
 const HOT_CITY = [
@@ -209,6 +210,15 @@ class CityList extends Component {
       </View>
     )
   }
+  componentDidMount () {
+    this.navListener = this.props.navigation.addListener('didFocus', () => {
+      StatusBar.setBarStyle(BARSTYLE)
+    })
+    this.props._userAddListener()
+  }
+  componentWillUnmount () {
+    this.navListener.remove()
+  }
   render () {
     return (
       <View
@@ -397,7 +407,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     borderColor: '#bbb',
-    borderWidth: StyleSheet.hairlineWidth
+    borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: 3
   },
   itemWrapper: {
     paddingLeft: 20,
@@ -440,6 +451,10 @@ const mapDispatchToProps = dispatch => ({
   },
   _toggleHomeRefresh (bool) {
     const action = toggleHomeRefresh(bool)
+    dispatch(action)
+  },
+  _userAddListener () {
+    const action = userAddListener('')
     dispatch(action)
   }
 })

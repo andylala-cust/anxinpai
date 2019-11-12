@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
-  ART
+  ART,
 } from 'react-native';
 import _fetch from '../../fetch';
 import {PAGE_SIZE} from '../../constants';
@@ -36,9 +36,9 @@ const IoniconsHeaderButton_ = passMeFurther => (
 );
 let self;
 
-class UserNotify extends Component {
+class UserLove extends Component {
   static navigationOptions = ({navigation}) => ({
-    title: '我的提醒',
+    title: '我的收藏',
     // 解决安卓标题不居中
     headerTitleStyle:{
       flex: 1,
@@ -98,22 +98,21 @@ class UserNotify extends Component {
     this.editPress = this.editPress.bind(this)
     this.btnPress = this.btnPress.bind(this)
     this.houseListItemClick = this.houseListItemClick.bind(this)
-    this.getInitUserNotify = this.getInitUserNotify.bind(this)
-    this.getMoreUserNotify = this.getMoreUserNotify.bind(this)
+    this.getInitUserLove = this.getInitUserLove.bind(this)
+    this.getMoreUserLove = this.getMoreUserLove.bind(this)
   }
   handleCompareClick () {
     this.props.navigation.navigate('Compare')
   }
   async handleDeleteClick (data) {
     const {index} = data
-    const url = `/user/houseNotify`
+    const url = `/user/love`
     const userId = await storage.getItem('user_id')
-    const {id,auction_start} = data.item
+    const {id} = data.item
     const params = {
       user_id: userId,
       house_id: id,
-      is_notified: 0,
-      push_time: auction_start
+      is_loved: 0
     }
     _fetch.post(url, params)
       .then(data => {
@@ -135,7 +134,7 @@ class UserNotify extends Component {
   }
   async deleteAll () {
     const userId = await storage.getItem('user_id')
-    const url = `/user/deleteAllUserNotify?user_id=${userId}`
+    const url = `/user/deleteAllUserLove?user_id=${userId}`
     _fetch.get(url)
       .then(data => {
         if (data.errCode === ERR_OK) {
@@ -149,7 +148,7 @@ class UserNotify extends Component {
             this.props.navigation.setParams({
               toggleEdit: this.state.toggleEdit
             })
-            this.getInitUserNotify()
+            this.getInitUserLove()
           })
         } else {
           const toast = Toast.show(`未知错误，请重试>_<`, {
@@ -159,14 +158,13 @@ class UserNotify extends Component {
       })
   }
   async handleItemDelete (data, secId) {
-    const url = `/user/houseNotify`
+    const url = `/user/love`
     const userId = await storage.getItem('user_id')
-    const {id,auction_start} = data.item
+    const {id} = data.item
     const params = {
       user_id: userId,
       house_id: id,
-      is_notified: 0,
-      push_time: auction_start
+      is_loved: 0,
     }
     _fetch.post(url, params)
       .then(data => {
@@ -175,7 +173,7 @@ class UserNotify extends Component {
             position: 0
           })
           secId[id].closeRow()
-          this.getInitUserNotify()
+          this.getInitUserLove()
         } else {
           const toast = Toast.show(`删除失败>_<`, {
             position: 0
@@ -207,13 +205,13 @@ class UserNotify extends Component {
       })
     }
   }
-  async getInitUserNotify () {
+  async getInitUserLove () {
     StatusBar.setNetworkActivityIndicatorVisible(true)
     const userId = await storage.getItem('user_id')
     this.setState({
       pageId: 1
     }, () => {
-      const url = `/user/getUserNotifyList?user_id=${userId}&page_id=${this.state.pageId}&page_size=${this.state.pageSize}`
+      const url = `/user/getUserLoveList?user_id=${userId}&page_id=${this.state.pageId}&page_size=${this.state.pageSize}`
       _fetch.get(url)
         .then(data => {
           StatusBar.setNetworkActivityIndicatorVisible(false)
@@ -224,13 +222,13 @@ class UserNotify extends Component {
         })
     })
   }
-  async getMoreUserNotify () {
+  async getMoreUserLove () {
     StatusBar.setNetworkActivityIndicatorVisible(true)
     const userId = await storage.getItem('user_id')
     this.setState({
       pageId: ++this.state.pageId
     })
-    const url = `/user/getUserNotifyList?user_id=${userId}&page_id=${this.state.pageId}&page_size=${this.state.pageSize}`
+    const url = `/user/getUserLoveList?user_id=${userId}&page_id=${this.state.pageId}&page_size=${this.state.pageSize}`
     _fetch.get(url)
       .then(data => {
         const arr = [...this.state.data]
@@ -243,15 +241,15 @@ class UserNotify extends Component {
       })
   }
   componentDidMount () {
-    this.getInitUserNotify()
+    this.getInitUserLove()
     this.navListener = this.props.navigation.addListener('didFocus', () => {
       new Promise(resolve => {
         resolve()
       }).then(() => {
         StatusBar.setBarStyle(BARSTYLE)
       })
-      if (this.props.userNotifyChange) {
-        this.getInitUserNotify()
+      if (this.props.userLoveChange) {
+        this.getInitUserLove()
       }
     })
     this.props._userAddListener()
@@ -318,7 +316,7 @@ class UserNotify extends Component {
               this.setState({
                 toggleLoadMore: false
               })
-              this.getMoreUserNotify()
+              this.getMoreUserLove()
             }
           }}
           onEndReachedThreshold={0.5}
@@ -369,7 +367,7 @@ class UserNotify extends Component {
               style={{paddingLeft: 40,paddingRight: 40,borderRadius: 5,paddingTop: 0,paddingBottom: 0}}
               onPress={() => this.deleteAll()}
             >
-              <Text style={{lineHeight: 40,color: '#fff',fontWeight: 'bold',fontSize: 16}}>取消关注</Text>
+              <Text style={{lineHeight: 40,color: '#fff',fontWeight: 'bold',fontSize: 16}}>取消收藏</Text>
             </Button>
           </View>
         }
@@ -426,7 +424,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-  userNotifyChange: state.common.userNotifyChange
+  userLoveChange: state.common.userLoveChange
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -436,4 +434,4 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export default connect(mapStateToProps,mapDispatchToProps)(UserNotify);
+export default connect(mapStateToProps,mapDispatchToProps)(UserLove);

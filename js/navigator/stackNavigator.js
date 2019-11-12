@@ -23,7 +23,9 @@ import {
   UserPostFeedBack,
   CityList,
   Search,
-  UserNotify
+  UserNotify,
+  UserLove,
+  Compare
 } from '../page';
 
 export const rootCom = 'Tab';
@@ -56,7 +58,9 @@ export const StackNavigator = createStackNavigator({
   UserPostFeedBack,
   CityList,
   Search,
-  UserNotify
+  UserNotify,
+  UserLove,
+  Compare
 }, {
   headerMode: 'float',
   headerTransitionPreset: 'uikit',

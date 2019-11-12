@@ -27,10 +27,11 @@ import {
 } from '../components/houseInfo';
 import {connect} from 'react-redux';
 import {updateCourtUrl,updateValueUrl,updatePreviewList,updateHouseProperty} from '../action/houseInfo/actionCreators';
-import {changeNotifyStatus,changeLoveStatus} from '../action/common/actionCreators';
+import {changeNotifyStatus,changeLoveStatus,userLoveChange} from '../action/common/actionCreators';
 import _fetch from '../fetch';
 import {queryString} from '../util';
 import Toast from 'react-native-root-toast';
+import {ERR_OK} from '../errCode';
 
 const {Surface,Shape,Group} = ART;
 const SWIPER_HEIGHT = 240;
@@ -93,11 +94,18 @@ class HouseInfo extends Component {
     }
     _fetch.post(url, params)
       .then(data => {
-        const notifyText = this.props.loveStatus ? '取消成功' : '收藏成功'
-        const toast = Toast.show(`${notifyText}^_^`, {
-          position: 0
-        })
-        this.props._changeLoveStatus(this.props.loveStatus ? 0 : 1)
+        if (data.errCode === ERR_OK) {
+          const notifyText = this.props.loveStatus ? '取消成功' : '收藏成功'
+          const toast = Toast.show(`${notifyText}^_^`, {
+            position: 0
+          })
+          this.props._changeLoveStatus(this.props.loveStatus ? 0 : 1)
+          this.props._userLoveChange(this.props.loveStatus ? false : true)
+        } else {
+          const toast = Toast.show(`未知错误，请重试>_<`, {
+            position: 0
+          })
+        }
       })
   }
   async getStatusByHouse () {
@@ -116,6 +124,7 @@ class HouseInfo extends Component {
     const userId = await storage.getItem('user_id')
     const cityId = await storage.getItem('city_id')
     const url = `/activity/getConsultant?user_id=${userId}&a_city_id=${cityId}`
+    console.log(url)
     _fetch.get(url)
       .then(data => {
         if (data.content.avatar.indexOf('http') === -1) {
@@ -381,9 +390,10 @@ class HouseInfo extends Component {
             <TouchableOpacity
               style={{paddingLeft: 5,paddingRight: 5,marginRight: 15}}
               onPress={() => {
-                const toast = Toast.show('敬请期待^_^', {
-                  position: 0
-                })
+                this.props.navigation.navigate('Compare')
+                // const toast = Toast.show('敬请期待^_^', {
+                //   position: 0
+                // })
               }}
             >
               <View
@@ -497,6 +507,10 @@ const mapDispatchToProps = dispatch => ({
   },
   _changeLoveStatus (value) {
     const action = changeLoveStatus(value)
+    dispatch(action)
+  },
+  _userLoveChange (value) {
+    const action = userLoveChange(value)
     dispatch(action)
   }
 })
