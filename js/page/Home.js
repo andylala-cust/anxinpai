@@ -219,6 +219,7 @@ class Home extends Component {
       })
     } else {
       JPushModule.getRegisterId((res) => {
+        // alert(JSON.stringify(res))
         console.log(res)
       })
     }

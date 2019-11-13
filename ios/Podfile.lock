@@ -148,7 +148,7 @@ DEPENDENCIES:
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AMap3DMap
     - AMapFoundation
     - boost-for-react-native
@@ -264,4 +264,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 2e5d70cc0f27a754c975a4d2ca01f494da168e60
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.8.4

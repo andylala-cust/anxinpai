@@ -124,7 +124,6 @@ class HouseInfo extends Component {
     const userId = await storage.getItem('user_id')
     const cityId = await storage.getItem('city_id')
     const url = `/activity/getConsultant?user_id=${userId}&a_city_id=${cityId}`
-    console.log(url)
     _fetch.get(url)
       .then(data => {
         if (data.content.avatar.indexOf('http') === -1) {

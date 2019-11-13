@@ -299,7 +299,7 @@ class UserNotify extends Component {
               onPress={() => this.handleItemDelete(data, secId)}
             >
               <View style={[styles.standaloneRowBack,{padding: 5}]}>
-                <Text></Text>
+                <View style={{backgroundColor: '#fff',height: 200,width: 100,marginLeft: -20}}></View>
                 <AntDesign
                   size={20}
                   name={'delete'}
