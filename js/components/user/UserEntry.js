@@ -56,15 +56,19 @@ class UserEntry extends Component {
     }
     switch (index) {
       case 0: {
+        this.props.navigation.navigate('UserCoupon')
         break
       }
       case 1: {
+        this.props.navigation.navigate('UserVip')
         break
       }
       case 2: {
+        this.props.navigation.navigate('UserConsult')
         break
       }
       case 3: {
+        this.props.navigation.navigate('UserMsg')
         break
       }
       case 4: {
@@ -74,6 +78,7 @@ class UserEntry extends Component {
         break
       }
       case 5: {
+        this.props.navigation.navigate('UserInvite')
         break
       }
       case 6: {
@@ -83,6 +88,7 @@ class UserEntry extends Component {
         break
       }
       case 7: {
+        this.props.navigation.navigate('UserLoan')
         break
       }
       default: {

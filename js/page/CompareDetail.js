@@ -128,9 +128,9 @@ class CompareDetail extends Component {
             <Text style={{textAlign: 'center',fontSize: 18,fontWeight: 'bold'}}>拍卖信息比较</Text>
             <View>
               <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',paddingTop: 15,paddingBottom: 15}}>
-                <Text>{this.state.formerInfo.start_time}</Text>
-                <Text>【起拍时间】</Text>
-                <Text>{this.state.latterInfo.start_time}</Text>
+                <Text style={{width: '30%', textAlign: 'left'}}>{this.state.formerInfo.start_time}</Text>
+                <Text style={{width: '40%',textAlign: 'center'}}>【起拍时间】</Text>
+                <Text style={{width: '30%', textAlign: 'right'}}>{this.state.latterInfo.start_time}</Text>
               </View>
               <View style={{flexDirection: 'row'}}>
                 <View style={{flex: 1,height: 5,backgroundColor: FOMER_THEME_COLOR}}></View>
@@ -139,9 +139,9 @@ class CompareDetail extends Component {
             </View>
             <View>
               <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',paddingTop: 15,paddingBottom: 15}}>
-                <Text>{this.state.formerInfo.circ}</Text>
-                <Text>【拍卖轮次】</Text>
-                <Text>{this.state.latterInfo.circ}</Text>
+                <Text style={{width: '30%', textAlign: 'left'}}>{this.state.formerInfo.circ}</Text>
+                <Text style={{width: '40%',textAlign: 'center'}}>【拍卖轮次】</Text>
+                <Text style={{width: '30%', textAlign: 'right'}}>{this.state.latterInfo.circ}</Text>
               </View>
               <View style={{flexDirection: 'row'}}>
                 <View style={{flex: 1,height: 5,backgroundColor: FOMER_THEME_COLOR}}></View>
@@ -150,9 +150,9 @@ class CompareDetail extends Component {
             </View>
             <View>
               <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',paddingTop: 15,paddingBottom: 15}}>
-                <Text>{this.state.formerInfo.cut}折</Text>
-                <Text>【评估价折扣】</Text>
-                <Text>{this.state.latterInfo.cut}折</Text>
+                <Text style={{width: '30%', textAlign: 'left'}}>{this.state.formerInfo.cut}折</Text>
+                <Text style={{width: '40%',textAlign: 'center'}}>【评估价折扣】</Text>
+                <Text style={{width: '30%', textAlign: 'right'}}>{this.state.latterInfo.cut}折</Text>
               </View>
               <View style={{flexDirection: 'row'}}>
                 <View style={{flex: 1,height: 5,backgroundColor: FOMER_THEME_COLOR}}></View>
@@ -161,9 +161,9 @@ class CompareDetail extends Component {
             </View>
             <View>
               <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',paddingTop: 15,paddingBottom: 15}}>
-                <Text>{this.state.formerInfo.viewerCount}</Text>
-                <Text>【浏览量】</Text>
-                <Text>{this.state.latterInfo.viewerCount}</Text>
+                <Text style={{width: '30%', textAlign: 'left'}}>{this.state.formerInfo.viewerCount}</Text>
+                <Text style={{width: '40%',textAlign: 'center'}}>【浏览量】</Text>
+                <Text style={{width: '30%', textAlign: 'right'}}>{this.state.latterInfo.viewerCount}</Text>
               </View>
               <View style={{flexDirection: 'row'}}>
                 <View style={{flex: 1,height: 5,backgroundColor: FOMER_THEME_COLOR}}></View>
@@ -172,9 +172,9 @@ class CompareDetail extends Component {
             </View>
             <View>
               <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',paddingTop: 15,paddingBottom: 15}}>
-                <Text>{this.state.formerInfo.applyCount}</Text>
-                <Text>【报名人数】</Text>
-                <Text>{this.state.latterInfo.applyCount}</Text>
+                <Text style={{width: '30%', textAlign: 'left'}}>{this.state.formerInfo.applyCount}</Text>
+                <Text style={{width: '40%',textAlign: 'center'}}>【报名人数】</Text>
+                <Text style={{width: '30%',textAlign: 'right'}}>{this.state.latterInfo.applyCount}</Text>
               </View>
               <View style={{flexDirection: 'row'}}>
                 <View style={{flex: 1,height: 5,backgroundColor: FOMER_THEME_COLOR}}></View>
@@ -186,9 +186,9 @@ class CompareDetail extends Component {
             <Text style={{textAlign: 'center',fontSize: 18,fontWeight: 'bold'}}>房产信息比较</Text>
             <View>
               <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',paddingTop: 15,paddingBottom: 15}}>
-                <Text>{this.state.formerInfo.zone_name}</Text>
-                <Text>【区位】</Text>
-                <Text>{this.state.latterInfo.zone_name}</Text>
+                <Text style={{width: '30%', textAlign: 'left'}}>{this.state.formerInfo.zone_name}</Text>
+                <Text style={{width: '40%',textAlign: 'center'}}>【区位】</Text>
+                <Text style={{width: '30%',textAlign: 'right'}}>{this.state.latterInfo.zone_name}</Text>
               </View>
               <View style={{flexDirection: 'row'}}>
                 <View style={{flex: 1,height: 5,backgroundColor: FOMER_THEME_COLOR}}></View>
@@ -197,9 +197,9 @@ class CompareDetail extends Component {
             </View>
             <View>
               <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',paddingTop: 15,paddingBottom: 15}}>
-                <Text>{this.state.formerInfo.area}㎡</Text>
-                <Text>【建筑面积】</Text>
-                <Text>{this.state.latterInfo.area}㎡</Text>
+                <Text style={{width: '30%', textAlign: 'left'}}>{this.state.formerInfo.area}㎡</Text>
+                <Text style={{width: '40%',textAlign: 'center'}}>【建筑面积】</Text>
+                <Text style={{width: '30%',textAlign: 'right'}}>{this.state.latterInfo.area}㎡</Text>
               </View>
               <View style={{flexDirection: 'row'}}>
                 <View style={{flex: 1,height: 5,backgroundColor: FOMER_THEME_COLOR}}></View>
@@ -208,9 +208,9 @@ class CompareDetail extends Component {
             </View>
             <View>
               <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',paddingTop: 15,paddingBottom: 15}}>
-                <Text>{this.state.formerInfo.floor}层</Text>
-                <Text>【所在楼层】</Text>
-                <Text>{this.state.latterInfo.floor}层</Text>
+                <Text style={{width: '30%', textAlign: 'left'}}>{this.state.formerInfo.floor}层</Text>
+                <Text style={{width: '40%',textAlign: 'center'}}>【所在楼层】</Text>
+                <Text style={{width: '30%',textAlign: 'right'}}>{this.state.latterInfo.floor}层</Text>
               </View>
               <View style={{flexDirection: 'row'}}>
                 <View style={{flex: 1,height: 5,backgroundColor: FOMER_THEME_COLOR}}></View>
@@ -219,9 +219,9 @@ class CompareDetail extends Component {
             </View>
             <View>
               <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',paddingTop: 15,paddingBottom: 15}}>
-                <Text>{this.state.formerInfo.reset}</Text>
-                <Text>【占用情况】</Text>
-                <Text>{this.state.latterInfo.reset}</Text>
+                <Text style={{width: '30%', textAlign: 'left'}}>{this.state.formerInfo.reset}</Text>
+                <Text style={{width: '40%',textAlign: 'center'}}>【占用情况】</Text>
+                <Text style={{width: '30%',textAlign: 'right'}}>{this.state.latterInfo.reset}</Text>
               </View>
               <View style={{flexDirection: 'row'}}>
                 <View style={{flex: 1,height: 5,backgroundColor: FOMER_THEME_COLOR}}></View>
@@ -230,9 +230,9 @@ class CompareDetail extends Component {
             </View>
             <View>
               <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',paddingTop: 15,paddingBottom: 15}}>
-                <Text>{this.state.formerInfo.rent}</Text>
-                <Text>【租用情况】</Text>
-                <Text>{this.state.latterInfo.rent}</Text>
+                <Text style={{width: '30%', textAlign: 'left'}}>{this.state.formerInfo.rent}</Text>
+                <Text style={{width: '40%',textAlign: 'center'}}>【租用情况】</Text>
+                <Text style={{width: '30%',textAlign: 'right'}}>{this.state.latterInfo.rent}</Text>
               </View>
               <View style={{flexDirection: 'row'}}>
                 <View style={{flex: 1,height: 5,backgroundColor: FOMER_THEME_COLOR}}></View>

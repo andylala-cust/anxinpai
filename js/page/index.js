@@ -23,6 +23,12 @@ import UserLove from './user/UserLove';
 import Compare from './Compare';
 import CompareDetail from './CompareDetail';
 import ActivityPage from './ActivityPage';
+import UserCoupon from './user/UserCoupon';
+import UserVip from './user/UserVip';
+import UserConsult from './user/UserConsult';
+import UserMsg from './user/UserMsg';
+import UserInvite from './user/UserInvite';
+import UserLoan from './user/UserLoan';
 
 export {
   Info,
@@ -49,5 +55,11 @@ export {
   UserLove,
   Compare,
   CompareDetail,
+  UserCoupon,
+  UserVip,
+  UserConsult,
+  UserMsg,
+  UserInvite,
+  UserLoan,
   ActivityPage
 }

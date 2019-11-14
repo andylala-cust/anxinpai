@@ -427,12 +427,12 @@ class HouseInfo extends Component {
                 </Surface>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={{paddingRight: 20}}
-              onPress={() => this.handleShareClick()}
-            >
-              <Feather name="share" size={20} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />
-            </TouchableOpacity>
+            {/*<TouchableOpacity*/}
+            {/*  style={{paddingRight: 20}}*/}
+            {/*  onPress={() => this.handleShareClick()}*/}
+            {/*>*/}
+            {/*  <Feather name="share" size={20} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />*/}
+            {/*</TouchableOpacity>*/}
           </View>
         </View>
         {

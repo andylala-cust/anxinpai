@@ -26,7 +26,13 @@ import {
   UserNotify,
   UserLove,
   Compare,
-  CompareDetail
+  CompareDetail,
+  UserCoupon,
+  UserVip,
+  UserConsult,
+  UserMsg,
+  UserInvite,
+  UserLoan
 } from '../page';
 
 export const rootCom = 'Tab';
@@ -62,7 +68,13 @@ export const StackNavigator = createStackNavigator({
   UserNotify,
   UserLove,
   Compare,
-  CompareDetail
+  CompareDetail,
+  UserCoupon,
+  UserVip,
+  UserConsult,
+  UserMsg,
+  UserInvite,
+  UserLoan
 }, {
   headerMode: 'float',
   headerTransitionPreset: 'uikit',
