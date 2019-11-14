@@ -17,7 +17,7 @@ import {PAGE_SIZE,TYPE_ID,PULL_DOWN_REFRESH_DURATION} from '../constants';
 import Toast from 'react-native-root-toast';
 import {connect} from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
-import {changeCity,toggleHomeRefresh} from '../action/common/actionCreators';
+import {changeCity, searchChange, toggleHomeRefresh} from '../action/common/actionCreators';
 import {ColorDotsLoader} from 'react-native-indicator';
 
 const JPushModule = NativeModules.JPushModule;
@@ -51,7 +51,8 @@ class Home extends Component {
         price_min: 0,
         price_max: 0,
         area_min: '',
-        area_max: ''
+        area_max: '',
+        s_search: ''
       },
       summary: {},
       toastVisible: false,
@@ -262,7 +263,8 @@ class Home extends Component {
         price_min: 0,
         price_max: 0,
         area_min: '',
-        area_max: ''
+        area_max: '',
+        s_search: ''
       }
     }, () => {
       this.getBannerList(cityId)
@@ -280,6 +282,37 @@ class Home extends Component {
       this.props._changeCity()
     })
   }
+  async searchRefresh () {
+    const cityId = await storage.getItem('city_id')
+    this.setState({
+      listParams: {
+        city_id: cityId,
+        page_id: 1,
+        page_size: PAGE_SIZE,
+        type_id: TYPE_ID,
+        time_type: 0,
+        bid_time_type: 0,
+        price_type: 0,
+        cut_type: 0,
+        price_min: 0,
+        price_max: 0,
+        area_min: '',
+        area_max: '',
+        s_search: this.props.searchVal
+      }
+    }, () => {
+      this.getInitHouseList(this.state.listParams)
+        .then(() => {
+          setTimeout(() => {
+            this._sectionList.scrollToLocation({
+              itemIndex: 0
+            })
+            this.props._toggleHomeRefresh(false)
+          }, 300)
+        })
+      this.props._searchChange(false)
+    })
+  }
   componentDidMount () {
     SplashScreen.hide()
     StatusBar.setNetworkActivityIndicatorVisible(true)
@@ -289,6 +322,9 @@ class Home extends Component {
       if (this.props.toggleRefreshHome) {
         // this.props._toggleHomeRefresh(true)
         this.cityRefresh()
+      }
+      if (this.props.toggleSearchRefresh) {
+        this.searchRefresh()
       }
       // 这个Promise很关键
       new Promise(resolve => {
@@ -370,7 +406,7 @@ class Home extends Component {
           // ListEmptyComponent={<HouseListPlaceHolder />}
           ListHeaderComponent={
             <View>
-              <HomeMainEntry />
+              {/*<HomeMainEntry />*/}
               <HomeSummary {...this.state.summary} />
               <HomeSwiper
                 bannerList={this.state.bannerList}
@@ -417,7 +453,9 @@ class Home extends Component {
 const mapStateToProps = state => ({
   toggleScroll: state.common.toggleScroll,
   toggleRefreshHome: state.common.toggleRefreshHome,
-  showLoader: state.common.showLoader
+  toggleSearchRefresh: state.common.toggleSearchRefresh,
+  showLoader: state.common.showLoader,
+  searchVal: state.common.searchVal
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -427,6 +465,10 @@ const mapDispatchToProps = dispatch => ({
   },
   _toggleHomeRefresh (bool) {
     const action = toggleHomeRefresh(bool)
+    dispatch(action)
+  },
+  _searchChange (bool) {
+    const action = searchChange(bool)
     dispatch(action)
   }
 })

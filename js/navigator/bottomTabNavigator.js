@@ -25,32 +25,32 @@ export const Tab = createBottomTabNavigator(
         )
       }
     },
-    Service: {
-      screen: Service,
-      navigationOptions: {
-        tabBarLabel: '服务',
-        tabBarIcon: ({tintColor, focused}) => (
-          <MaterialCommunityIcons
-            name={focused ? 'account-group' : 'account-group-outline'}
-            size={23}
-            style={{color: tintColor}}
-          />
-        )
-      }
-    },
-    About: {
-      screen: Collect,
-      navigationOptions: {
-        tabBarLabel: '收藏',
-        tabBarIcon: ({tintColor, focused}) => (
-          <AntDesign
-            name={focused ? 'star' : 'staro'}
-            size={23}
-            style={{color: tintColor}}
-          />
-        )
-      }
-    },
+    // Service: {
+    //   screen: Service,
+    //   navigationOptions: {
+    //     tabBarLabel: '服务',
+    //     tabBarIcon: ({tintColor, focused}) => (
+    //       <MaterialCommunityIcons
+    //         name={focused ? 'account-group' : 'account-group-outline'}
+    //         size={23}
+    //         style={{color: tintColor}}
+    //       />
+    //     )
+    //   }
+    // },
+    // About: {
+    //   screen: Collect,
+    //   navigationOptions: {
+    //     tabBarLabel: '收藏',
+    //     tabBarIcon: ({tintColor, focused}) => (
+    //       <AntDesign
+    //         name={focused ? 'star' : 'staro'}
+    //         size={23}
+    //         style={{color: tintColor}}
+    //       />
+    //     )
+    //   }
+    // },
     User: {
       screen: User,
       navigationOptions: {

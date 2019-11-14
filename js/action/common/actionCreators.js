@@ -11,7 +11,9 @@ import {
   NOTIFY_STATUS,
   LOVE_STATUS,
   USER_LOVE_CHANGE,
-  USER_NOTIFY_CHANGE
+  USER_NOTIFY_CHANGE,
+  SEARCH_CHANGE,
+  SEARCH_VALUE
 } from './actionTypes';
 
 export const filterZoneChange = (value) => ({
@@ -76,5 +78,15 @@ export const userLoveChange = (value) => ({
 
 export const userNotifyChange = (value) => ({
   type: USER_NOTIFY_CHANGE,
+  value
+})
+
+export const searchChange = (value) => ({
+  type: SEARCH_CHANGE,
+  value
+})
+
+export const searchValue = (value) => ({
+  type: SEARCH_VALUE,
   value
 })

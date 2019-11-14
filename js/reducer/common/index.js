@@ -11,7 +11,9 @@ import {
   NOTIFY_STATUS,
   LOVE_STATUS,
   USER_LOVE_CHANGE,
-  USER_NOTIFY_CHANGE
+  USER_NOTIFY_CHANGE,
+  SEARCH_CHANGE,
+  SEARCH_VALUE
 } from '../../action/common/actionTypes';
 
 const defaultState = {
@@ -20,6 +22,7 @@ const defaultState = {
   subwayLineNameIndex: '',
   toggleScroll: true,
   toggleRefreshHome: false,
+  toggleSearchRefresh: false,
   moreParam: {
     areaIndex: '',
     resetIndex: '',
@@ -33,7 +36,8 @@ const defaultState = {
   notifyStatus: 0,
   loveStatus: 0,
   userLoveChange: false,
-  userNotifyChange: false
+  userNotifyChange: false,
+  searchVal: ''
 }
 
 export default (state = defaultState, action) => {
@@ -114,6 +118,18 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         userNotifyChange: action.value
+      }
+    }
+    case SEARCH_CHANGE: {
+      return {
+        ...state,
+        toggleSearchRefresh: action.value
+      }
+    }
+    case SEARCH_VALUE: {
+      return {
+        ...state,
+        searchVal: action.value
       }
     }
     default: {

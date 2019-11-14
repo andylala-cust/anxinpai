@@ -16,6 +16,7 @@ import {ERR_OK} from '../errCode';
 import Toast from "react-native-root-toast";
 import {connect} from 'react-redux';
 import {userAddListener} from '../action/user/actionCreators';
+import {toggleHomeRefresh,searchChange,searchValue} from '../action/common/actionCreators';
 
 const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
 const IPHONEX_TABBAR_DELTA = 34;
@@ -34,7 +35,10 @@ class Search extends Component {
     this.handleInputChange = this.handleInputChange.bind(this)
   }
   handleSearch (event) {
-    console.log(event.nativeEvent.text)
+    this.props._searchValue(event.nativeEvent.text)
+    this.props._searchChange(true)
+    this.props._toggleHomeRefresh(true)
+    this.props.navigation.goBack()
   }
   handleItemClick (item) {
     this.props.navigation.navigate('HouseInfo', {
@@ -160,6 +164,18 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   _userAddListener () {
     const action = userAddListener('')
+    dispatch(action)
+  },
+  _toggleHomeRefresh (bool) {
+    const action = toggleHomeRefresh(bool)
+    dispatch(action)
+  },
+  _searchChange (bool) {
+    const action = searchChange(bool)
+    dispatch(action)
+  },
+  _searchValue (value) {
+    const action = searchValue(value)
     dispatch(action)
   }
 })
