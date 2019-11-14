@@ -229,18 +229,19 @@ class UserNotify extends Component {
     const userId = await storage.getItem('user_id')
     this.setState({
       pageId: ++this.state.pageId
-    })
-    const url = `/user/getUserNotifyList?user_id=${userId}&page_id=${this.state.pageId}&page_size=${this.state.pageSize}`
-    _fetch.get(url)
-      .then(data => {
-        const arr = [...this.state.data]
-        arr.push(...data.content)
-        this.setState({
-          data: arr,
-          toggleMore:  data.content.length < PAGE_SIZE ? false : true,
+    }, () => {
+      const url = `/user/getUserNotifyList?user_id=${userId}&page_id=${this.state.pageId}&page_size=${this.state.pageSize}`
+      _fetch.get(url)
+        .then(data => {
+          const arr = [...this.state.data]
+          arr.push(...data.content)
+          this.setState({
+            data: arr,
+            toggleMore:  data.content.length < PAGE_SIZE ? false : true,
+          })
+          StatusBar.setNetworkActivityIndicatorVisible(false)
         })
-        StatusBar.setNetworkActivityIndicatorVisible(false)
-      })
+    })
   }
   componentDidMount () {
     this.getInitUserNotify()

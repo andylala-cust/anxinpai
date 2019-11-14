@@ -159,20 +159,21 @@ class Home extends Component {
         ...this.state.listParams,
         page_id: ++this.state.listParams.page_id
       }
-    })
-    const query = queryString.stringify(this.state.listParams)
-    const url = `/house/lists?${query}`
-    StatusBar.setNetworkActivityIndicatorVisible(true)
-    _fetch.get(url)
-      .then(data => {
-        const arr = [...this.state.data]
-        arr.push(...data.content)
-        this.setState({
-          data: arr,
-          toggleMore:  data.content.length < PAGE_SIZE ? false : true
+    }, () => {
+      const query = queryString.stringify(this.state.listParams)
+      const url = `/house/lists?${query}`
+      StatusBar.setNetworkActivityIndicatorVisible(true)
+      _fetch.get(url)
+        .then(data => {
+          const arr = [...this.state.data]
+          arr.push(...data.content)
+          this.setState({
+            data: arr,
+            toggleMore:  data.content.length < PAGE_SIZE ? false : true
+          })
+          StatusBar.setNetworkActivityIndicatorVisible(false)
         })
-        StatusBar.setNetworkActivityIndicatorVisible(false)
-      })
+    })
   }
   getBannerList (cityId) {
     const url = `/share/activity/getAd?city_id=${cityId}`

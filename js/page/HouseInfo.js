@@ -72,6 +72,8 @@ class HouseInfo extends Component {
       highlightIndex: 0,
       agentData: {},
     }
+    this.handleShareClick = this.handleShareClick.bind(this)
+    this.handleCompareClick = this.handleCompareClick.bind(this)
     this.handleLoveClick = this.handleLoveClick.bind(this)
     this.getStatusByHouse = this.getStatusByHouse.bind(this)
     this.getAgent = this.getAgent.bind(this)
@@ -83,9 +85,28 @@ class HouseInfo extends Component {
     this.handleWebViewClick = this.handleWebViewClick.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
   }
+  async handleShareClick () {
+    const userId = await storage.getItem('user_id')
+    if (!userId) {
+      this.props.navigation.navigate('Login')
+      return
+    }
+  }
+  async handleCompareClick () {
+    const userId = await storage.getItem('user_id')
+    if (!userId) {
+      this.props.navigation.navigate('Login')
+      return
+    }
+    this.props.navigation.navigate('Compare')
+  }
   async handleLoveClick () {
     const url = `/user/love`
     const userId = await storage.getItem('user_id')
+    if (!userId) {
+      this.props.navigation.navigate('Login')
+      return
+    }
     const {id} = this.props.navigation.state.params
     const params = {
       user_id: userId,
@@ -388,12 +409,7 @@ class HouseInfo extends Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={{paddingLeft: 5,paddingRight: 5,marginRight: 15}}
-              onPress={() => {
-                this.props.navigation.navigate('Compare')
-                // const toast = Toast.show('敬请期待^_^', {
-                //   position: 0
-                // })
-              }}
+              onPress={() => this.handleCompareClick()}
             >
               <View
                 style={{height: FIXED_ICON_HEIGHT,alignItems: 'center',justifyContent: 'center'}}
@@ -413,11 +429,7 @@ class HouseInfo extends Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={{paddingRight: 20}}
-              onPress={() => {
-                const toast = Toast.show('敬请期待^_^', {
-                  position: 0
-                })
-              }}
+              onPress={() => this.handleShareClick()}
             >
               <Feather name="share" size={20} color={this.state.iconColor} style={{height: FIXED_ICON_HEIGHT,lineHeight: FIXED_ICON_HEIGHT}} />
             </TouchableOpacity>

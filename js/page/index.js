@@ -21,6 +21,7 @@ import Search from './Search';
 import UserNotify from './user/UserNotify';
 import UserLove from './user/UserLove';
 import Compare from './Compare';
+import CompareDetail from './CompareDetail';
 import ActivityPage from './ActivityPage';
 
 export {
@@ -47,5 +48,6 @@ export {
   UserNotify,
   UserLove,
   Compare,
+  CompareDetail,
   ActivityPage
 }

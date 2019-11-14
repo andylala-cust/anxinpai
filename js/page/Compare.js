@@ -12,8 +12,10 @@ import _fetch from '../fetch';
 import {BottomTip, EmptyContent, HouseList, LoadMore} from '../components/common';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Toast from "react-native-root-toast";
 
 let self;
+const BUTTON_CHECKED = 2;
 const IPHONEX_TABBAR_DELTA = 34;
 const TAB_BAR_HEIGHT = IS_IPHONEX ? IPHONEX_TABBAR_DELTA : 0;
 const CHECK_ICON_NAME = 'check-circle';
@@ -140,36 +142,38 @@ class Compare extends Component {
     const userId = await storage.getItem('user_id')
     this.setState({
       lovePageId: ++this.state.lovePageId
-    })
-    const url = `/user/getUserLoveList?user_id=${userId}&page_id=${this.state.lovePageId}&page_size=${this.state.pageSize}`
-    _fetch.get(url)
-      .then(data => {
-        const arr = [...this.state.loveData]
-        arr.push(...data.content)
-        this.setState({
-          loveData: arr,
-          toggleLoveMore:  data.content.length < PAGE_SIZE ? false : true,
+    }, () => {
+      const url = `/user/getUserLoveList?user_id=${userId}&page_id=${this.state.lovePageId}&page_size=${this.state.pageSize}`
+      _fetch.get(url)
+        .then(data => {
+          const arr = [...this.state.loveData]
+          arr.push(...data.content)
+          this.setState({
+            loveData: arr,
+            toggleLoveMore:  data.content.length < PAGE_SIZE ? false : true,
+          })
+          StatusBar.setNetworkActivityIndicatorVisible(false)
         })
-        StatusBar.setNetworkActivityIndicatorVisible(false)
-      })
+    })
   }
   async getMoreNotifyList () {
     StatusBar.setNetworkActivityIndicatorVisible(true)
     const userId = await storage.getItem('user_id')
     this.setState({
       notifyPageId: ++this.state.notifyPageId
-    })
-    const url = `/user/getUserNotifyList?user_id=${userId}&page_id=${this.state.notifyPageId}&page_size=${this.state.pageSize}`
-    _fetch.get(url)
-      .then(data => {
-        const arr = [...this.state.notifyData]
-        arr.push(...data.content)
-        this.setState({
-          notifyData: arr,
-          toggleNotifyMore:  data.content.length < PAGE_SIZE ? false : true
+    }, () => {
+      const url = `/user/getUserNotifyList?user_id=${userId}&page_id=${this.state.notifyPageId}&page_size=${this.state.pageSize}`
+      _fetch.get(url)
+        .then(data => {
+          const arr = [...this.state.notifyData]
+          arr.push(...data.content)
+          this.setState({
+            notifyData: arr,
+            toggleNotifyMore:  data.content.length < PAGE_SIZE ? false : true
+          })
+          StatusBar.setNetworkActivityIndicatorVisible(false)
         })
-        StatusBar.setNetworkActivityIndicatorVisible(false)
-      })
+    })
   }
   btnPress () {
     this.props.navigation.goBack()
@@ -255,6 +259,22 @@ class Compare extends Component {
             >
               <Button
                 primary
+                onPress={() => {
+                  const length = this.state.loveCheckArr.length
+                  if (length !== BUTTON_CHECKED) {
+                    const toast = Toast.show('只能选中两套才能对比哦>_<', {
+                      position: 0
+                    })
+                  } else {
+                    const formerId = this.state.loveCheckArr[0]
+                    const latterId = this.state.loveCheckArr[1]
+                    this.props.navigation.navigate('CompareDetail', {
+                      formerId,
+                      latterId
+                    })
+                  }
+                }}
+                disabled={this.state.loveCheckArr.length < BUTTON_CHECKED}
                 style={{flex: 1,justifyContent: 'center',alignItems: 'center'}}
               >
                 <Text style={{color: '#fff',fontWeight: 'bold'}}>选中两套，开始对比</Text>
@@ -312,6 +332,22 @@ class Compare extends Component {
             >
               <Button
                 primary
+                onPress={() => {
+                  const length = this.state.notifyCheckArr.length
+                  if (length !== BUTTON_CHECKED) {
+                    const toast = Toast.show('只能选中两套才能对比哦>_<', {
+                      position: 0
+                    })
+                  } else {
+                    const formerId = this.state.notifyCheckArr[0]
+                    const latterId = this.state.notifyCheckArr[1]
+                    this.props.navigation.navigate('CompareDetail', {
+                      formerId,
+                      latterId
+                    })
+                  }
+                }}
+                disabled={this.state.notifyCheckArr.length < BUTTON_CHECKED}
                 style={{flex: 1,justifyContent: 'center',alignItems: 'center'}}
               >
                 <Text style={{color: '#fff',fontWeight: 'bold'}}>选中两套，开始对比</Text>

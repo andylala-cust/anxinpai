@@ -6,6 +6,7 @@ import storage from './storage';
 import PHONE_CHECK from './phone_check';
 import CODE_CHECK from './code_check';
 import CITY from './city';
+import debounce from './debounce';
 
 export {
   IS_IPHONEX,
@@ -14,5 +15,6 @@ export {
   storage,
   PHONE_CHECK,
   CODE_CHECK,
-  CITY
+  CITY,
+  debounce
 }

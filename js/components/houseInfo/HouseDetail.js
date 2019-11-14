@@ -24,6 +24,10 @@ class HouseDetail extends Component {
   async changeNotify () {
     const url = `/user/houseNotify`
     const userId = await storage.getItem('user_id')
+    if (!userId) {
+      this.props.navigation.navigate('Login')
+      return
+    }
     const {id} = this.props.navigation.state.params
     const params = {
       user_id: userId,
