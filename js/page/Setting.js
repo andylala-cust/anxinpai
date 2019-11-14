@@ -63,11 +63,16 @@ class Setting extends Component {
   handlePwd () {
     this.props.navigation.navigate('ChangePwd')
   }
-  handleSignOut () {
-    storage.clear()
-      .then(() => {
-        this.props.navigation.pop()
-      })
+  async handleSignOut () {
+    await storage.removeItem('user_id')
+    await storage.removeItem('user_phone')
+    await storage.removeItem('user_avatar')
+    await storage.removeItem('user_name')
+    this.props.navigation.pop()
+    // storage.clear()
+    //   .then(() => {
+    //     this.props.navigation.pop()
+    //   })
   }
   async getUserInfo () {
     const userPhone = await storage.getItem('user_phone')
