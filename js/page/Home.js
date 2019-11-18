@@ -406,7 +406,7 @@ class Home extends Component {
           // ListEmptyComponent={<HouseListPlaceHolder />}
           ListHeaderComponent={
             <View>
-              {/*<HomeMainEntry />*/}
+              <HomeMainEntry navigation={this.props.navigation} />
               <HomeSummary {...this.state.summary} />
               <HomeSwiper
                 bannerList={this.state.bannerList}

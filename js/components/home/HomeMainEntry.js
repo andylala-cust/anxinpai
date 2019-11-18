@@ -57,9 +57,10 @@ class HomeMainEntry extends Component {
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
-          const toast = Toast.show('敬请期待^_^', {
-            position: 0
-          })
+          this.props.navigation.navigate('Encyclopedia')
+          // const toast = Toast.show('敬请期待^_^', {
+          //   position: 0
+          // })
         }}>
           <View style={styles.item}>
             <Ionicons

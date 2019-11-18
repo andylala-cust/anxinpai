@@ -29,6 +29,8 @@ import UserConsult from './user/UserConsult';
 import UserMsg from './user/UserMsg';
 import UserInvite from './user/UserInvite';
 import UserLoan from './user/UserLoan';
+import Encyclopedia from './Encyclopedia';
+import ArticleDetail from './ArticleDetail';
 
 export {
   Info,
@@ -61,5 +63,7 @@ export {
   UserMsg,
   UserInvite,
   UserLoan,
+  Encyclopedia,
+  ArticleDetail,
   ActivityPage
 }

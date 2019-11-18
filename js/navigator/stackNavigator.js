@@ -32,7 +32,9 @@ import {
   UserConsult,
   UserMsg,
   UserInvite,
-  UserLoan
+  UserLoan,
+  Encyclopedia,
+  ArticleDetail
 } from '../page';
 
 export const rootCom = 'Tab';
@@ -74,7 +76,9 @@ export const StackNavigator = createStackNavigator({
   UserConsult,
   UserMsg,
   UserInvite,
-  UserLoan
+  UserLoan,
+  Encyclopedia,
+  ArticleDetail
 }, {
   headerMode: 'float',
   headerTransitionPreset: 'uikit',
