@@ -949,6 +949,7 @@ class Encyclopedia extends Component {
                     button
                     onPress={() => this.handleArticleClick(item)}
                     cardBody
+                    style={{backgroundColor: '#efefef'}}
                   >
                     <Image style={{flex: 1,width: null,height: 160}} source={{uri: item.answer}} />
                   </CardItem>
