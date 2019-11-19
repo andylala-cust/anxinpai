@@ -6,6 +6,7 @@ import LoadMore from './LoadMore';
 import BottomTip from './BottomTip';
 import FilterBar from './FilterBar';
 import EmptyContent from './EmptyContent';
+import PressableButton from './PressableButton';
 
 export {
   HouseList,
@@ -14,5 +15,6 @@ export {
   LoadMore,
   BottomTip,
   FilterBar,
-  EmptyContent
+  EmptyContent,
+  PressableButton
 }

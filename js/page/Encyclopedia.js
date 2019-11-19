@@ -18,7 +18,7 @@ import {PAGE_SIZE} from '../constants';
 import {ERR_OK} from '../errCode';
 import _fetch from '../fetch';
 import Toast from "react-native-root-toast";
-import {BottomTip, LoadMore} from '../components/common';
+import {BottomTip, LoadMore, PressableButton} from '../components/common';
 import {IS_IPHONEX} from '../util';
 
 const IPHONEX_TABBAR_DELTA = 34;
@@ -941,35 +941,44 @@ class Encyclopedia extends Component {
               showsVerticalScrollIndicator={false}
               data={this.state.articleArr}
               renderItem={({item}) => (
-                <Card
-                  style={{marginLeft: 20,marginRight: 20,marginTop: 20,marginBottom: 20}}
+                <PressableButton
+                  onPress={() => this.handleArticleClick(item)}
+                  {
+                    ...{
+                      minScale: 0.95
+                    }
+                  }
                 >
-                  <CardItem
-                    activeOpacity={1}
-                    button
-                    onPress={() => this.handleArticleClick(item)}
-                    cardBody
-                    style={{backgroundColor: '#efefef'}}
+                  <Card
+                    style={{marginLeft: 20,marginRight: 20,marginTop: 20,marginBottom: 20}}
                   >
-                    <Image style={{flex: 1,width: null,height: 160}} source={{uri: item.answer}} />
-                  </CardItem>
-                  <CardItem
-                    activeOpacity={1}
-                    button
-                    onPress={() => this.handleArticleClick(item)}
-                  >
-                    <View
-                      style={{
-                        height: 50,
-                        padding: 10,
-                        borderBottomRightRadius: 5,
-                        borderBottomLeftRadius: 10
-                      }}
+                    <CardItem
+                      activeOpacity={1}
+                      // button
+                      // onPress={() => this.handleArticleClick(item)}
+                      cardBody
+                      style={{backgroundColor: '#efefef'}}
                     >
-                      <Text numberOfLines={1} style={styles.text}>{item.desc}</Text>
-                    </View>
-                  </CardItem>
-                </Card>
+                      <Image style={{flex: 1,width: null,height: 160}} source={{uri: item.answer}} />
+                    </CardItem>
+                    <CardItem
+                      activeOpacity={1}
+                      // button
+                      // onPress={() => this.handleArticleClick(item)}
+                    >
+                      <View
+                        style={{
+                          height: 50,
+                          padding: 10,
+                          borderBottomRightRadius: 5,
+                          borderBottomLeftRadius: 10
+                        }}
+                      >
+                        <Text numberOfLines={1} style={styles.text}>{item.desc}</Text>
+                      </View>
+                    </CardItem>
+                  </Card>
+                </PressableButton>
               )}
               keyExtractor={(item) => item.id.toString() }
               onEndReached={() => {

@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {Badge,Avatar} from 'react-native-elements';
 import {storage} from '../util';
+import {PressableButton} from '../components/common'
 
 const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
 
@@ -77,7 +78,7 @@ class Service extends Component {
           translucent={true}
           // networkActivityIndicatorVisible={true}
         />
-        <Text>敬请期待</Text>
+        <PressableButton />
       </View>
     )
   }
