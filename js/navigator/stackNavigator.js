@@ -1,4 +1,5 @@
 import {createStackNavigator} from 'react-navigation-stack';
+import StackViewStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator';
 import {connect} from 'react-redux';
 import {createReactNavigationReduxMiddleware,createReduxContainer} from 'react-navigation-redux-helpers';
 import {Tab} from './bottomTabNavigator';
@@ -36,6 +37,7 @@ import {
   Encyclopedia,
   ArticleDetail
 } from '../page';
+import {transitionConfiguration} from '../util';
 
 export const rootCom = 'Tab';
 
@@ -82,6 +84,9 @@ export const StackNavigator = createStackNavigator({
 }, {
   headerMode: 'float',
   headerTransitionPreset: 'uikit',
+  transitionConfig: (sceneProps) => ({
+    screenInterpolator: transitionConfiguration(sceneProps)
+  })
 });
 
 export const middleware = createReactNavigationReduxMiddleware(

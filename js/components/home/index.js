@@ -4,11 +4,13 @@ import HomeSearch from './HomeSearch';
 import HomeSwiper from './HomeSwiper';
 import LoadMore from '../common/LoadMore';
 import HomeSummary from './HomeSummary';
+import HomePromote from './HomePromote';
 
 export {
   HomeMainEntry,
   HomeSearch,
   HomeSwiper,
   LoadMore,
-  HomeSummary
+  HomeSummary,
+  HomePromote
 }

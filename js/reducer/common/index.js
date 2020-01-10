@@ -15,6 +15,7 @@ import {
   SEARCH_CHANGE,
   SEARCH_VALUE
 } from '../../action/common/actionTypes';
+import {DEFAULT_USER_AVATAR} from  '../../constants';
 
 const defaultState = {
   checkedZoneIndex: '',

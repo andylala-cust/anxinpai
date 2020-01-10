@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Image, Text, TouchableOpacity, View, StyleSheet} from 'react-native';
 
+const HOT_STATUS = '正在拍卖';
+
 class HouseList extends Component {
   render () {
     return (
@@ -13,6 +15,9 @@ class HouseList extends Component {
         >
           <View style={styles.listContainer}>
             <View style={styles.listItemImgWrapper}>
+              <View style={[styles.tag,this.props.item.cn_status === HOT_STATUS && {backgroundColor: '#f00'}]}>
+                <Text style={styles.tagText}>{this.props.item.cn_status}</Text>
+              </View>
               <Image
                 style={styles.listItemImg}
                 source={{uri: this.props.item.pic_url}}
@@ -31,15 +36,15 @@ class HouseList extends Component {
                 style={{flexDirection: 'row', marginTop: 6,alignItems: 'center'}}
               >
                 <View style={{flexDirection: 'row',justifyContent: 'center',alignItems: 'center',marginRight: 10}}>
-                  <Text style={styles.listItemInfoPrice}>
-                    <Text style={{color: '#000',fontSize: 12}}>起拍价</Text>
+                  <Text style={[styles.listItemInfoPrice,{fontWeight: 'bold'}]}>
+                    <Text style={{color: '#000',fontSize: 12,fontWeight: 'normal'}}>起拍价</Text>
                     &nbsp;&nbsp;
                     {Math.floor(this.props.item.initialPrice / 10000) || '-'}万
                   </Text>
                 </View>
                 <View style={{flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
-                  <Text style={[styles.listItemInfoPrice,{fontSize: 13}]}>
-                    <Text style={{color: '#000',fontSize: 12}}>评估价</Text>
+                  <Text style={[styles.listItemInfoPrice,{fontSize: 13,fontWeight: 'bold'}]}>
+                    <Text style={{color: '#000',fontSize: 12,fontWeight: 'normal'}}>评估价</Text>
                     &nbsp;&nbsp;
                     {Math.floor(this.props.item.consultPrice / 10000) || '-'}万
                   </Text>
@@ -55,12 +60,12 @@ class HouseList extends Component {
               <View
                 style={{flexDirection: 'row', marginTop: 4}}
               >
-                <Text style={[styles.listItemInfoTag,{backgroundColor: '#3f59ff',color: '#fff'}]}>{this.props.item.cut || '- -'}折</Text>
-                <Text style={[styles.listItemInfoTag,{marginLeft: 10}]}>{this.props.item.circ || '-'}</Text>
-                <Text numberOfLines={1} style={[styles.listItemInfoTag,{marginLeft: 10,maxWidth: '50%'}]}>{this.props.item.asset_type || '-'}</Text>
+                <Text style={[styles.listItemInfoTag,{backgroundColor: '#00D1DB',color: '#fff',fontWeight: 'bold'}]}>{this.props.item.cut || '- -'}折</Text>
+                <Text style={[styles.listItemInfoTag,{marginLeft: 10,backgroundColor: '#d97888',color: '#fff',fontWeight: 'bold'}]}>{this.props.item.circ || '-'}</Text>
+                <Text numberOfLines={1} style={[styles.listItemInfoTag,{marginLeft: 10,maxWidth: '50%',backgroundColor: '#d94d90',color: '#fff',fontWeight: 'bold'}]}>{this.props.item.asset_type || '-'}</Text>
               </View>
               <View>
-                <Text style={{height: 20,lineHeight: 20,fontSize: 12,color: '#a6abb3'}}>起拍时间：{this.props.item.start_time || '-'}</Text>
+                <Text style={{height: 20,lineHeight: 20,fontSize: 12,color: '#b32e26',fontWeight: 'bold'}}>起拍时间：{this.props.item.start_time || '-'}</Text>
               </View>
             </View>
           </View>
@@ -71,6 +76,23 @@ class HouseList extends Component {
 }
 
 const styles = StyleSheet.create({
+  tag: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    zIndex: 9,
+    width: '80%',
+    height: 18,
+    backgroundColor: '#ff7f70'
+  },
+  tagText: {
+    fontWeight: 'bold',
+    fontSize: 13,
+    color: '#fff'
+  },
   listWrapper: {
     paddingLeft: 20,
     paddingRight: 20,
@@ -107,7 +129,8 @@ const styles = StyleSheet.create({
     height: 20,
     fontSize: 12,
     lineHeight: 20,
-    color: '#a6abb3',
+    color: '#e3986d',
+    fontWeight: 'bold'
   },
   listItemInfoTag: {
     height: 16,

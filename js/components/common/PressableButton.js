@@ -49,7 +49,7 @@ class PressableButton extends Component {
   render () {
     return (
       <Animated.View
-        style={{transform: [{scale: this.state.buttonScale}]}}
+        style={[{transform: [{scale: this.state.buttonScale}]},this.props.style && this.props.style]}
       >
         <TouchableWithoutFeedback
           onPress={this.props.onPress}

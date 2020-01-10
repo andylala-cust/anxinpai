@@ -90,7 +90,7 @@ class Search extends Component {
             style={styles.input}
             autoCapitalize={'none'}
             autoFocus
-            placeholder={'请输入小区或街道等ヾ(o◕∀◕)ﾉ'}
+            placeholder={'找小区、找街道ヾ(o◕∀◕)ﾉ'}
             returnKeyType={'search'}
             onChangeText={debounce((value) => {
               this.handleInputChange(value)

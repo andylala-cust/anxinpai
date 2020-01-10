@@ -104,4 +104,5 @@ export const DELAY_LOAD_TIME = 1000;
 export const REGISTER_CODE = 0; // 注册
 export const CHANGE_PWD = 1; // 修改密码
 export const MIN_PWD_LENGTH = 8;  // 密码最小长度
-export const DEFAULT_USER_AVATAR = 'http://static.yfbudong.com/%E6%9C%8D%E5%8A%A1%E5%A4%B4%E5%83%8F.jpg';
+export const DEFAULT_USER_AVATAR = 'http://static.yfbudong.com/anxinpai_default_avatar.jpg';
+export const GAODE_KEY = '29de9219429c6425c5cfd872e54e3838';  // 高德地图KEY

@@ -242,7 +242,7 @@ class Register extends Component {
             onPress={() => {this.props.navigation.navigate('Protocol')}}
           >
             <View>
-              <Text style={{color: '#bbb',fontSize: 13}}>已阅读并同意《海豚选房服务协议》</Text>
+              <Text style={{color: '#bbb',fontSize: 13}}>已阅读并同意《安心拍服务协议》</Text>
             </View>
           </TouchableOpacity>
           <View style={{marginTop: 30}}>

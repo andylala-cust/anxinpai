@@ -45,7 +45,7 @@ class HouseDeal extends Component {
               </TouchableOpacity>
             </View>
             {
-              this.props.houseDealArr ? this.props.houseDealArr.map((item, index) => (
+              this.props.houseDealArr.length > 0 ? this.props.houseDealArr.map((item, index) => (
                 <TouchableOpacity
                   key={item.id}
                   activeOpacity={1}
@@ -68,9 +68,9 @@ class HouseDeal extends Component {
                         <Text style={{lineHeight: 20,marginBottom: 10}}>{item.title}</Text>
                       </View>
                       <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
-                        <Text style={{height: 16,lineHeight: 16,backgroundColor: '#3f59ff',color: '#fff',paddingLeft: 3,paddingRight: 3,fontSize: 12,borderRadius: 2}}>{Math.floor(item.discount/10)}折</Text>
-                        <Text style={{height: 16,lineHeight: 16,backgroundColor: '#eef0f3',color: '#7a8fbd',paddingLeft: 3,paddingRight: 3,fontSize: 12,borderRadius: 2}}>单价{item.price}/㎡</Text>
-                        <Text style={{height: 16,lineHeight: 16,backgroundColor: '#eef0f3',color: '#7a8fbd',paddingLeft: 3,paddingRight: 3,fontSize: 12,borderRadius: 2}}>面积{item.area}㎡</Text>
+                        <Text style={{height: 16,lineHeight: 16,backgroundColor: '#00D1DB',fontWeight: 'bold',color: '#fff',paddingLeft: 3,paddingRight: 3,fontSize: 12,borderRadius: 2}}>{Math.floor(item.discount/10)}折</Text>
+                        <Text style={{height: 16,lineHeight: 16,backgroundColor: '#d97888',fontWeight: 'bold',color: '#fff',paddingLeft: 3,paddingRight: 3,fontSize: 12,borderRadius: 2}}>单价{item.price}/㎡</Text>
+                        <Text style={{height: 16,lineHeight: 16,backgroundColor: '#d94d90',fontWeight: 'bold',color: '#fff',paddingLeft: 3,paddingRight: 3,fontSize: 12,borderRadius: 2}}>面积{item.area}㎡</Text>
                       </View>
                     </View>
                     <View style={{width: '20%',justifyContent: 'center',alignItems: 'center'}}>

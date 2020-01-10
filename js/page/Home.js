@@ -10,10 +10,10 @@ import {
   Modal
 } from 'react-native';
 import {HouseList, HouseListPlaceHolder,LoadMore,BottomTip,FilterBar} from '../components/common';
-import {HomeMainEntry, HomeSwiper, HomeSearch, HomeSummary} from '../components/home';
+import {HomeMainEntry, HomeSwiper, HomeSearch, HomeSummary, HomePromote} from '../components/home';
 import _fetch from '../fetch';
 import {queryString, storage} from '../util';
-import {PAGE_SIZE,TYPE_ID,PULL_DOWN_REFRESH_DURATION} from '../constants';
+import {PAGE_SIZE,TYPE_ID,PULL_DOWN_REFRESH_DURATION,GAODE_KEY} from '../constants';
 import Toast from 'react-native-root-toast';
 import {connect} from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
@@ -39,6 +39,7 @@ class Home extends Component {
       toggleMore: true,
       bannerList: [],
       recommendList: [],
+      promoteList: [],
       listParams: {
         city_id: '',
         page_id: 1,
@@ -57,13 +58,15 @@ class Home extends Component {
       summary: {},
       toastVisible: false,
       toastText: '',
-      cityName: '上海'
+      cityName: '上海',
+      weather: {}
     }
     this._onRefresh = this._onRefresh.bind(this)
     this.getCurrentCity = this.getCurrentCity.bind(this)
     this.getInitHouseList = this.getInitHouseList.bind(this)
     this.getMoreHouseList = this.getMoreHouseList.bind(this)
     this.getBannerList = this.getBannerList.bind(this)
+    this.getPromoteList = this.getPromoteList.bind(this)
     this.getSummary = this.getSummary.bind(this)
     this.handleSwiperItemClick = this.handleSwiperItemClick.bind(this)
     this.houseListItemClick = this.houseListItemClick.bind(this)
@@ -121,9 +124,22 @@ class Home extends Component {
           cityName: data.content.city_name.replace(/市/g,'')
         })
         this.getBannerList(cityId)
+        this.getPromoteList(cityId)
         this.getInitHouseList(this.state.listParams)
         this.getSummary(cityId)
         this.getRecommendList(cityId)
+        this.getCityWeather(data.content.city_name)
+      })
+  }
+  getCityWeather (cityName) {
+    _fetch.get(`https://restapi.amap.com/v3/weather/weatherInfo?city=${cityName}&key=${GAODE_KEY}`, true)
+      .then(data => {
+        if (Number(data.status) === 1) {
+          const weather = data.lives[0] || {}
+          this.setState({
+            weather
+          })
+        }
       })
   }
   getRecommendList (cityId) {
@@ -175,6 +191,18 @@ class Home extends Component {
           StatusBar.setNetworkActivityIndicatorVisible(false)
         })
     })
+  }
+  getPromoteList (cityId) {
+    const url = `/house/recommend?city_id=${cityId}`
+    StatusBar.setNetworkActivityIndicatorVisible(true)
+    _fetch.get(url)
+      .then(data => {
+        console.log(data)
+        this.setState({
+          promoteList: data.content.data
+        })
+        StatusBar.setNetworkActivityIndicatorVisible(false)
+      })
   }
   getBannerList (cityId) {
     const url = `/share/activity/getAd?city_id=${cityId}`
@@ -267,7 +295,9 @@ class Home extends Component {
         s_search: ''
       }
     }, () => {
+      this.getCityWeather(cityName)
       this.getBannerList(cityId)
+      this.getPromoteList(cityId)
       this.getSummary(cityId)
       this.getRecommendList(cityId)
       this.getInitHouseList(this.state.listParams)
@@ -330,7 +360,7 @@ class Home extends Component {
       new Promise(resolve => {
         resolve()
       }).then(() => {
-        StatusBar.setBarStyle(BARSTYLE)
+        StatusBar.setBarStyle('light-content')
       })
     })
   }
@@ -341,7 +371,7 @@ class Home extends Component {
     return (
       <View style={styles.container}>
         <StatusBar
-          barStyle={BARSTYLE}
+          barStyle={'light-content'}
           backgroundColor={"transparent"}
           translucent={true}
           // networkActivityIndicatorVisible={true}
@@ -355,7 +385,7 @@ class Home extends Component {
         >
           {this.state.toastText}
         </Toast>
-        <HomeSearch navigation={this.props.navigation} cityName={this.state.cityName} />
+        <HomeSearch navigation={this.props.navigation} cityName={this.state.cityName} weather={this.state.weather} />
         <SectionList
           scrollEnabled={this.props.toggleScroll}
           ref={e => {this._sectionList = e}}
@@ -406,12 +436,13 @@ class Home extends Component {
           // ListEmptyComponent={<HouseListPlaceHolder />}
           ListHeaderComponent={
             <View>
-              <HomeMainEntry navigation={this.props.navigation} />
-              <HomeSummary {...this.state.summary} />
-              <HomeSwiper
-                bannerList={this.state.bannerList}
-                callBack={this.handleSwiperItemClick}
-              />
+              <HomePromote navigation={this.props.navigation} promoteList={this.state.promoteList} />
+              {/*<HomeMainEntry navigation={this.props.navigation} />*/}
+              {/*<HomeSummary {...this.state.summary} />*/}
+              {/*<HomeSwiper*/}
+              {/*  bannerList={this.state.bannerList}*/}
+              {/*  callBack={this.handleSwiperItemClick}*/}
+              {/*/>*/}
             </View>
           }
           ListFooterComponent={this.state.toggleMore ? <LoadMore /> : <BottomTip />}

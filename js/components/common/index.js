@@ -16,5 +16,5 @@ export {
   BottomTip,
   FilterBar,
   EmptyContent,
-  PressableButton
+  PressableButton,
 }

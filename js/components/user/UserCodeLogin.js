@@ -122,7 +122,7 @@ class UserCodeLogin extends Component {
       >
         <View style={styles.container}>
           <Text style={styles.title}>手机快捷登录</Text>
-          <Text style={styles.tip}>未注册过的手机号将自动创建海豚号</Text>
+          <Text style={styles.tip}>未注册过的手机号将自动创建安心拍号</Text>
           <View style={{marginTop: 80}}>
             <View style={{position: 'relative'}}>
               <TextInput
@@ -195,7 +195,7 @@ class UserCodeLogin extends Component {
             onPress={() => {this.props.navigation.navigate('Protocol')}}
           >
             <View>
-              <Text style={{color: '#bbb',fontSize: 13}}>已阅读并同意《海豚选房服务协议》</Text>
+              <Text style={{color: '#bbb',fontSize: 13}}>已阅读并同意《安心拍服务协议》</Text>
             </View>
           </TouchableOpacity>
           <View style={{marginTop: 30}}>

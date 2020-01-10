@@ -185,56 +185,56 @@ class User extends Component {
           translucent={true}
           // networkActivityIndicatorVisible={true}
         />
-        {/*<TouchableOpacity*/}
-        {/*  style={{paddingLeft: 20,paddingRight: 20}}*/}
-        {/*  onPress={() => {*/}
-        {/*    storage.getItem('user_id')*/}
-        {/*      .then(data => {*/}
-        {/*        if (data) {*/}
-        {/*          this.props.navigation.navigate('UserLove', {*/}
-        {/*            toggleEdit: false*/}
-        {/*          })*/}
-        {/*        } else {*/}
-        {/*          this.props.navigation.navigate('Login')*/}
-        {/*        }*/}
-        {/*      })*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <View*/}
-        {/*    style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between',height: 50,borderBottomWidth: StyleSheet.hairlineWidth,borderBottomColor: '#bbb'}}*/}
-        {/*  >*/}
-        {/*    <Text>我的收藏</Text>*/}
-        {/*    <Ionicons*/}
-        {/*      name={'ios-arrow-forward'}*/}
-        {/*      size={18}*/}
-        {/*    />*/}
-        {/*  </View>*/}
-        {/*</TouchableOpacity>*/}
-        {/*<TouchableOpacity*/}
-        {/*  style={{paddingLeft: 20,paddingRight: 20}}*/}
-        {/*  onPress={() => {*/}
-        {/*    storage.getItem('user_id')*/}
-        {/*      .then(data => {*/}
-        {/*        if (data) {*/}
-        {/*          this.props.navigation.navigate('UserNotify', {*/}
-        {/*            toggleEdit: false*/}
-        {/*          })*/}
-        {/*        } else {*/}
-        {/*          this.props.navigation.navigate('Login')*/}
-        {/*        }*/}
-        {/*      })*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <View*/}
-        {/*    style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between',height: 50,borderBottomWidth: StyleSheet.hairlineWidth,borderBottomColor: '#bbb'}}*/}
-        {/*  >*/}
-        {/*    <Text>我的提醒</Text>*/}
-        {/*    <Ionicons*/}
-        {/*      name={'ios-arrow-forward'}*/}
-        {/*      size={18}*/}
-        {/*    />*/}
-        {/*  </View>*/}
-        {/*</TouchableOpacity>*/}
+        <TouchableOpacity
+          style={{paddingLeft: 20,paddingRight: 20}}
+          onPress={() => {
+            storage.getItem('user_id')
+              .then(data => {
+                if (data) {
+                  this.props.navigation.navigate('UserLove', {
+                    toggleEdit: false
+                  })
+                } else {
+                  this.props.navigation.navigate('Login')
+                }
+              })
+          }}
+        >
+          <View
+            style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between',height: 50,borderBottomWidth: StyleSheet.hairlineWidth,borderBottomColor: '#bbb'}}
+          >
+            <Text>我的收藏</Text>
+            <Ionicons
+              name={'ios-arrow-forward'}
+              size={18}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{paddingLeft: 20,paddingRight: 20}}
+          onPress={() => {
+            storage.getItem('user_id')
+              .then(data => {
+                if (data) {
+                  this.props.navigation.navigate('UserNotify', {
+                    toggleEdit: false
+                  })
+                } else {
+                  this.props.navigation.navigate('Login')
+                }
+              })
+          }}
+        >
+          <View
+            style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between',height: 50,borderBottomWidth: StyleSheet.hairlineWidth,borderBottomColor: '#bbb'}}
+          >
+            <Text>我的提醒</Text>
+            <Ionicons
+              name={'ios-arrow-forward'}
+              size={18}
+            />
+          </View>
+        </TouchableOpacity>
         {/*<TouchableOpacity*/}
         {/*  style={{paddingLeft: 20,paddingRight: 20}}*/}
         {/*  onPress={() => {*/}
@@ -276,23 +276,23 @@ class User extends Component {
         {/*    />*/}
         {/*  </View>*/}
         {/*</TouchableOpacity>*/}
-        {/*<TouchableOpacity*/}
-        {/*  style={{paddingLeft: 20,paddingRight: 20}}*/}
-        {/*  onPress={() => {*/}
-        {/*    this.props.navigation.navigate('UserFeedBack')*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <View*/}
-        {/*    style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between',height: 50,borderBottomWidth: StyleSheet.hairlineWidth,borderBottomColor: '#bbb'}}*/}
-        {/*  >*/}
-        {/*    <Text>帮助与反馈</Text>*/}
-        {/*    <Ionicons*/}
-        {/*      name={'ios-arrow-forward'}*/}
-        {/*      size={18}*/}
-        {/*    />*/}
-        {/*  </View>*/}
-        {/*</TouchableOpacity>*/}
-        <UserEntry navigation={this.props.navigation} />
+        <TouchableOpacity
+          style={{paddingLeft: 20,paddingRight: 20}}
+          onPress={() => {
+            this.props.navigation.navigate('UserFeedBack')
+          }}
+        >
+          <View
+            style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between',height: 50,borderBottomWidth: StyleSheet.hairlineWidth,borderBottomColor: '#bbb'}}
+          >
+            <Text>帮助与反馈</Text>
+            <Ionicons
+              name={'ios-arrow-forward'}
+              size={18}
+            />
+          </View>
+        </TouchableOpacity>
+        {/*<UserEntry navigation={this.props.navigation} />*/}
       </ParallaxScrollView>
     )
   }

@@ -247,7 +247,7 @@ class CityList extends Component {
             ref={f => this._inputRef = f}
             style={styles.input}
             autoCapitalize={'none'}
-            placeholder={'请输入城市名称ヾ(o◕∀◕)ﾉ'}
+            placeholder={'找城市ヾ(o◕∀◕)ﾉ'}
             value={this.state.searchValue}
             onChangeText={value => this.handleInputChange(value)}
             onFocus={() => {

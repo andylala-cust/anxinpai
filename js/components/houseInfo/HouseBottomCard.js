@@ -20,25 +20,25 @@ class HouseBottomCard extends Component {
     return (
       <View style={styles.cardWrapper}>
         <View style={styles.cardContainer}>
-          <View style={{width: '38%',flexDirection: 'row'}}>
-            <View style={{justifyContent: 'center',alignItems: 'center'}}>
-              <View
-                style={{width: 50,height: 50,borderRadius: 25,backgroundColor: IMG_PLACE_COLOR}}
-              >
-                <Image
-                  source={{uri: this.props.avatar}}
-                  style={{width: 50,height: 50,borderRadius: 25}}
-                />
-              </View>
-            </View>
-            <View style={{justifyContent: 'space-around',alignItems: 'flex-start',paddingLeft: 4}}>
-              <Text style={{fontWeight: 'bold',fontSize: 16}}>{this.props.name || '-'}</Text>
-              <Text style={{fontSize: 12,color: '#bababa'}}>{this.props.company_name || '-'}</Text>
-            </View>
-          </View>
-          <View style={{flexDirection: 'row',width: '60%',justifyContent: 'flex-end'}}>
+          {/*<View style={{width: '38%',flexDirection: 'row'}}>*/}
+          {/*  <View style={{justifyContent: 'center',alignItems: 'center'}}>*/}
+          {/*    <View*/}
+          {/*      style={{width: 50,height: 50,borderRadius: 25,backgroundColor: IMG_PLACE_COLOR}}*/}
+          {/*    >*/}
+          {/*      <Image*/}
+          {/*        source={{uri: this.props.avatar}}*/}
+          {/*        style={{width: 50,height: 50,borderRadius: 25}}*/}
+          {/*      />*/}
+          {/*    </View>*/}
+          {/*  </View>*/}
+          {/*  <View style={{justifyContent: 'space-around',alignItems: 'flex-start',paddingLeft: 4}}>*/}
+          {/*    <Text style={{fontWeight: 'bold',fontSize: 16}}>{this.props.name || '-'}</Text>*/}
+          {/*    <Text style={{fontSize: 12,color: '#bababa'}}>{this.props.company_name || '-'}</Text>*/}
+          {/*  </View>*/}
+          {/*</View>*/}
+          <View style={{flexDirection: 'row',width: '100%',justifyContent: 'flex-end'}}>
             <TouchableOpacity
-              style={[styles.cardLeftBtn,{backgroundColor: '#66c18f'}]}
+              style={[styles.cardLeftBtn,{backgroundColor: '#00D1DB'}]}
               onPress={() => {
                 const url = `tel: ${this.props.phone}`
                 Linking.canOpenURL(url)
@@ -59,7 +59,7 @@ class HouseBottomCard extends Component {
               }}
             >
               <View>
-                <Text style={styles.cardLeftText}>打电话</Text>
+                <Text style={styles.cardLeftText}>电话咨询</Text>
               </View>
             </TouchableOpacity>
             {/*<TouchableOpacity*/}
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   cardLeftBtn: {
-    width: '48%',
+    width: '100%',
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center'
