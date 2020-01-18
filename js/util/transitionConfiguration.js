@@ -5,7 +5,6 @@
 import StackViewStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator';
 
 function transitionConfiguration (sceneProps) {
-  console.log(sceneProps)
   const {scene} = sceneProps;
   const {route} = scene;
   const params = route.params || {};

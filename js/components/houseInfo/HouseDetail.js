@@ -206,7 +206,8 @@ const styles = StyleSheet.create({
   },
   detailPrice: {
     marginBottom: 6,
-    color: '#ff4738',
+    // color: '#ff4738',
+    color: 'tomato',
     fontWeight: 'bold',
     fontSize: 17
   },

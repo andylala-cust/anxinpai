@@ -28,7 +28,7 @@ target 'reactapp' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   pod 'react-native-amap3d', path: '../node_modules/react-native-amap3d/lib/ios'
-  
+
   pod 'React-ART', :path => '../node_modules/react-native/Libraries/ART'
 
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
@@ -47,12 +47,11 @@ target 'reactapp' do
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
-  target 'reactappTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+
 
   use_native_modules!
+  pod 'RNSharedElement', :path => '../node_modules/react-native-shared-element'
+
 end
 
 target 'reactapp-tvOS' do

@@ -106,3 +106,5 @@ export const CHANGE_PWD = 1; // 修改密码
 export const MIN_PWD_LENGTH = 8;  // 密码最小长度
 export const DEFAULT_USER_AVATAR = 'http://static.yfbudong.com/anxinpai_default_avatar.jpg';
 export const GAODE_KEY = '29de9219429c6425c5cfd872e54e3838';  // 高德地图KEY
+export const DEFAUL_HOUSE_IMG = 'http://static.yfbudong.com/defaulthouse.jpg';
+export const PIC_PICKING = 'http://static.yfbudong.com/seatune_pic_picking.jpeg';

@@ -1,8 +1,7 @@
 import React,{Component} from 'react';
-import {Text, View, StyleSheet, Image, Platform} from 'react-native';
+import {Text, View, StyleSheet, Image, Platform, TouchableOpacity} from 'react-native';
 import {PressableButton} from '../../components/common';
-
-const DEFAUL_HOUSE_IMG = 'http://static.yfbudong.com/defaulthouse.jpg';
+import {PIC_PICKING} from '../../constants'
 
 class HomePromote extends Component {
   constructor (props) {
@@ -39,12 +38,12 @@ class HomePromote extends Component {
                   <View style={styles.houseWrapper}>
                     <View style={styles.imgWrapper}>
                       <Image
-                        source={{uri: item.pic_url || DEFAUL_HOUSE_IMG}}
+                        source={{uri: item.pic_url || PIC_PICKING}}
                         style={{width: '100%',height: '100%'}}
                       />
                     </View>
                     <View style={{}}>
-                      <Text style={styles.price}>{Math.floor(item.currentPrice/10000)}万</Text>
+                      <Text style={styles.price}>{Math.floor(item.currentPrice/10000) || '-'}万</Text>
                     </View>
                   </View>
                   <View style={styles.tagWrapper}>
@@ -55,6 +54,27 @@ class HomePromote extends Component {
                       <Text style={{lineHeight: 24,fontSize: 13,color: '#999'}} numberOfLines={2}>{item.reason}</Text>
                     </View>
                   </View>
+                  <TouchableOpacity
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      right: 0,
+                      bottom: -40,
+                      height: 40,
+                      borderTopWidth: StyleSheet.hairlineWidth,
+                      borderTopColor: '#bbb'
+                    }}
+                    onPress={() => {
+                      this.props.navigation.navigate('HomePromoteDetail', {
+                        item,
+                        transitionType: 'forVertical'
+                      })
+                    }}
+                  >
+                    <View>
+                      <Text style={{textAlign: 'center', lineHeight: 40,fontSize: 12,color: '#777'}}>查看详细信息</Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
               </PressableButton>
             ))
@@ -78,9 +98,11 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   listItem: {
+    position: 'relative',
     width: '48%',
-    height: 270,
+    // height: 300,
     marginBottom: 10,
+    paddingBottom: 40,
     borderRadius: 5,
     ...Platform.select({
       ios: {

@@ -285,7 +285,7 @@ class User extends Component {
           <View
             style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between',height: 50,borderBottomWidth: StyleSheet.hairlineWidth,borderBottomColor: '#bbb'}}
           >
-            <Text>帮助与反馈</Text>
+            <Text>帮助反馈</Text>
             <Ionicons
               name={'ios-arrow-forward'}
               size={18}

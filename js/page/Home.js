@@ -10,7 +10,7 @@ import {
   Modal
 } from 'react-native';
 import {HouseList, HouseListPlaceHolder,LoadMore,BottomTip,FilterBar} from '../components/common';
-import {HomeMainEntry, HomeSwiper, HomeSearch, HomeSummary, HomePromote} from '../components/home';
+import {HomeMainEntry, HomeSwiper, HomeSearch, HomeSummary, HomePromote, HomeSwiperPro} from '../components/home';
 import _fetch from '../fetch';
 import {queryString, storage} from '../util';
 import {PAGE_SIZE,TYPE_ID,PULL_DOWN_REFRESH_DURATION,GAODE_KEY} from '../constants';
@@ -197,7 +197,6 @@ class Home extends Component {
     StatusBar.setNetworkActivityIndicatorVisible(true)
     _fetch.get(url)
       .then(data => {
-        console.log(data)
         this.setState({
           promoteList: data.content.data
         })
@@ -436,6 +435,7 @@ class Home extends Component {
           // ListEmptyComponent={<HouseListPlaceHolder />}
           ListHeaderComponent={
             <View>
+              <HomeSwiperPro />
               <HomePromote navigation={this.props.navigation} promoteList={this.state.promoteList} />
               {/*<HomeMainEntry navigation={this.props.navigation} />*/}
               {/*<HomeSummary {...this.state.summary} />*/}

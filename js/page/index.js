@@ -31,6 +31,7 @@ import UserInvite from './user/UserInvite';
 import UserLoan from './user/UserLoan';
 import Encyclopedia from './Encyclopedia';
 import ArticleDetail from './ArticleDetail';
+import HomePromoteDetail from './HomePromoteDetail';
 
 export {
   Info,
@@ -65,5 +66,6 @@ export {
   UserLoan,
   Encyclopedia,
   ArticleDetail,
-  ActivityPage
+  ActivityPage,
+  HomePromoteDetail
 }

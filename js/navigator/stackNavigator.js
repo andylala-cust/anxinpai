@@ -35,7 +35,8 @@ import {
   UserInvite,
   UserLoan,
   Encyclopedia,
-  ArticleDetail
+  ArticleDetail,
+  HomePromoteDetail
 } from '../page';
 import {transitionConfiguration} from '../util';
 
@@ -80,7 +81,8 @@ export const StackNavigator = createStackNavigator({
   UserInvite,
   UserLoan,
   Encyclopedia,
-  ArticleDetail
+  ArticleDetail,
+  HomePromoteDetail
 }, {
   headerMode: 'float',
   headerTransitionPreset: 'uikit',

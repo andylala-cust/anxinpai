@@ -30,7 +30,7 @@ const IMG_ARR = [
 const TITLE_ARR_ = [
   '法拍房交流群',
   '加盟咨询',
-  '帮助与反馈',
+  '帮助反馈',
 ]
 
 const IMG_ARR_ = [

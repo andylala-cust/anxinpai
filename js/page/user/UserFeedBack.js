@@ -51,7 +51,7 @@ const BARSTYLE = Platform.OS === 'ios' ? 'default' : 'dark-content';
 
 class UserFeedBack extends Component {
   static navigationOptions = ({navigation}) => ({
-    title: '帮助与反馈',
+    title: '帮助反馈',
     // 解决安卓标题不居中
     headerTitleStyle:{
       flex: 1,
